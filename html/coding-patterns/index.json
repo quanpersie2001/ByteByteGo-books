@@ -1,0 +1,1087 @@
+{
+  "name": "Coding Interview Patterns",
+  "slug": "coding-patterns",
+  "url": "https://bytebytego.com/courses/coding-patterns",
+  "chapters": [
+    {
+      "number": "001",
+      "title": "Introduction to Two Pointers",
+      "file": "two-pointers/001-introduction-to-two-pointers.html",
+      "html_length": 155483,
+      "section": "01Two Pointers",
+      "path": "/courses/coding-patterns/two-pointers/introduction-to-two-pointers",
+      "section_slug": "two-pointers"
+    },
+    {
+      "number": "002",
+      "title": "Pair Sum - Sorted",
+      "file": "two-pointers/002-pair-sum-sorted.html",
+      "html_length": 162132,
+      "section": "01Two Pointers",
+      "path": "/courses/coding-patterns/two-pointers/pair-sum-sorted",
+      "section_slug": "two-pointers"
+    },
+    {
+      "number": "003",
+      "title": "Triplet Sum",
+      "file": "two-pointers/003-triplet-sum.html",
+      "html_length": 177880,
+      "section": "01Two Pointers",
+      "path": "/courses/coding-patterns/two-pointers/triplet-sum",
+      "section_slug": "two-pointers"
+    },
+    {
+      "number": "004",
+      "title": "Is Palindrome Valid",
+      "file": "two-pointers/004-is-palindrome-valid.html",
+      "html_length": 162724,
+      "section": "01Two Pointers",
+      "path": "/courses/coding-patterns/two-pointers/is-palindrome-valid",
+      "section_slug": "two-pointers"
+    },
+    {
+      "number": "005",
+      "title": "Largest Container",
+      "file": "two-pointers/005-largest-container.html",
+      "html_length": 166275,
+      "section": "01Two Pointers",
+      "path": "/courses/coding-patterns/two-pointers/largest-container",
+      "section_slug": "two-pointers"
+    },
+    {
+      "number": "006",
+      "title": "Shift Zeros to the End",
+      "file": "two-pointers/006-shift-zeros-to-the-end.html",
+      "html_length": 168494,
+      "section": "01Two Pointers",
+      "path": "/courses/coding-patterns/two-pointers/shift-zeros-to-the-end",
+      "section_slug": "two-pointers"
+    },
+    {
+      "number": "007",
+      "title": "Next Lexicographical Sequence",
+      "file": "two-pointers/007-next-lexicographical-sequence.html",
+      "html_length": 168110,
+      "section": "01Two Pointers",
+      "path": "/courses/coding-patterns/two-pointers/next-lexicographical-sequence",
+      "section_slug": "two-pointers"
+    },
+    {
+      "number": "008",
+      "title": "Introduction to Hash Maps and Sets",
+      "file": "hash-maps-and-sets/008-introduction-to-hash-maps-and-sets.html",
+      "html_length": 151193,
+      "section": "02Hash Maps And Sets",
+      "path": "/courses/coding-patterns/hash-maps-and-sets/introduction-to-hash-maps-and-sets",
+      "section_slug": "hash-maps-and-sets"
+    },
+    {
+      "number": "009",
+      "title": "Pair Sum - Unsorted",
+      "file": "hash-maps-and-sets/009-pair-sum-unsorted.html",
+      "html_length": 161810,
+      "section": "02Hash Maps And Sets",
+      "path": "/courses/coding-patterns/hash-maps-and-sets/pair-sum-unsorted",
+      "section_slug": "hash-maps-and-sets"
+    },
+    {
+      "number": "010",
+      "title": "Verify Sudoku Board",
+      "file": "hash-maps-and-sets/010-verify-sudoku-board.html",
+      "html_length": 167535,
+      "section": "02Hash Maps And Sets",
+      "path": "/courses/coding-patterns/hash-maps-and-sets/verify-sudoku-board",
+      "section_slug": "hash-maps-and-sets"
+    },
+    {
+      "number": "011",
+      "title": "Zero Striping",
+      "file": "hash-maps-and-sets/011-zero-striping.html",
+      "html_length": 187454,
+      "section": "02Hash Maps And Sets",
+      "path": "/courses/coding-patterns/hash-maps-and-sets/zero-striping",
+      "section_slug": "hash-maps-and-sets"
+    },
+    {
+      "number": "012",
+      "title": "Longest Chain of Consecutive Numbers",
+      "file": "hash-maps-and-sets/012-longest-chain-of-consecutive-numbers.html",
+      "html_length": 165455,
+      "section": "02Hash Maps And Sets",
+      "path": "/courses/coding-patterns/hash-maps-and-sets/longest-chain-of-consecutive-numbers",
+      "section_slug": "hash-maps-and-sets"
+    },
+    {
+      "number": "013",
+      "title": "Geometric Sequence Triplets",
+      "file": "hash-maps-and-sets/013-geometric-sequence-triplets.html",
+      "html_length": 182784,
+      "section": "02Hash Maps And Sets",
+      "path": "/courses/coding-patterns/hash-maps-and-sets/geometric-sequence-triplets",
+      "section_slug": "hash-maps-and-sets"
+    },
+    {
+      "number": "014",
+      "title": "Introduction to Linked Lists",
+      "file": "linked-lists/014-introduction-to-linked-lists.html",
+      "html_length": 152148,
+      "section": "03Linked Lists",
+      "path": "/courses/coding-patterns/linked-lists/introduction-to-linked-lists",
+      "section_slug": "linked-lists"
+    },
+    {
+      "number": "015",
+      "title": "Linked List Reversal",
+      "file": "linked-lists/015-linked-list-reversal.html",
+      "html_length": 182039,
+      "section": "03Linked Lists",
+      "path": "/courses/coding-patterns/linked-lists/linked-list-reversal",
+      "section_slug": "linked-lists"
+    },
+    {
+      "number": "016",
+      "title": "Remove the Kth Last Node From a Linked List",
+      "file": "linked-lists/016-remove-the-kth-last-node-from-a-linked-list.html",
+      "html_length": 161792,
+      "section": "03Linked Lists",
+      "path": "/courses/coding-patterns/linked-lists/remove-the-kth-last-node-from-a-linked-list",
+      "section_slug": "linked-lists"
+    },
+    {
+      "number": "017",
+      "title": "Linked List Intersection",
+      "file": "linked-lists/017-linked-list-intersection.html",
+      "html_length": 156869,
+      "section": "03Linked Lists",
+      "path": "/courses/coding-patterns/linked-lists/linked-list-intersection",
+      "section_slug": "linked-lists"
+    },
+    {
+      "number": "018",
+      "title": "LRU Cache",
+      "file": "linked-lists/018-lru-cache.html",
+      "html_length": 193588,
+      "section": "03Linked Lists",
+      "path": "/courses/coding-patterns/linked-lists/lru-cache",
+      "section_slug": "linked-lists"
+    },
+    {
+      "number": "019",
+      "title": "Palindromic Linked List",
+      "file": "linked-lists/019-palindromic-linked-list.html",
+      "html_length": 156207,
+      "section": "03Linked Lists",
+      "path": "/courses/coding-patterns/linked-lists/palindromic-linked-list",
+      "section_slug": "linked-lists"
+    },
+    {
+      "number": "020",
+      "title": "Flatten a Multi-Level Linked List",
+      "file": "linked-lists/020-flatten-a-multi-level-linked-list.html",
+      "html_length": 167897,
+      "section": "03Linked Lists",
+      "path": "/courses/coding-patterns/linked-lists/flatten-a-multi-level-linked-list",
+      "section_slug": "linked-lists"
+    },
+    {
+      "number": "021",
+      "title": "Introduction to Fast and Slow Pointers",
+      "file": "fast-and-slow-pointers/021-introduction-to-fast-and-slow-pointers.html",
+      "html_length": 141689,
+      "section": "04Fast And Slow Pointers",
+      "path": "/courses/coding-patterns/fast-and-slow-pointers/introduction-to-fast-and-slow-pointers",
+      "section_slug": "fast-and-slow-pointers"
+    },
+    {
+      "number": "022",
+      "title": "Linked List Loop",
+      "file": "fast-and-slow-pointers/022-linked-list-loop.html",
+      "html_length": 162602,
+      "section": "04Fast And Slow Pointers",
+      "path": "/courses/coding-patterns/fast-and-slow-pointers/linked-list-loop",
+      "section_slug": "fast-and-slow-pointers"
+    },
+    {
+      "number": "023",
+      "title": "Linked List Midpoint",
+      "file": "fast-and-slow-pointers/023-linked-list-midpoint.html",
+      "html_length": 158138,
+      "section": "04Fast And Slow Pointers",
+      "path": "/courses/coding-patterns/fast-and-slow-pointers/linked-list-midpoint",
+      "section_slug": "fast-and-slow-pointers"
+    },
+    {
+      "number": "024",
+      "title": "Happy Number",
+      "file": "fast-and-slow-pointers/024-happy-number.html",
+      "html_length": 180682,
+      "section": "04Fast And Slow Pointers",
+      "path": "/courses/coding-patterns/fast-and-slow-pointers/happy-number",
+      "section_slug": "fast-and-slow-pointers"
+    },
+    {
+      "number": "025",
+      "title": "Introduction to Sliding Windows",
+      "file": "sliding-windows/025-introduction-to-sliding-windows.html",
+      "html_length": 158210,
+      "section": "05Sliding Windows",
+      "path": "/courses/coding-patterns/sliding-windows/introduction-to-sliding-windows",
+      "section_slug": "sliding-windows"
+    },
+    {
+      "number": "026",
+      "title": "Substring Anagrams",
+      "file": "sliding-windows/026-substring-anagrams.html",
+      "html_length": 164683,
+      "section": "05Sliding Windows",
+      "path": "/courses/coding-patterns/sliding-windows/substring-anagrams",
+      "section_slug": "sliding-windows"
+    },
+    {
+      "number": "027",
+      "title": "Longest Substring With Unique Characters",
+      "file": "sliding-windows/027-longest-substring-with-unique-characters.html",
+      "html_length": 174958,
+      "section": "05Sliding Windows",
+      "path": "/courses/coding-patterns/sliding-windows/longest-substring-with-unique-characters",
+      "section_slug": "sliding-windows"
+    },
+    {
+      "number": "028",
+      "title": "Longest Uniform Substring After Replacements",
+      "file": "sliding-windows/028-longest-uniform-substring-after-replacements.html",
+      "html_length": 174606,
+      "section": "05Sliding Windows",
+      "path": "/courses/coding-patterns/sliding-windows/longest-uniform-substring-after-replacements",
+      "section_slug": "sliding-windows"
+    },
+    {
+      "number": "029",
+      "title": "Introduction to Binary Search",
+      "file": "binary-search/029-introduction-to-binary-search.html",
+      "html_length": 159828,
+      "section": "06Binary Search",
+      "path": "/courses/coding-patterns/binary-search/introduction-to-binary-search",
+      "section_slug": "binary-search"
+    },
+    {
+      "number": "030",
+      "title": "Find the Insertion Index",
+      "file": "binary-search/030-find-the-insertion-index.html",
+      "html_length": 173048,
+      "section": "06Binary Search",
+      "path": "/courses/coding-patterns/binary-search/find-the-insertion-index",
+      "section_slug": "binary-search"
+    },
+    {
+      "number": "031",
+      "title": "First and Last Occurrences of a Number",
+      "file": "binary-search/031-first-and-last-occurrences-of-a-number.html",
+      "html_length": 179305,
+      "section": "06Binary Search",
+      "path": "/courses/coding-patterns/binary-search/first-and-last-occurrences-of-a-number",
+      "section_slug": "binary-search"
+    },
+    {
+      "number": "032",
+      "title": "Cutting Wood",
+      "file": "binary-search/032-cutting-wood.html",
+      "html_length": 173039,
+      "section": "06Binary Search",
+      "path": "/courses/coding-patterns/binary-search/cutting-wood",
+      "section_slug": "binary-search"
+    },
+    {
+      "number": "033",
+      "title": "Find the Target in a Rotated Sorted Array",
+      "file": "binary-search/033-find-the-target-in-a-rotated-sorted-array.html",
+      "html_length": 161716,
+      "section": "06Binary Search",
+      "path": "/courses/coding-patterns/binary-search/find-the-target-in-a-rotated-sorted-array",
+      "section_slug": "binary-search"
+    },
+    {
+      "number": "034",
+      "title": "Find the Median From Two Sorted Arrays",
+      "file": "binary-search/034-find-the-median-from-two-sorted-arrays.html",
+      "html_length": 177364,
+      "section": "06Binary Search",
+      "path": "/courses/coding-patterns/binary-search/find-the-median-from-two-sorted-arrays",
+      "section_slug": "binary-search"
+    },
+    {
+      "number": "035",
+      "title": "Matrix Search",
+      "file": "binary-search/035-matrix-search.html",
+      "html_length": 165669,
+      "section": "06Binary Search",
+      "path": "/courses/coding-patterns/binary-search/matrix-search",
+      "section_slug": "binary-search"
+    },
+    {
+      "number": "036",
+      "title": "Local Maxima in Array",
+      "file": "binary-search/036-local-maxima-in-array.html",
+      "html_length": 162113,
+      "section": "06Binary Search",
+      "path": "/courses/coding-patterns/binary-search/local-maxima-in-array",
+      "section_slug": "binary-search"
+    },
+    {
+      "number": "037",
+      "title": "Weighted Random Selection",
+      "file": "binary-search/037-weighted-random-selection.html",
+      "html_length": 174174,
+      "section": "06Binary Search",
+      "path": "/courses/coding-patterns/binary-search/weighted-random-selection",
+      "section_slug": "binary-search"
+    },
+    {
+      "number": "038",
+      "title": "Introduction to Stacks",
+      "file": "stacks/038-introduction-to-stacks.html",
+      "html_length": 146767,
+      "section": "07Stacks",
+      "path": "/courses/coding-patterns/stacks/introduction-to-stacks",
+      "section_slug": "stacks"
+    },
+    {
+      "number": "039",
+      "title": "Valid Parenthesis Expression",
+      "file": "stacks/039-valid-parenthesis-expression.html",
+      "html_length": 159333,
+      "section": "07Stacks",
+      "path": "/courses/coding-patterns/stacks/valid-parenthesis-expression",
+      "section_slug": "stacks"
+    },
+    {
+      "number": "040",
+      "title": "Next Largest Number to the Right",
+      "file": "stacks/040-next-largest-number-to-the-right.html",
+      "html_length": 161975,
+      "section": "07Stacks",
+      "path": "/courses/coding-patterns/stacks/next-largest-number-to-the-right",
+      "section_slug": "stacks"
+    },
+    {
+      "number": "041",
+      "title": "Evaluate Expression",
+      "file": "stacks/041-evaluate-expression.html",
+      "html_length": 181566,
+      "section": "07Stacks",
+      "path": "/courses/coding-patterns/stacks/evaluate-expression",
+      "section_slug": "stacks"
+    },
+    {
+      "number": "042",
+      "title": "Repeated Removal of Adjacent Duplicates",
+      "file": "stacks/042-repeated-removal-of-adjacent-duplicates.html",
+      "html_length": 152961,
+      "section": "07Stacks",
+      "path": "/courses/coding-patterns/stacks/repeated-removal-of-adjacent-duplicates",
+      "section_slug": "stacks"
+    },
+    {
+      "number": "043",
+      "title": "Implement a Queue using Stacks",
+      "file": "stacks/043-implement-a-queue-using-stacks.html",
+      "html_length": 169051,
+      "section": "07Stacks",
+      "path": "/courses/coding-patterns/stacks/implement-a-queue-using-stacks",
+      "section_slug": "stacks"
+    },
+    {
+      "number": "044",
+      "title": "Maximums of Sliding Window",
+      "file": "stacks/044-maximums-of-sliding-window.html",
+      "html_length": 171915,
+      "section": "07Stacks",
+      "path": "/courses/coding-patterns/stacks/maximums-of-sliding-window",
+      "section_slug": "stacks"
+    },
+    {
+      "number": "045",
+      "title": "Introduction to Heaps",
+      "file": "heaps/045-introduction-to-heaps.html",
+      "html_length": 146306,
+      "section": "08Heaps",
+      "path": "/courses/coding-patterns/heaps/introduction-to-heaps",
+      "section_slug": "heaps"
+    },
+    {
+      "number": "046",
+      "title": "K Most Frequent Strings",
+      "file": "heaps/046-k-most-frequent-strings.html",
+      "html_length": 187146,
+      "section": "08Heaps",
+      "path": "/courses/coding-patterns/heaps/k-most-frequent-strings",
+      "section_slug": "heaps"
+    },
+    {
+      "number": "047",
+      "title": "Combine Sorted Linked Lists",
+      "file": "heaps/047-combine-sorted-linked-lists.html",
+      "html_length": 171981,
+      "section": "08Heaps",
+      "path": "/courses/coding-patterns/heaps/combine-sorted-linked-lists",
+      "section_slug": "heaps"
+    },
+    {
+      "number": "048",
+      "title": "Median of an Integer Stream",
+      "file": "heaps/048-median-of-an-integer-stream.html",
+      "html_length": 165441,
+      "section": "08Heaps",
+      "path": "/courses/coding-patterns/heaps/median-of-an-integer-stream",
+      "section_slug": "heaps"
+    },
+    {
+      "number": "049",
+      "title": "Sort a K-Sorted Array",
+      "file": "heaps/049-sort-a-k-sorted-array.html",
+      "html_length": 185474,
+      "section": "08Heaps",
+      "path": "/courses/coding-patterns/heaps/sort-a-k-sorted-array",
+      "section_slug": "heaps"
+    },
+    {
+      "number": "050",
+      "title": "Introduction to Intervals",
+      "file": "intervals/050-introduction-to-intervals.html",
+      "html_length": 150096,
+      "section": "09Intervals",
+      "path": "/courses/coding-patterns/intervals/introduction-to-intervals",
+      "section_slug": "intervals"
+    },
+    {
+      "number": "051",
+      "title": "Merge Overlapping Intervals",
+      "file": "intervals/051-merge-overlapping-intervals.html",
+      "html_length": 168188,
+      "section": "09Intervals",
+      "path": "/courses/coding-patterns/intervals/merge-overlapping-intervals",
+      "section_slug": "intervals"
+    },
+    {
+      "number": "052",
+      "title": "Identify All Interval Overlaps",
+      "file": "intervals/052-identify-all-interval-overlaps.html",
+      "html_length": 160330,
+      "section": "09Intervals",
+      "path": "/courses/coding-patterns/intervals/identify-all-interval-overlaps",
+      "section_slug": "intervals"
+    },
+    {
+      "number": "053",
+      "title": "Largest Overlap of Intervals",
+      "file": "intervals/053-largest-overlap-of-intervals.html",
+      "html_length": 160981,
+      "section": "09Intervals",
+      "path": "/courses/coding-patterns/intervals/largest-overlap-of-intervals",
+      "section_slug": "intervals"
+    },
+    {
+      "number": "054",
+      "title": "Introduction to Prefix Sums",
+      "file": "prefix-sums/054-introduction-to-prefix-sums.html",
+      "html_length": 148151,
+      "section": "10Prefix Sums",
+      "path": "/courses/coding-patterns/prefix-sums/introduction-to-prefix-sums",
+      "section_slug": "prefix-sums"
+    },
+    {
+      "number": "055",
+      "title": "Sum Between Range",
+      "file": "prefix-sums/055-sum-between-range.html",
+      "html_length": 154467,
+      "section": "10Prefix Sums",
+      "path": "/courses/coding-patterns/prefix-sums/sum-between-range",
+      "section_slug": "prefix-sums"
+    },
+    {
+      "number": "056",
+      "title": "K-Sum Subarrays",
+      "file": "prefix-sums/056-k-sum-subarrays.html",
+      "html_length": 170646,
+      "section": "10Prefix Sums",
+      "path": "/courses/coding-patterns/prefix-sums/k-sum-subarrays",
+      "section_slug": "prefix-sums"
+    },
+    {
+      "number": "057",
+      "title": "Product Array Without Current Element",
+      "file": "prefix-sums/057-product-array-without-current-element.html",
+      "html_length": 173634,
+      "section": "10Prefix Sums",
+      "path": "/courses/coding-patterns/prefix-sums/product-array-without-current-element",
+      "section_slug": "prefix-sums"
+    },
+    {
+      "number": "058",
+      "title": "Introduction to Trees",
+      "file": "trees/058-introduction-to-trees.html",
+      "html_length": 164597,
+      "section": "11Trees",
+      "path": "/courses/coding-patterns/trees/introduction-to-trees",
+      "section_slug": "trees"
+    },
+    {
+      "number": "059",
+      "title": "Invert Binary Tree",
+      "file": "trees/059-invert-binary-tree.html",
+      "html_length": 163118,
+      "section": "11Trees",
+      "path": "/courses/coding-patterns/trees/invert-binary-tree",
+      "section_slug": "trees"
+    },
+    {
+      "number": "060",
+      "title": "Balanced Binary Tree Validation",
+      "file": "trees/060-balanced-binary-tree-validation.html",
+      "html_length": 151404,
+      "section": "11Trees",
+      "path": "/courses/coding-patterns/trees/balanced-binary-tree-validation",
+      "section_slug": "trees"
+    },
+    {
+      "number": "061",
+      "title": "Rightmost Nodes of a Binary Tree",
+      "file": "trees/061-rightmost-nodes-of-a-binary-tree.html",
+      "html_length": 158920,
+      "section": "11Trees",
+      "path": "/courses/coding-patterns/trees/rightmost-nodes-of-a-binary-tree",
+      "section_slug": "trees"
+    },
+    {
+      "number": "062",
+      "title": "Widest Binary Tree Level",
+      "file": "trees/062-widest-binary-tree-level.html",
+      "html_length": 152852,
+      "section": "11Trees",
+      "path": "/courses/coding-patterns/trees/widest-binary-tree-level",
+      "section_slug": "trees"
+    },
+    {
+      "number": "063",
+      "title": "Binary Search Tree Validation",
+      "file": "trees/063-binary-search-tree-validation.html",
+      "html_length": 164588,
+      "section": "11Trees",
+      "path": "/courses/coding-patterns/trees/binary-search-tree-validation",
+      "section_slug": "trees"
+    },
+    {
+      "number": "064",
+      "title": "Lowest Common Ancestor",
+      "file": "trees/064-lowest-common-ancestor.html",
+      "html_length": 155207,
+      "section": "11Trees",
+      "path": "/courses/coding-patterns/trees/lowest-common-ancestor",
+      "section_slug": "trees"
+    },
+    {
+      "number": "065",
+      "title": "Build Binary Tree From Preorder and Inorder Traversals",
+      "file": "trees/065-build-binary-tree-from-preorder-and-inorder-traversals.html",
+      "html_length": 166714,
+      "section": "11Trees",
+      "path": "/courses/coding-patterns/trees/build-binary-tree-from-preorder-and-inorder-traversals",
+      "section_slug": "trees"
+    },
+    {
+      "number": "066",
+      "title": "Maximum Sum of a Continuous Path in a Binary Tree",
+      "file": "trees/066-maximum-sum-of-a-continuous-path-in-a-binary-tree.html",
+      "html_length": 166812,
+      "section": "11Trees",
+      "path": "/courses/coding-patterns/trees/maximum-sum-of-a-continuous-path-in-a-binary-tree",
+      "section_slug": "trees"
+    },
+    {
+      "number": "067",
+      "title": "Binary Tree Symmetry",
+      "file": "trees/067-binary-tree-symmetry.html",
+      "html_length": 151611,
+      "section": "11Trees",
+      "path": "/courses/coding-patterns/trees/binary-tree-symmetry",
+      "section_slug": "trees"
+    },
+    {
+      "number": "068",
+      "title": "Binary Tree Columns",
+      "file": "trees/068-binary-tree-columns.html",
+      "html_length": 156538,
+      "section": "11Trees",
+      "path": "/courses/coding-patterns/trees/binary-tree-columns",
+      "section_slug": "trees"
+    },
+    {
+      "number": "069",
+      "title": "Kth Smallest Number in a Binary Search Tree",
+      "file": "trees/069-kth-smallest-number-in-a-binary-search-tree.html",
+      "html_length": 166563,
+      "section": "11Trees",
+      "path": "/courses/coding-patterns/trees/kth-smallest-number-in-a-binary-search-tree",
+      "section_slug": "trees"
+    },
+    {
+      "number": "070",
+      "title": "Serialize and Deserialize a Binary Tree",
+      "file": "trees/070-serialize-and-deserialize-a-binary-tree.html",
+      "html_length": 169264,
+      "section": "11Trees",
+      "path": "/courses/coding-patterns/trees/serialize-and-deserialize-a-binary-tree",
+      "section_slug": "trees"
+    },
+    {
+      "number": "071",
+      "title": "Introduction to Tries",
+      "file": "tries/071-introduction-to-tries.html",
+      "html_length": 149856,
+      "section": "12Tries",
+      "path": "/courses/coding-patterns/tries/introduction-to-tries",
+      "section_slug": "tries"
+    },
+    {
+      "number": "072",
+      "title": "Design a Trie",
+      "file": "tries/072-design-a-trie.html",
+      "html_length": 165782,
+      "section": "12Tries",
+      "path": "/courses/coding-patterns/tries/design-a-trie",
+      "section_slug": "tries"
+    },
+    {
+      "number": "073",
+      "title": "Insert and Search Words with Wildcards",
+      "file": "tries/073-insert-and-search-words-with-wildcards.html",
+      "html_length": 159854,
+      "section": "12Tries",
+      "path": "/courses/coding-patterns/tries/insert-and-search-words-with-wildcards",
+      "section_slug": "tries"
+    },
+    {
+      "number": "074",
+      "title": "Find All Words on a Board",
+      "file": "tries/074-find-all-words-on-a-board.html",
+      "html_length": 192691,
+      "section": "12Tries",
+      "path": "/courses/coding-patterns/tries/find-all-words-on-a-board",
+      "section_slug": "tries"
+    },
+    {
+      "number": "075",
+      "title": "Introduction to Graphs",
+      "file": "graphs/075-introduction-to-graphs.html",
+      "html_length": 156063,
+      "section": "13Graphs",
+      "path": "/courses/coding-patterns/graphs/introduction-to-graphs",
+      "section_slug": "graphs"
+    },
+    {
+      "number": "076",
+      "title": "Graph Deep Copy",
+      "file": "graphs/076-graph-deep-copy.html",
+      "html_length": 158063,
+      "section": "13Graphs",
+      "path": "/courses/coding-patterns/graphs/graph-deep-copy",
+      "section_slug": "graphs"
+    },
+    {
+      "number": "077",
+      "title": "Count Islands",
+      "file": "graphs/077-count-islands.html",
+      "html_length": 164524,
+      "section": "13Graphs",
+      "path": "/courses/coding-patterns/graphs/count-islands",
+      "section_slug": "graphs"
+    },
+    {
+      "number": "078",
+      "title": "Matrix Infection",
+      "file": "graphs/078-matrix-infection.html",
+      "html_length": 175687,
+      "section": "13Graphs",
+      "path": "/courses/coding-patterns/graphs/matrix-infection",
+      "section_slug": "graphs"
+    },
+    {
+      "number": "079",
+      "title": "Bipartite Graph Validation",
+      "file": "graphs/079-bipartite-graph-validation.html",
+      "html_length": 160872,
+      "section": "13Graphs",
+      "path": "/courses/coding-patterns/graphs/bipartite-graph-validation",
+      "section_slug": "graphs"
+    },
+    {
+      "number": "080",
+      "title": "Longest Increasing Path",
+      "file": "graphs/080-longest-increasing-path.html",
+      "html_length": 158904,
+      "section": "13Graphs",
+      "path": "/courses/coding-patterns/graphs/longest-increasing-path",
+      "section_slug": "graphs"
+    },
+    {
+      "number": "081",
+      "title": "Shortest Transformation Sequence",
+      "file": "graphs/081-shortest-transformation-sequence.html",
+      "html_length": 187516,
+      "section": "13Graphs",
+      "path": "/courses/coding-patterns/graphs/shortest-transformation-sequence",
+      "section_slug": "graphs"
+    },
+    {
+      "number": "082",
+      "title": "Merging Communities",
+      "file": "graphs/082-merging-communities.html",
+      "html_length": 189729,
+      "section": "13Graphs",
+      "path": "/courses/coding-patterns/graphs/merging-communities",
+      "section_slug": "graphs"
+    },
+    {
+      "number": "083",
+      "title": "Prerequisites",
+      "file": "graphs/083-prerequisites.html",
+      "html_length": 169851,
+      "section": "13Graphs",
+      "path": "/courses/coding-patterns/graphs/prerequisites",
+      "section_slug": "graphs"
+    },
+    {
+      "number": "084",
+      "title": "Shortest Path",
+      "file": "graphs/084-shortest-path.html",
+      "html_length": 181613,
+      "section": "13Graphs",
+      "path": "/courses/coding-patterns/graphs/shortest-path",
+      "section_slug": "graphs"
+    },
+    {
+      "number": "085",
+      "title": "Connect the Dots",
+      "file": "graphs/085-connect-the-dots.html",
+      "html_length": 175048,
+      "section": "13Graphs",
+      "path": "/courses/coding-patterns/graphs/connect-the-dots",
+      "section_slug": "graphs"
+    },
+    {
+      "number": "086",
+      "title": "Introduction to Backtracking",
+      "file": "backtracking/086-introduction-to-backtracking.html",
+      "html_length": 155328,
+      "section": "14Backtracking",
+      "path": "/courses/coding-patterns/backtracking/introduction-to-backtracking",
+      "section_slug": "backtracking"
+    },
+    {
+      "number": "087",
+      "title": "Find All Permutations",
+      "file": "backtracking/087-find-all-permutations.html",
+      "html_length": 165233,
+      "section": "14Backtracking",
+      "path": "/courses/coding-patterns/backtracking/find-all-permutations",
+      "section_slug": "backtracking"
+    },
+    {
+      "number": "088",
+      "title": "Find All Subsets",
+      "file": "backtracking/088-find-all-subsets.html",
+      "html_length": 156472,
+      "section": "14Backtracking",
+      "path": "/courses/coding-patterns/backtracking/find-all-subsets",
+      "section_slug": "backtracking"
+    },
+    {
+      "number": "089",
+      "title": "N Queens",
+      "file": "backtracking/089-n-queens.html",
+      "html_length": 163613,
+      "section": "14Backtracking",
+      "path": "/courses/coding-patterns/backtracking/n-queens",
+      "section_slug": "backtracking"
+    },
+    {
+      "number": "090",
+      "title": "Combinations of a Sum",
+      "file": "backtracking/090-combinations-of-a-sum.html",
+      "html_length": 167338,
+      "section": "14Backtracking",
+      "path": "/courses/coding-patterns/backtracking/combinations-of-a-sum",
+      "section_slug": "backtracking"
+    },
+    {
+      "number": "091",
+      "title": "Phone Keypad Combinations",
+      "file": "backtracking/091-phone-keypad-combinations.html",
+      "html_length": 158227,
+      "section": "14Backtracking",
+      "path": "/courses/coding-patterns/backtracking/phone-keypad-combinations",
+      "section_slug": "backtracking"
+    },
+    {
+      "number": "092",
+      "title": "Introduction to Dynamic Programming",
+      "file": "dynamic-programming/092-introduction-to-dynamic-programming.html",
+      "html_length": 142564,
+      "section": "15Dynamic Programming",
+      "path": "/courses/coding-patterns/dynamic-programming/introduction-to-dynamic-programming",
+      "section_slug": "dynamic-programming"
+    },
+    {
+      "number": "093",
+      "title": "Climbing Stairs",
+      "file": "dynamic-programming/093-climbing-stairs.html",
+      "html_length": 170676,
+      "section": "15Dynamic Programming",
+      "path": "/courses/coding-patterns/dynamic-programming/climbing-stairs",
+      "section_slug": "dynamic-programming"
+    },
+    {
+      "number": "094",
+      "title": "Minimum Coin Combination",
+      "file": "dynamic-programming/094-minimum-coin-combination.html",
+      "html_length": 181466,
+      "section": "15Dynamic Programming",
+      "path": "/courses/coding-patterns/dynamic-programming/minimum-coin-combination",
+      "section_slug": "dynamic-programming"
+    },
+    {
+      "number": "095",
+      "title": "Matrix Pathways",
+      "file": "dynamic-programming/095-matrix-pathways.html",
+      "html_length": 161919,
+      "section": "15Dynamic Programming",
+      "path": "/courses/coding-patterns/dynamic-programming/matrix-pathways",
+      "section_slug": "dynamic-programming"
+    },
+    {
+      "number": "096",
+      "title": "Neighborhood Burglary",
+      "file": "dynamic-programming/096-neighborhood-burglary.html",
+      "html_length": 162263,
+      "section": "15Dynamic Programming",
+      "path": "/courses/coding-patterns/dynamic-programming/neighborhood-burglary",
+      "section_slug": "dynamic-programming"
+    },
+    {
+      "number": "097",
+      "title": "Longest Common Subsequence",
+      "file": "dynamic-programming/097-longest-common-subsequence.html",
+      "html_length": 172557,
+      "section": "15Dynamic Programming",
+      "path": "/courses/coding-patterns/dynamic-programming/longest-common-subsequence",
+      "section_slug": "dynamic-programming"
+    },
+    {
+      "number": "098",
+      "title": "Longest Palindrome in a String",
+      "file": "dynamic-programming/098-longest-palindrome-in-a-string.html",
+      "html_length": 173408,
+      "section": "15Dynamic Programming",
+      "path": "/courses/coding-patterns/dynamic-programming/longest-palindrome-in-a-string",
+      "section_slug": "dynamic-programming"
+    },
+    {
+      "number": "099",
+      "title": "Maximum Subarray Sum",
+      "file": "dynamic-programming/099-maximum-subarray-sum.html",
+      "html_length": 180720,
+      "section": "15Dynamic Programming",
+      "path": "/courses/coding-patterns/dynamic-programming/maximum-subarray-sum",
+      "section_slug": "dynamic-programming"
+    },
+    {
+      "number": "100",
+      "title": "0/1 Knapsack",
+      "file": "dynamic-programming/100-01-knapsack.html",
+      "html_length": 174083,
+      "section": "15Dynamic Programming",
+      "path": "/courses/coding-patterns/dynamic-programming/01-knapsack",
+      "section_slug": "dynamic-programming"
+    },
+    {
+      "number": "101",
+      "title": "Largest Square in a Matrix",
+      "file": "dynamic-programming/101-largest-square-in-a-matrix.html",
+      "html_length": 166295,
+      "section": "15Dynamic Programming",
+      "path": "/courses/coding-patterns/dynamic-programming/largest-square-in-a-matrix",
+      "section_slug": "dynamic-programming"
+    },
+    {
+      "number": "102",
+      "title": "Introduction to Greedy Algorithms",
+      "file": "greedy/102-introduction-to-greedy-algorithms.html",
+      "html_length": 143459,
+      "section": "16Greedy",
+      "path": "/courses/coding-patterns/greedy/introduction-to-greedy-algorithms",
+      "section_slug": "greedy"
+    },
+    {
+      "number": "103",
+      "title": "Jump to the End",
+      "file": "greedy/103-jump-to-the-end.html",
+      "html_length": 165275,
+      "section": "16Greedy",
+      "path": "/courses/coding-patterns/greedy/jump-to-the-end",
+      "section_slug": "greedy"
+    },
+    {
+      "number": "104",
+      "title": "Gas Stations",
+      "file": "greedy/104-gas-stations.html",
+      "html_length": 170516,
+      "section": "16Greedy",
+      "path": "/courses/coding-patterns/greedy/gas-stations",
+      "section_slug": "greedy"
+    },
+    {
+      "number": "105",
+      "title": "Candies",
+      "file": "greedy/105-candies.html",
+      "html_length": 168143,
+      "section": "16Greedy",
+      "path": "/courses/coding-patterns/greedy/candies",
+      "section_slug": "greedy"
+    },
+    {
+      "number": "106",
+      "title": "Introduction to Sort and Search",
+      "file": "sort-and-search/106-introduction-to-sort-and-search.html",
+      "html_length": 177703,
+      "section": "17Sort And Search",
+      "path": "/courses/coding-patterns/sort-and-search/introduction-to-sort-and-search",
+      "section_slug": "sort-and-search"
+    },
+    {
+      "number": "107",
+      "title": "Sort Linked List",
+      "file": "sort-and-search/107-sort-linked-list.html",
+      "html_length": 177568,
+      "section": "17Sort And Search",
+      "path": "/courses/coding-patterns/sort-and-search/sort-linked-list",
+      "section_slug": "sort-and-search"
+    },
+    {
+      "number": "108",
+      "title": "Sort Array",
+      "file": "sort-and-search/108-sort-array.html",
+      "html_length": 197693,
+      "section": "17Sort And Search",
+      "path": "/courses/coding-patterns/sort-and-search/sort-array",
+      "section_slug": "sort-and-search"
+    },
+    {
+      "number": "109",
+      "title": "Kth Largest Integer",
+      "file": "sort-and-search/109-kth-largest-integer.html",
+      "html_length": 187238,
+      "section": "17Sort And Search",
+      "path": "/courses/coding-patterns/sort-and-search/kth-largest-integer",
+      "section_slug": "sort-and-search"
+    },
+    {
+      "number": "110",
+      "title": "Dutch National Flag",
+      "file": "sort-and-search/110-dutch-national-flag.html",
+      "html_length": 170497,
+      "section": "17Sort And Search",
+      "path": "/courses/coding-patterns/sort-and-search/dutch-national-flag",
+      "section_slug": "sort-and-search"
+    },
+    {
+      "number": "111",
+      "title": "Introduction to Bit Manipulation",
+      "file": "bit-manipulation/111-introduction-to-bit-manipulation.html",
+      "html_length": 147606,
+      "section": "18Bit Manipulation",
+      "path": "/courses/coding-patterns/bit-manipulation/introduction-to-bit-manipulation",
+      "section_slug": "bit-manipulation"
+    },
+    {
+      "number": "112",
+      "title": "Hamming Weights of Integers",
+      "file": "bit-manipulation/112-hamming-weights-of-integers.html",
+      "html_length": 163415,
+      "section": "18Bit Manipulation",
+      "path": "/courses/coding-patterns/bit-manipulation/hamming-weights-of-integers",
+      "section_slug": "bit-manipulation"
+    },
+    {
+      "number": "113",
+      "title": "Lonely Integer",
+      "file": "bit-manipulation/113-lonely-integer.html",
+      "html_length": 151194,
+      "section": "18Bit Manipulation",
+      "path": "/courses/coding-patterns/bit-manipulation/lonely-integer",
+      "section_slug": "bit-manipulation"
+    },
+    {
+      "number": "114",
+      "title": "Swap Odd and Even Bits",
+      "file": "bit-manipulation/114-swap-odd-and-even-bits.html",
+      "html_length": 158335,
+      "section": "18Bit Manipulation",
+      "path": "/courses/coding-patterns/bit-manipulation/swap-odd-and-even-bits",
+      "section_slug": "bit-manipulation"
+    },
+    {
+      "number": "115",
+      "title": "Introduction to Math and Geometry",
+      "file": "math-and-geometry/115-introduction-to-math-and-geometry.html",
+      "html_length": 138889,
+      "section": "19Math And Geometry",
+      "path": "/courses/coding-patterns/math-and-geometry/introduction-to-math-and-geometry",
+      "section_slug": "math-and-geometry"
+    },
+    {
+      "number": "116",
+      "title": "Spiral Traversal",
+      "file": "math-and-geometry/116-spiral-traversal.html",
+      "html_length": 162606,
+      "section": "19Math And Geometry",
+      "path": "/courses/coding-patterns/math-and-geometry/spiral-traversal",
+      "section_slug": "math-and-geometry"
+    },
+    {
+      "number": "117",
+      "title": "Reverse 32-Bit Integer",
+      "file": "math-and-geometry/117-reverse-32-bit-integer.html",
+      "html_length": 172209,
+      "section": "19Math And Geometry",
+      "path": "/courses/coding-patterns/math-and-geometry/reverse-32-bit-integer",
+      "section_slug": "math-and-geometry"
+    },
+    {
+      "number": "118",
+      "title": "Maximum Collinear Points",
+      "file": "math-and-geometry/118-maximum-collinear-points.html",
+      "html_length": 182100,
+      "section": "19Math And Geometry",
+      "path": "/courses/coding-patterns/math-and-geometry/maximum-collinear-points",
+      "section_slug": "math-and-geometry"
+    },
+    {
+      "number": "119",
+      "title": "The Josephus Problem",
+      "file": "math-and-geometry/119-the-josephus-problem.html",
+      "html_length": 158502,
+      "section": "19Math And Geometry",
+      "path": "/courses/coding-patterns/math-and-geometry/the-josephus-problem",
+      "section_slug": "math-and-geometry"
+    },
+    {
+      "number": "120",
+      "title": "Triangle Numbers",
+      "file": "math-and-geometry/120-triangle-numbers.html",
+      "html_length": 157898,
+      "section": "19Math And Geometry",
+      "path": "/courses/coding-patterns/math-and-geometry/triangle-numbers",
+      "section_slug": "math-and-geometry"
+    }
+  ]
+}

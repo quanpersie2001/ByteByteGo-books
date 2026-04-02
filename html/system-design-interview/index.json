@@ -1,0 +1,193 @@
+{
+  "name": "System Design Interview",
+  "slug": "system-design-interview",
+  "url": "https://bytebytego.com/courses/system-design-interview",
+  "chapters": [
+    {
+      "number": "00",
+      "title": "Foreword",
+      "file": "00-foreword.html",
+      "html_length": 21411
+    },
+    {
+      "number": "01",
+      "title": "Join the Community",
+      "file": "01-join-the-community.html",
+      "html_length": 19493
+    },
+    {
+      "number": "02",
+      "title": "Scale From Zero To Millions Of Users",
+      "file": "02-scale-from-zero-to-millions-of-users.html",
+      "html_length": 109186
+    },
+    {
+      "number": "03",
+      "title": "Back-of-the-envelope Estimation",
+      "file": "03-back-of-the-envelope-estimation.html",
+      "html_length": 30381
+    },
+    {
+      "number": "04",
+      "title": "A Framework For System Design Interviews",
+      "file": "04-a-framework-for-system-design-interviews.html",
+      "html_length": 46067
+    },
+    {
+      "number": "05",
+      "title": "Design A Rate Limiter",
+      "file": "05-design-a-rate-limiter.html",
+      "html_length": 87226
+    },
+    {
+      "number": "06",
+      "title": "Design Consistent Hashing",
+      "file": "06-design-consistent-hashing.html",
+      "html_length": 53534
+    },
+    {
+      "number": "07",
+      "title": "Design A Key-value Store",
+      "file": "07-design-a-key-value-store.html",
+      "html_length": 77570
+    },
+    {
+      "number": "08",
+      "title": "Design A Unique ID Generator In Distributed Systems",
+      "file": "08-design-a-unique-id-generator-in-distributed-systems.html",
+      "html_length": 39083
+    },
+    {
+      "number": "09",
+      "title": "Design A URL Shortener",
+      "file": "09-design-a-url-shortener.html",
+      "html_length": 49353
+    },
+    {
+      "number": "10",
+      "title": "Design A Web Crawler",
+      "file": "10-design-a-web-crawler.html",
+      "html_length": 61949
+    },
+    {
+      "number": "11",
+      "title": "Design A Notification System",
+      "file": "11-design-a-notification-system.html",
+      "html_length": 70897
+    },
+    {
+      "number": "12",
+      "title": "Design A News Feed System",
+      "file": "12-design-a-news-feed-system.html",
+      "html_length": 48159
+    },
+    {
+      "number": "13",
+      "title": "Design A Chat System",
+      "file": "13-design-a-chat-system.html",
+      "html_length": 95192
+    },
+    {
+      "number": "14",
+      "title": "Design A Search Autocomplete System",
+      "file": "14-design-a-search-autocomplete-system.html",
+      "html_length": 71996
+    },
+    {
+      "number": "15",
+      "title": "Design YouTube",
+      "file": "15-design-youtube.html",
+      "html_length": 105000
+    },
+    {
+      "number": "16",
+      "title": "Design Google Drive",
+      "file": "16-design-google-drive.html",
+      "html_length": 77395
+    },
+    {
+      "number": "17",
+      "title": "Proximity Service",
+      "file": "17-proximity-service.html",
+      "html_length": 137561
+    },
+    {
+      "number": "18",
+      "title": "Nearby Friends",
+      "file": "18-nearby-friends.html",
+      "html_length": 91259
+    },
+    {
+      "number": "19",
+      "title": "Google Maps",
+      "file": "19-google-maps.html",
+      "html_length": 112700
+    },
+    {
+      "number": "20",
+      "title": "Distributed Message Queue",
+      "file": "20-distributed-message-queue.html",
+      "html_length": 137904
+    },
+    {
+      "number": "21",
+      "title": "Metrics Monitoring and Alerting System",
+      "file": "21-metrics-monitoring-and-alerting-system.html",
+      "html_length": 102661
+    },
+    {
+      "number": "22",
+      "title": "Ad Click Event Aggregation",
+      "file": "22-ad-click-event-aggregation.html",
+      "html_length": 117454
+    },
+    {
+      "number": "23",
+      "title": "Hotel Reservation System",
+      "file": "23-hotel-reservation-system.html",
+      "html_length": 102378
+    },
+    {
+      "number": "24",
+      "title": "Distributed Email Service",
+      "file": "24-distributed-email-service.html",
+      "html_length": 112045
+    },
+    {
+      "number": "25",
+      "title": "S3-like Object Storage",
+      "file": "25-s3-like-object-storage.html",
+      "html_length": 125963
+    },
+    {
+      "number": "26",
+      "title": "Real-time Gaming Leaderboard",
+      "file": "26-real-time-gaming-leaderboard.html",
+      "html_length": 122988
+    },
+    {
+      "number": "27",
+      "title": "Payment System",
+      "file": "27-payment-system.html",
+      "html_length": 98951
+    },
+    {
+      "number": "28",
+      "title": "Digital Wallet",
+      "file": "28-digital-wallet.html",
+      "html_length": 133833
+    },
+    {
+      "number": "29",
+      "title": "Stock Exchange",
+      "file": "29-stock-exchange.html",
+      "html_length": 129619
+    },
+    {
+      "number": "30",
+      "title": "The Learning Continues",
+      "file": "30-the-learning-continues.html",
+      "html_length": 31306
+    }
+  ]
+}

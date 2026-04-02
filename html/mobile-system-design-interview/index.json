@@ -1,0 +1,73 @@
+{
+  "name": "Mobile System Design Interview",
+  "slug": "mobile-system-design-interview",
+  "url": "https://bytebytego.com/courses/mobile-system-design-interview",
+  "chapters": [
+    {
+      "number": "01",
+      "title": "Introduction",
+      "file": "01-introduction.html",
+      "html_length": 35979
+    },
+    {
+      "number": "02",
+      "title": "A framework for Mobile SD interviews",
+      "file": "02-a-framework-for-mobile-sd-interviews.html",
+      "html_length": 30380
+    },
+    {
+      "number": "03",
+      "title": "News feed app",
+      "file": "03-news-feed-app.html",
+      "html_length": 109763
+    },
+    {
+      "number": "04",
+      "title": "Chat app",
+      "file": "04-chat-app.html",
+      "html_length": 111312
+    },
+    {
+      "number": "05",
+      "title": "Stock trading app",
+      "file": "05-stock-trading-app.html",
+      "html_length": 71141
+    },
+    {
+      "number": "06",
+      "title": "Pagination library",
+      "file": "06-pagination-library.html",
+      "html_length": 84554
+    },
+    {
+      "number": "07",
+      "title": "Hotel reservation app",
+      "file": "07-hotel-reservation-app.html",
+      "html_length": 76253
+    },
+    {
+      "number": "08",
+      "title": "Google Drive app",
+      "file": "08-google-drive-app.html",
+      "html_length": 76643
+    },
+    {
+      "number": "09",
+      "title": "YouTube app",
+      "file": "09-youtube-app.html",
+      "html_length": 89871
+    },
+    {
+      "number": "10",
+      "title": "Mobile System Design Building Blocks",
+      "file": "10-mobile-system-design-building-blocks.html",
+      "html_length": 205182
+    },
+    {
+      "number": "11",
+      "title": "Quick Reference Cheat Sheet for MSD Interview",
+      "file": "11-quick-reference-cheat-sheet-for-msd-interview.html",
+      "html_length": 28352
+    }
+  ]
+}

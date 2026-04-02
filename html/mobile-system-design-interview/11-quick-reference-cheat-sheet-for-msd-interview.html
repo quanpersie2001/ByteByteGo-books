@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mobile System Design Interview – Quick Reference Cheat Sheet for MSD Interview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css">
+<style>
+/* === ByteByteGo extracted styles === */
+body { font-family: 'Be Vietnam Pro', 'Bricolage Grotesque', sans-serif; }
+a:where(.css-133v4sd) { color: rgb(22, 119, 255); text-decoration: none; background-color: transparent; outline: none; cursor: pointer; transition: color 0.3s; }
+a:where(.css-133v4sd):hover { color: rgb(105, 177, 255); }
+a:where(.css-133v4sd):active { color: rgb(9, 88, 217); }
+a:where(.css-133v4sd):active, a:where(.css-133v4sd):hover { text-decoration: none; outline: 0px; }
+a:where(.css-133v4sd):focus { text-decoration: none; outline: 0px; }
+a:where(.css-133v4sd)[disabled] { color: rgba(0, 0, 0, 0.25); cursor: not-allowed; }
+li, ol, ul { list-style: none; margin: 0px; padding: 0px; }
+.hljs, [class*="hljs-"], code, pre, pre code { font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace; }
+.style_problemDescription__T4cPe .language-js .hljs-title.class_ { color: rgb(204, 135, 0); }
+.style_problemDescription__T4cPe .language-js .hljs-number { color: rgb(38, 191, 64); }
+.style_problemDescription__T4cPe .language-js .hljs-comment { white-space: break-spaces; font-size: 15px; font-style: italic; color: rgb(114, 148, 92); }
+.style_problemDescription__T4cPe .hljs { border-radius: 8px; padding: 20px 24px; }
+pre code.hljs { display: block; overflow-x: auto; padding: 1em; }
+code.hljs { padding: 3px 5px; }
+.hljs { color: rgb(36, 41, 46); background: rgb(255, 255, 255); }
+.hljs-doctag, .hljs-keyword, .hljs-meta .hljs-keyword, .hljs-template-tag, .hljs-template-variable, .hljs-type, .hljs-variable.language_ { color: rgb(215, 58, 73); }
+.hljs-title, .hljs-title.class_, .hljs-title.class_.inherited__, .hljs-title.function_ { color: rgb(111, 66, 193); }
+.hljs-attr, .hljs-attribute, .hljs-literal, .hljs-meta, .hljs-number, .hljs-operator, .hljs-selector-attr, .hljs-selector-class, .hljs-selector-id, .hljs-variable { color: rgb(0, 92, 197); }
+.hljs-meta .hljs-string, .hljs-regexp, .hljs-string { color: rgb(3, 47, 98); }
+.hljs-built_in, .hljs-symbol { color: rgb(227, 98, 9); }
+.hljs-code, .hljs-comment, .hljs-formula { color: rgb(106, 115, 125); }
+.hljs-name, .hljs-quote, .hljs-selector-pseudo, .hljs-selector-tag { color: rgb(34, 134, 58); }
+.hljs-subst { color: rgb(36, 41, 46); }
+.hljs-section { color: rgb(0, 92, 197); font-weight: 700; }
+.hljs-bullet { color: rgb(115, 92, 15); }
+.hljs-emphasis { color: rgb(36, 41, 46); font-style: italic; }
+.hljs-strong { color: rgb(36, 41, 46); font-weight: 700; }
+.hljs-addition { color: rgb(34, 134, 58); background-color: rgb(240, 255, 244); }
+.hljs-deletion { color: rgb(179, 29, 40); background-color: rgb(255, 238, 240); }
+.style_course__yn_w8 .style_learnContent__6Nc1e { margin: 0px auto; padding-bottom: 50px; overflow: auto; }
+.style_course__yn_w8 .style_learnContent__6Nc1e img { width: 100%; }
+.style_course__yn_w8 .style_learnContent__6Nc1e .table-wrap { overflow: auto; margin-bottom: 12px; }
+.style_articleWrap__Xn2yv { min-height: calc(-286px + 100vh); overflow: auto; background-color: rgb(255, 255, 255); }
+.style_learnContent__K5K7M { min-width: 498px; max-width: 1000px; overflow: auto; margin: 0px auto; padding: 50px 30px; background-color: rgb(255, 255, 255); }
+.style_learnContent__K5K7M .table-wrap { overflow: auto; margin-bottom: 12px; position: relative; }
+.style_learnContent__K5K7M .table-wrap table { border-collapse: collapse; min-width: var(--table-min-width,auto); }
+.style_learnContent__K5K7M .table-wrap td { line-height: 24px; }
+.style_learnContent__K5K7M .table-wrap td a { color: rgb(33, 37, 41) !important; cursor: unset !important; }
+.style_learnContent__K5K7M table.inside-out { width: 100%; min-width: unset; margin: 16px 0px; background-color: rgb(245, 245, 245); border-radius: 4px; border: none; }
+.style_learnContent__K5K7M table.inside-out td { padding: 16px 20px; border: none; }
+.style_learnContent__K5K7M table.inside-out td p { margin: 0px 0px 10px; }
+.style_learnContent__K5K7M table.inside-out td p:last-child { margin-bottom: 0px; }
+.style_learnContent__K5K7M table.inside-out tr { border: none; background-color: rgba(0, 0, 0, 0) !important; }
+.style_learnContent__K5K7M table.inside-out, .style_learnContent__K5K7M table.inside-out * { border: none !important; }
+.style_learnContent__K5K7M table.inside-out + p { text-align: left; }
+.style_learnContent__K5K7M table.split-50 { width: 100%; min-width: unset; margin: 16px 0px; }
+.style_learnContent__K5K7M table.split-50 td { width: 50%; vertical-align: top; padding: 16px 20px; }
+.style_learnContent__K5K7M table.split-50 tr { background-color: rgba(0, 0, 0, 0) !important; }
+.style_learnContent__K5K7M table.split-50, .style_learnContent__K5K7M table.split-50 * { border: none !important; }
+.style_learnContent__K5K7M table.split-50 + p { text-align: left; }
+.style_learnContent__K5K7M .code-table { width: 100%; overflow: auto; margin: 16px 0px !important; }
+.style_learnContent__K5K7M .code-table table { border-collapse: collapse; }
+.style_learnContent__K5K7M .code-table pre { margin: 0px; }
+.style_learnContent__K5K7M .code-table pre code { padding-left: 0px; padding-right: 0px; }
+.style_learnContent__K5K7M .code-table tbody td { font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace; }
+.style_learnContent__K5K7M .code-table td > p { margin: 0px; }
+.style_learnContent__K5K7M .code-table tr:nth-child(2n) { background-color: rgb(255, 255, 255) !important; }
+.style_learnContent__K5K7M mark.highlight-magenta { background-color: rgba(255, 182, 193, 0.4); padding: 2px 0px; border-radius: 2px; }
+.style_learnContent__K5K7M mark.highlight-green { background-color: rgba(152, 251, 152, 0.3); padding: 2px 0px; border-radius: 2px; }
+.style_learnContent__K5K7M > p:last-of-type { margin: 0px; font-size: 14px !important; text-align: left !important; }
+.style_learnContent__K5K7M .style_chapter__grtAe { width: 96px; height: 80px; margin-bottom: 6px; font-size: 80px; font-weight: 600; color: rgb(53, 206, 160); line-height: 80px; }
+.style_learnContent__K5K7M center { width: 100%; overflow: auto; }
+.style_learnContent__K5K7M h1 { margin-top: 0px; margin-bottom: 20px; font-size: 40px; font-weight: 600; color: rgb(40, 40, 40); line-height: 50px; text-wrap: balance; }
+.style_learnContent__K5K7M h2 { margin-top: 16px; font-size: 30px; line-height: 40px; }
+.style_learnContent__K5K7M h2, .style_learnContent__K5K7M h3 { margin-bottom: 10px; font-weight: 600; color: rgb(40, 40, 40); text-wrap: balance; }
+.style_learnContent__K5K7M h3 { font-size: 26px; line-height: 37px; }
+.style_learnContent__K5K7M h4 { margin-bottom: 10px; font-size: 20px; font-weight: 600; color: rgb(40, 40, 40); line-height: 28px; text-wrap: balance; }
+.style_learnContent__K5K7M h5 { font-size: 16px; }
+.style_learnContent__K5K7M h5, .style_learnContent__K5K7M h6 { margin-bottom: 10px; font-weight: 600; color: rgb(40, 40, 40); line-height: 20px; text-wrap: balance; }
+.style_learnContent__K5K7M h6 { font-size: 15px; }
+.style_learnContent__K5K7M hr { margin: 24px 0px; border-top: 1px solid rgb(233, 233, 233); border-bottom: none; }
+.style_learnContent__K5K7M p { margin-bottom: 10px; font-weight: 400; line-height: 26px; font-size: 15px; text-align: justify; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M ul { margin-left: 28px; margin-bottom: 16px; list-style: disc; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M li { list-style: disc; color: rgb(33, 37, 41); line-height: 26px; font-size: 15px; }
+.style_learnContent__K5K7M li p { margin-top: 0px; margin-bottom: 4px; }
+.style_learnContent__K5K7M li li { list-style: circle; }
+.style_learnContent__K5K7M ol { margin-left: 28px; margin-bottom: 16px; }
+.style_learnContent__K5K7M ol, .style_learnContent__K5K7M ol li { list-style: decimal; }
+.style_learnContent__K5K7M a { color: rgb(33, 37, 41); text-decoration: underline; }
+.style_learnContent__K5K7M a:hover, .style_learnContent__K5K7M a:hover p { color: rgb(5, 103, 61); }
+.style_learnContent__K5K7M figcaption { margin: 12px 0px; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M .tableCaption { width: 100%; margin-top: 12px; text-align: center !important; color: rgb(33, 37, 41) !important; }
+.style_learnContent__K5K7M .tableCaption p { text-align: center; }
+.style_learnContent__K5K7M .note-block { padding: 16px; margin: 20px 0px; text-align: left; color: rgb(33, 37, 41); background-color: rgb(245, 245, 245); border: 1px solid rgb(221, 221, 221); border-radius: 6px; font-size: 14px !important; }
+.style_learnContent__K5K7M .note-block p { line-height: 24px; margin: 0px 0px 8px; font-size: 14px !important; }
+.style_learnContent__K5K7M .note-block p:last-child { margin-bottom: 0px; }
+.style_learnContent__K5K7M .note-block ul { margin-top: 8px; margin-left: 18px !important; margin-bottom: 0px !important; }
+.style_learnContent__K5K7M .note-block ul li { line-height: 24px; font-size: 14px; }
+.style_learnContent__K5K7M table { margin: 0px auto; border: 1px solid rgb(233, 233, 233); border-collapse: collapse; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M table tr { border-bottom: 1px solid rgb(233, 233, 233); }
+.style_learnContent__K5K7M table tr:last-child { border-bottom: none; }
+.style_learnContent__K5K7M table tr:nth-child(2n) { background-color: rgb(245, 245, 245); }
+.style_learnContent__K5K7M table tr td { padding: 10px; border-right: 1px solid rgb(233, 233, 233); line-height: 24px; }
+.style_learnContent__K5K7M table tr td:last-child { border-right: none; }
+.style_learnContent__K5K7M thead { border-bottom: 1px solid rgb(233, 233, 233); background-color: rgb(245, 245, 245); }
+.style_learnContent__K5K7M thead th { padding: 10px; border-right: 1px solid rgb(233, 233, 233); text-align: left; }
+.style_learnContent__K5K7M thead th:last-child { border-right: none; }
+.style_learnContent__K5K7M thead th strong { font-weight: 700; }
+.style_learnContent__K5K7M figure { margin: 16px 0px; }
+.style_learnContent__K5K7M .info-box { display: flex; align-items: flex-start; gap: 8px; padding: 16px; background-color: rgb(248, 249, 250); border-left: 4px solid rgb(53, 206, 160); margin: 24px 0px; font-size: 14px; line-height: 1.6; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M .info-box img { flex-shrink: 0; margin-top: 3px; }
+.style_learnContent__K5K7M .info-box p { margin: 0px; }
+.style_learnContent__K5K7M .sample-dialogue { padding: 16px; background-color: rgb(248, 249, 250); border: 1px solid rgb(233, 233, 233); border-radius: 4px; margin: 24px 0px; font-size: 14px; line-height: 1.4; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M .sample-dialogue p { margin: 0px; }
+.style_learnContent__K5K7M .sample-dialogue br { display: none; }
+.style_learnContent__K5K7M pre { flex: 1 1 0%; margin-bottom: 4px; }
+.style_learnContent__K5K7M pre code { word-break: break-all; white-space: pre; color: rgb(22, 105, 176); }
+.style_learnContent__K5K7M u { word-break: break-all; color: rgb(66, 131, 196); }
+.style_learnContent__K5K7M table.style_quote__VVyDM { min-width: unset; width: 100%; margin: 16px 0px; background-color: rgb(245, 245, 245); border-radius: 4px; border: 1px solid rgb(233, 233, 233); }
+.style_learnContent__K5K7M table.style_quote__VVyDM td { padding: 16px 20px; border: none; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td p { margin: 0px 0px 10px; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td p:last-child { margin-bottom: 0px; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td ol, .style_learnContent__K5K7M table.style_quote__VVyDM td ul { margin: 10px 0px 10px 20px; padding: 0px; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td ol li, .style_learnContent__K5K7M table.style_quote__VVyDM td ul li { margin: 6px 0px; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td em { font-style: italic; }
+.style_learnContent__K5K7M table.style_quote__VVyDM tr { border: none; background-color: rgba(0, 0, 0, 0) !important; }
+.style_learnPad__UNRJV .style_learnContent__K5K7M { padding: 20px 30px; }
+.style_learnH5__R4PJq .style_chapter__grtAe { display: block; width: 335px; height: 30px; font-size: 30px; line-height: 30px; text-align: left; font-weight: 600; color: rgb(53, 206, 160); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M { min-width: 320px; padding: 0px 20px 50px; margin: 32px auto 0px; overflow: hidden auto; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M .table-wrap { overflow: auto; margin-bottom: 12px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M .table-wrap td a { color: rgb(33, 37, 41) !important; cursor: unset !important; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h1 { margin-bottom: 0px; font-size: 20px; font-weight: 600; color: rgb(40, 40, 40); line-height: 28px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h2 { margin-top: 16px; font-size: 20px; font-weight: 600; color: rgb(40, 40, 40); line-height: 28px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h3 { font-size: 18px; font-weight: 600; color: rgb(40, 40, 40); line-height: 25px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h4 { font-size: 16px; font-weight: 600; color: rgb(40, 40, 40); line-height: 22px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h5 { margin-bottom: 10px; font-size: 15px; font-weight: 600; color: rgb(40, 40, 40); line-height: 20px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M p { font-size: 15px; color: rgb(33, 37, 41); text-align: left; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ul { margin-left: 28px; margin-bottom: 16px; list-style: disc; color: rgb(33, 37, 41); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ul p code { word-break: break-all; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M li { list-style: disc; color: rgb(33, 37, 41); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M li p { margin: 0px 0px 4px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M li li { list-style: circle; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ol { margin-left: 28px; margin-bottom: 16px; list-style: decimal; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ol li { list-style: decimal; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ol li a { word-break: break-all; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M figcaption { margin: 12px 0px; color: rgb(33, 37, 41); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table { margin: 0px auto; border: 1px solid rgb(233, 233, 233); color: rgb(33, 37, 41); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M thead { border-bottom: 1px solid rgb(233, 233, 233); background-color: rgb(245, 245, 245); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M thead th { padding: 10px; border-right: 1px solid rgb(233, 233, 233); text-align: left; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M thead th:last-child { border-right: none; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M thead th strong { font-weight: 700; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr { border-bottom: 1px solid rgb(233, 233, 233); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr:last-child { border-bottom: none; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr:nth-child(2n) { background-color: rgb(245, 245, 245); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr td { padding: 10px; border-right: 1px solid rgb(233, 233, 233); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr td:last-child { border-right: none; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M figure { margin: 16px 0px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M figure span:first-child { flex: 1 1 0%; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M figure img { max-width: 100%; height: auto; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M pre { flex: 1 1 0%; padding-bottom: 4px; margin-bottom: 4px; overflow: auto; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M pre code { word-break: break-all; color: rgb(22, 105, 176); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M u { word-break: break-all; color: rgb(66, 131, 196); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M code { word-break: break-all; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M blockquote p { font-weight: 400; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 { display: block; width: 100%; min-width: unset; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 tbody { display: block; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 tr { display: flex; flex-direction: column-reverse; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 td { display: block; padding: 10px 0px; width: 100% !important; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 td:first-child { padding-top: 20px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 td:last-child { padding-bottom: 0px; }
+.style_markCompleteWrap__YEi4w { display: flex; justify-content: flex-end; margin-top: 32px; }
+.style_markComplete__jnD2I { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-width: 220px; height: 48px; padding: 0px 22px; border-radius: 6px; border: 1px solid rgb(53, 206, 160); background: rgb(255, 255, 255); color: rgb(20, 159, 118); font-size: 15px; font-weight: 600; cursor: pointer; transition: border-color 0.2s, color 0.2s, background-color 0.2s; }
+.style_markComplete__jnD2I:disabled { opacity: 0.6; cursor: not-allowed; }
+.style_emptySquare__K6JN0 { display: inline-block; width: 18px; height: 18px; border: 2px solid; border-radius: 2px; flex-shrink: 0; }
+.style_markCompleted__Bcull { background: rgb(255, 255, 255); border-color: rgb(53, 206, 160); color: rgb(20, 159, 118); }
+@media (hover: hover) {
+  .style_markCompleted__Bcull:not(:disabled):hover { border-color: rgb(255, 77, 79); color: rgb(255, 77, 79); }
+  .style_markCompleted__Bcull:not(:disabled):hover .style_completedText__zQmXX { display: none; }
+  .style_markCompleted__Bcull:not(:disabled):hover .style_markIncompleteText__ujVfp { display: inline; }
+}
+.style_markCompleteLoading__YL9X9 { background: rgb(255, 255, 255); border-color: rgb(53, 206, 160); color: rgb(153, 153, 153); cursor: default; }
+</style>
+</head>
+<body>
+<article class="style_learnContent__K5K7M">
+<header><strong class="style_chapter__grtAe">11</strong><h1>Quick Reference Cheat Sheet for MSD Interview</h1></header><p>This appendix provides a helpful reference list of topics to consider during your MSD interviews. They're organized by domain, making them easier to navigate.</p>
+<h2 id="network">Network</h2>
+<div class="table-wrap" style="--table-min-width: 640px;"><table><thead><tr><th style="text-align: left;">Category</th><th style="text-align: left;">Key considerations</th></tr></thead><tbody><tr><td style="text-align: left;">Core protocols</td><td style="text-align: left;">• <strong>Communication protocols</strong>: REST, GraphQL, protocol buffers, or gRPC. <br>• <strong>Real-time updates</strong>: HTTP polling, SSE, WebSockets. <br>• <strong>Request management</strong>: idempotency keys, priority queuing, rate limiting, request throttling.</td></tr><tr><td style="text-align: left;">Data flow patterns</td><td style="text-align: left;">• <strong>Pagination</strong>: offset vs. cursor-based. <br>• <strong>Offline capabilities</strong>: offline-first design, optimistic UI updates, conflict resolution. <br>• <strong>Network resilience</strong>: connectivity handling, exponential backoff.</td></tr><tr><td style="text-align: left;">Security</td><td style="text-align: left;">• <strong>Authentication and authorization</strong>: token lifecycle, biometric auth, recovery flows. <br>• <strong>Security infrastructure</strong>: encryption in transit and at rest, certificate pinning, compliance requirements.</td></tr></tbody></table></div>
+<h2 id="data-management">Data management</h2>
+<div class="table-wrap" style="--table-min-width: 640px;"><table><thead><tr><th style="text-align: left;">Category</th><th style="text-align: left;">Key considerations</th></tr></thead><tbody><tr><td style="text-align: left;">Architecture</td><td style="text-align: left;">• <strong>Core data flow</strong>: patterns for data flow, layer responsibilities, error handling, error propagation.</td></tr><tr><td style="text-align: left;">Storage and caching</td><td style="text-align: left;">• <strong>Storage options</strong>: key-value, relational/non-relational DB, custom/binary stores, secure storage. <br>• <strong>Caching</strong>: in-memory vs. disk trade-offs. <br>• <strong>Eviction policies</strong>: TTL, size-based eviction, priority-based eviction. <br>• <strong>Privacy</strong>: PII handling, GDPR compliance, data retention policies. <br>• <strong>Synchronization</strong>: sync strategies, conflict resolution, delta sync.</td></tr><tr><td style="text-align: left;">Data performance</td><td style="text-align: left;">• <strong>Pre-fetching</strong>: predictive fetching, resource usage trade-offs, prioritize critical paths. <br>• <strong>Background processing</strong>: task efficiency, battery impact, OS background execution limits.</td></tr><tr><td style="text-align: left;">UI &amp; Interactions</td><td style="text-align: left;">• <strong>UI states</strong>: loading, empty, error, content. <br>• <strong>Input handling</strong>: validation on client and server side, sanitization, feedback for errors. <br>• <strong>Search</strong>: local vs. server-side search, indexing, typo tolerance.</td></tr></tbody></table></div>
+<h2 id="feature-development">Feature development</h2>
+<div class="table-wrap" style="--table-min-width: 640px;"><table><thead><tr><th style="text-align: left;">Category</th><th style="text-align: left;">Key considerations</th></tr></thead><tbody><tr><td style="text-align: left;">Version management</td><td style="text-align: left;">• <strong>Force upgrading</strong>: soft vs. hard upgrades, when to require updates, graceful prompts, version compatibility policies.<br>• <strong>Safe rollout</strong>: phased rollouts, feature flags, rollback procedures.<br>• <strong>CI/CD</strong>: automate build, test and deployments, code quality and security checks, ensure reproducible builds.</td></tr><tr><td style="text-align: left;">Dynamic configuration</td><td style="text-align: left;">• <strong>Remote config</strong>: feature control without app updates, default values for offline scenarios.<br>• <strong>A/B testing</strong>: experiments with clear metrics, user segmentation.<br>• <strong>Analytics</strong>: performance and business metrics, crash monitoring, logging.</td></tr><tr><td style="text-align: left;">Code architecture</td><td style="text-align: left;">• <strong>Modularization</strong>: separation of concerns, clear interfaces, balance granularity with practical maintenance.<br>• <strong>Dependency injection</strong>: testability, object lifecycle management, minimize global state and singletons.<br>• <strong>Third-party libraries</strong>: security and maintenance evaluation, size impact.</td></tr><tr><td style="text-align: left;">User experience</td><td style="text-align: left;">• <strong>Localization</strong>: text expansion/contraction, cultural and regional differences.<br>• <strong>Accessibility</strong>: screen readers, contrast, touch targets, test with accessibility tools.<br>• <strong>Crash reporting</strong>: automated collection, issue prioritization by impact and frequency, ensure right PII handling.</td></tr></tbody></table></div>
+<h2 id="performance">Performance</h2>
+<div class="table-wrap" style="--table-min-width: 640px;"><table><thead><tr><th style="text-align: left;">Category</th><th style="text-align: left;">Key considerations</th></tr></thead><tbody><tr><td style="text-align: left;">User experience</td><td style="text-align: left;">• <strong>Pre-fetching</strong>: predictive fetching, resource usage trade-offs, prioritize critical paths.<br>• <strong>App startup</strong>: optimize initialization, defer non-critical tasks, measure cold/warm start times.<br>• <strong>Stability</strong>: prevent crashes, implement error boundaries.</td></tr><tr><td style="text-align: left;">Resource management</td><td style="text-align: left;">• <strong>Battery &amp; CPU</strong>: minimize background processing, batch operations.<br>• <strong>Network efficiency</strong>: compress payloads, minimize requests, adapt quality on connection type.<br>• <strong>App size</strong>: optimize assets, use app bundles, remove unused code.</td></tr><tr><td style="text-align: left;">Technical optimizations</td><td style="text-align: left;">• <strong>Caching strategy</strong>: cache appropriate responses, invalidation policies, multi-level caching.<br>• <strong>Lazy loading</strong>: on-demand components and data loading, defer heavy processing until needed, prioritize visible content first.<br>• <strong>Concurrency</strong>: proper threading models, avoid blocking main thread, manage thread contention and race conditions.<br>• <strong>Hardware acceleration</strong>: GPU usage for animations and rendering, specific hardware optimizations.</td></tr><tr><td style="text-align: left;">Monitoring</td><td style="text-align: left;">• <strong>Observability</strong>: performance metrics, proactive alerting, traces for complex operations.<br>• <strong>Business metrics</strong>: connect performance to business outcomes, track user engagement, user funnels, identify bottlenecks affecting revenue.</td></tr></tbody></table></div>
+<h2 id="team--organization">Team &amp; Organization</h2>
+<div class="table-wrap" style="--table-min-width: 640px;"><table><thead><tr><th style="text-align: left;">Category</th><th style="text-align: left;">Key considerations</th></tr></thead><tbody><tr><td style="text-align: left;">Technical infrastructure</td><td style="text-align: left;">• <strong>Design system</strong>: consistent visual language, reusable components.<br>• <strong>Development efficiency</strong>: optimized builds, coding standards, effective code review processes.</td></tr><tr><td style="text-align: left;">Process &amp; quality</td><td style="text-align: left;">• <strong>Code quality</strong>: static analysis, automated testing, technical debt.<br>• <strong>Risk management</strong>: early identification, contingency plans.</td></tr><tr><td style="text-align: left;">Team &amp; culture</td><td style="text-align: left;">• <strong>Developer experience</strong>: efficient workflows, documentation.<br>• <strong>Team growth</strong>: onboarding, knowledge sharing, continuous learning.</td></tr><tr><td style="text-align: left;">Company context</td><td style="text-align: left;">• <strong>Available resources</strong>: infra constraints, team size and expertise, budget, in-house development vs. 3rd party investments.<br>• <strong>Business priorities</strong>: objectives alignment, target markets, monetization strategies, short-term needs vs. long-term platform health.<br>• <strong>Outage handling</strong>: escalation procedures, recovery playbooks, appropriate redundancies.<br>• <strong>Tech stack</strong>: integration with existing systems, platform consistency, future ecosystem evolution, standardization vs. specialized tools.</td></tr></tbody></table></div>
+<div class="note-block"><p><strong>📌 Remember:</strong> This list isn't meant to be a checkbox exercise where you cover everything. Strategic selection is key! Focus on the considerations most relevant to your specific design challenge, and be ready to explain why those topics are important. Your ability to make thoughtful trade-offs based on the system's unique requirements demonstrates stronger design thinking than attempting to cover every possible topic.</p></div>
+</article>
+</body>
+</html>

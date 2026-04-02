@@ -1,0 +1,73 @@
+{
+  "name": "Machine Learning System Design Interview",
+  "slug": "machine-learning-system-design-interview",
+  "url": "https://bytebytego.com/courses/machine-learning-system-design-interview",
+  "chapters": [
+    {
+      "number": "01",
+      "title": "Introduction and Overview",
+      "file": "01-introduction-and-overview.html",
+      "html_length": 165892
+    },
+    {
+      "number": "02",
+      "title": "Visual Search System",
+      "file": "02-visual-search-system.html",
+      "html_length": 210053
+    },
+    {
+      "number": "03",
+      "title": "Google Street View Blurring System",
+      "file": "03-google-street-view-blurring-system.html",
+      "html_length": 155205
+    },
+    {
+      "number": "04",
+      "title": "YouTube Video Search",
+      "file": "04-youtube-video-search.html",
+      "html_length": 127955
+    },
+    {
+      "number": "05",
+      "title": "Harmful Content Detection",
+      "file": "05-harmful-content-detection.html",
+      "html_length": 124583
+    },
+    {
+      "number": "06",
+      "title": "Video Recommendation System",
+      "file": "06-video-recommendation-system.html",
+      "html_length": 169469
+    },
+    {
+      "number": "07",
+      "title": "Event Recommendation System",
+      "file": "07-event-recommendation-system.html",
+      "html_length": 146099
+    },
+    {
+      "number": "08",
+      "title": "Ad Click Prediction on Social Platforms",
+      "file": "08-ad-click-prediction-on-social-platforms.html",
+      "html_length": 175696
+    },
+    {
+      "number": "09",
+      "title": "Similar Listings on Vacation Rental Platforms",
+      "file": "09-similar-listings-on-vacation-rental-platforms.html",
+      "html_length": 143323
+    },
+    {
+      "number": "10",
+      "title": "Personalized News Feed",
+      "file": "10-personalized-news-feed.html",
+      "html_length": 101569
+    },
+    {
+      "number": "11",
+      "title": "People You May Know",
+      "file": "11-people-you-may-know.html",
+      "html_length": 127895
+    }
+  ]
+}

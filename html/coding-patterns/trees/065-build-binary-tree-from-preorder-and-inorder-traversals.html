@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coding Interview Patterns – Build Binary Tree From Preorder and Inorder Traversals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css">
+<style>
+/* === ByteByteGo extracted styles === */
+body { font-family: 'Be Vietnam Pro', 'Bricolage Grotesque', sans-serif; }
+.anticon { display: inline-flex; align-items: center; color: inherit; font-style: normal; line-height: 0; text-align: center; text-transform: none; vertical-align: -0.125em; text-rendering: optimizelegibility; -webkit-font-smoothing: antialiased; }
+.anticon > * { line-height: 1; }
+.anticon svg { display: inline-block; }
+.anticon::before { display: none; }
+.anticon .anticon-icon { display: block; }
+.anticon[tabindex] { cursor: pointer; }
+.anticon-spin::before, .anticon-spin { display: inline-block; animation: 1s linear 0s infinite normal none running loadingCircle; }
+a:where(.css-133v4sd) { color: rgb(22, 119, 255); text-decoration: none; background-color: transparent; outline: none; cursor: pointer; transition: color 0.3s; }
+a:where(.css-133v4sd):hover { color: rgb(105, 177, 255); }
+a:where(.css-133v4sd):active { color: rgb(9, 88, 217); }
+a:where(.css-133v4sd):active, a:where(.css-133v4sd):hover { text-decoration: none; outline: 0px; }
+a:where(.css-133v4sd):focus { text-decoration: none; outline: 0px; }
+a:where(.css-133v4sd)[disabled] { color: rgba(0, 0, 0, 0.25); cursor: not-allowed; }
+:where(.css-133v4sd).anticon { display: inline-flex; align-items: center; color: inherit; font-style: normal; line-height: 0; text-align: center; text-transform: none; vertical-align: -0.125em; text-rendering: optimizelegibility; -webkit-font-smoothing: antialiased; }
+:where(.css-133v4sd).anticon > * { line-height: 1; }
+:where(.css-133v4sd).anticon svg { display: inline-block; }
+:where(.css-133v4sd).anticon .anticon .anticon-icon { display: block; }
+:where(.css-133v4sd).ant-dropdown-trigger.ant-btn > .anticon-down, :where(.css-133v4sd).ant-dropdown-trigger.ant-btn > .ant-btn-icon > .anticon-down { font-size: 12px; }
+:where(.css-133v4sd).ant-dropdown .ant-dropdown-wrap .ant-btn > .anticon-down { font-size: 12px; }
+:where(.css-133v4sd).ant-dropdown .ant-dropdown-wrap .anticon-down::before { transition: transform 0.2s; }
+:where(.css-133v4sd).ant-dropdown .ant-dropdown-wrap-open .anticon-down::before { transform: rotate(180deg); }
+:where(.css-133v4sd).ant-menu .ant-menu-item .ant-menu-item-icon, :where(.css-133v4sd).ant-menu .ant-menu-submenu-title .ant-menu-item-icon, :where(.css-133v4sd).ant-menu .ant-menu-item .anticon, :where(.css-133v4sd).ant-menu .ant-menu-submenu-title .anticon { min-width: 14px; font-size: 14px; transition: font-size 0.2s cubic-bezier(0.215, 0.61, 0.355, 1), margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), color 0.3s; }
+:where(.css-133v4sd).ant-menu .ant-menu-item .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu .ant-menu-submenu-title .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu .ant-menu-item .anticon + span, :where(.css-133v4sd).ant-menu .ant-menu-submenu-title .anticon + span { margin-inline-start: 10px; opacity: 1; transition: opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), margin 0.3s, color 0.3s; }
+:where(.css-133v4sd).ant-menu .ant-menu-item.ant-menu-item-only-child > .anticon, :where(.css-133v4sd).ant-menu .ant-menu-submenu-title.ant-menu-item-only-child > .anticon, :where(.css-133v4sd).ant-menu .ant-menu-item.ant-menu-item-only-child > .ant-menu-item-icon, :where(.css-133v4sd).ant-menu .ant-menu-submenu-title.ant-menu-item-only-child > .ant-menu-item-icon { margin-inline-end: 0px; }
+:where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-item .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-submenu-title .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-item .anticon, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-submenu-title .anticon { min-width: 14px; font-size: 14px; transition: font-size 0.2s cubic-bezier(0.215, 0.61, 0.355, 1), margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), color 0.3s; }
+:where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-item .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-submenu-title .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-item .anticon + span, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-submenu-title .anticon + span { margin-inline-start: 10px; opacity: 1; transition: opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), margin 0.3s, color 0.3s; }
+:where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-item.ant-menu-item-only-child > .anticon, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-submenu-title.ant-menu-item-only-child > .anticon, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-item.ant-menu-item-only-child > .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-submenu-title.ant-menu-item-only-child > .ant-menu-item-icon { margin-inline-end: 0px; }
+:where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-item .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-submenu > .ant-menu-submenu-title .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item .anticon, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-item .anticon, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-submenu > .ant-menu-submenu-title .anticon, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .anticon { margin: 0px; font-size: 16px; line-height: 40px; }
+:where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-item .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-submenu > .ant-menu-submenu-title .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item .anticon + span, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-item .anticon + span, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-submenu > .ant-menu-submenu-title .anticon + span, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .anticon + span { display: inline-block; opacity: 0; }
+:where(.css-133v4sd).ant-menu-inline-collapsed .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-inline-collapsed .anticon { display: inline-block; }
+:where(.css-133v4sd).ant-menu-inline-collapsed-tooltip .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-inline-collapsed-tooltip .anticon { display: none; }
+:where(.css-133v4sd).ant-btn { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; font-size: 14px; box-sizing: border-box; }
+:where(.css-133v4sd).ant-btn::before, :where(.css-133v4sd).ant-btn::after { box-sizing: border-box; }
+:where(.css-133v4sd).ant-btn [class^="ant-btn"], :where(.css-133v4sd).ant-btn [class*=" ant-btn"] { box-sizing: border-box; }
+:where(.css-133v4sd).ant-btn [class^="ant-btn"]::before, :where(.css-133v4sd).ant-btn [class*=" ant-btn"]::before, :where(.css-133v4sd).ant-btn [class^="ant-btn"]::after, :where(.css-133v4sd).ant-btn [class*=" ant-btn"]::after { box-sizing: border-box; }
+:where(.css-133v4sd).ant-btn { outline: none; position: relative; display: inline-flex; gap: 8px; align-items: center; justify-content: center; font-weight: 400; white-space: nowrap; text-align: center; background: transparent; border: 1px solid transparent; cursor: pointer; transition: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1); user-select: none; touch-action: manipulation; color: rgba(0, 0, 0, 0.88); }
+:where(.css-133v4sd).ant-btn:disabled > * { pointer-events: none; }
+:where(.css-133v4sd).ant-btn .ant-btn-icon > svg { display: inline-flex; align-items: center; color: inherit; font-style: normal; line-height: 0; text-align: center; text-transform: none; vertical-align: -0.125em; text-rendering: optimizelegibility; -webkit-font-smoothing: antialiased; }
+:where(.css-133v4sd).ant-btn .ant-btn-icon > svg > * { line-height: 1; }
+:where(.css-133v4sd).ant-btn .ant-btn-icon > svg svg { display: inline-block; }
+:where(.css-133v4sd).ant-btn > a { color: currentcolor; }
+:where(.css-133v4sd).ant-btn:not(:disabled):focus-visible { outline: rgb(74, 140, 105) solid 3px; outline-offset: 1px; transition: outline-offset, outline; }
+:where(.css-133v4sd).ant-btn.ant-btn-two-chinese-chars::first-letter { letter-spacing: 0.34em; }
+:where(.css-133v4sd).ant-btn.ant-btn-two-chinese-chars > :not(.anticon) { margin-inline-end: -0.34em; letter-spacing: 0.34em; }
+:where(.css-133v4sd).ant-btn.ant-btn-icon-only { padding-inline: 0px; }
+:where(.css-133v4sd).ant-btn.ant-btn-icon-only.ant-btn-compact-item { flex: 0 0 auto; }
+:where(.css-133v4sd).ant-btn.ant-btn-icon-only.ant-btn-round { width: auto; }
+:where(.css-133v4sd).ant-btn.ant-btn-loading { opacity: 0.65; cursor: default; }
+:where(.css-133v4sd).ant-btn .ant-btn-loading-icon { transition: width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); }
+:where(.css-133v4sd).ant-btn:not(.ant-btn-icon-end) .ant-btn-loading-icon-motion-appear-start, :where(.css-133v4sd).ant-btn:not(.ant-btn-icon-end) .ant-btn-loading-icon-motion-enter-start { margin-inline-end: -8px; }
+:where(.css-133v4sd).ant-btn:not(.ant-btn-icon-end) .ant-btn-loading-icon-motion-appear-active, :where(.css-133v4sd).ant-btn:not(.ant-btn-icon-end) .ant-btn-loading-icon-motion-enter-active { margin-inline-end: 0px; }
+:where(.css-133v4sd).ant-btn:not(.ant-btn-icon-end) .ant-btn-loading-icon-motion-leave-start { margin-inline-end: 0px; }
+:where(.css-133v4sd).ant-btn:not(.ant-btn-icon-end) .ant-btn-loading-icon-motion-leave-active { margin-inline-end: -8px; }
+:where(.css-133v4sd).ant-btn-icon-end { flex-direction: row-reverse; }
+:where(.css-133v4sd).ant-btn-icon-end .ant-btn-loading-icon-motion-appear-start, :where(.css-133v4sd).ant-btn-icon-end .ant-btn-loading-icon-motion-enter-start { margin-inline-start: -8px; }
+:where(.css-133v4sd).ant-btn-icon-end .ant-btn-loading-icon-motion-appear-active, :where(.css-133v4sd).ant-btn-icon-end .ant-btn-loading-icon-motion-enter-active { margin-inline-start: 0px; }
+:where(.css-133v4sd).ant-btn-icon-end .ant-btn-loading-icon-motion-leave-start { margin-inline-start: 0px; }
+:where(.css-133v4sd).ant-btn-icon-end .ant-btn-loading-icon-motion-leave-active { margin-inline-start: -8px; }
+:where(.css-133v4sd).ant-btn { font-size: 14px; height: 32px; padding: 0px 15px; border-radius: 6px; }
+:where(.css-133v4sd).ant-btn.ant-btn-icon-only { width: 32px; }
+:where(.css-133v4sd).ant-btn.ant-btn-icon-only .anticon { font-size: inherit; }
+:where(.css-133v4sd).ant-btn.ant-btn-circle.ant-btn { min-width: 32px; padding-inline: 0px; border-radius: 50%; }
+:where(.css-133v4sd).ant-btn.ant-btn-round.ant-btn { border-radius: 32px; padding-inline: 16px; }
+:where(.css-133v4sd).ant-btn-sm { font-size: 14px; height: 24px; padding: 0px 7px; border-radius: 4px; }
+:where(.css-133v4sd).ant-btn-sm.ant-btn-icon-only { width: 24px; }
+:where(.css-133v4sd).ant-btn-sm.ant-btn-icon-only .anticon { font-size: inherit; }
+:where(.css-133v4sd).ant-btn.ant-btn-circle.ant-btn-sm { min-width: 24px; padding-inline: 0px; border-radius: 50%; }
+:where(.css-133v4sd).ant-btn.ant-btn-round.ant-btn-sm { border-radius: 24px; padding-inline: 12px; }
+:where(.css-133v4sd).ant-btn-lg { font-size: 16px; height: 40px; padding: 0px 15px; border-radius: 8px; }
+:where(.css-133v4sd).ant-btn-lg.ant-btn-icon-only { width: 40px; }
+:where(.css-133v4sd).ant-btn-lg.ant-btn-icon-only .anticon { font-size: inherit; }
+:where(.css-133v4sd).ant-btn.ant-btn-circle.ant-btn-lg { min-width: 40px; padding-inline: 0px; border-radius: 50%; }
+:where(.css-133v4sd).ant-btn.ant-btn-round.ant-btn-lg { border-radius: 40px; padding-inline: 20px; }
+:where(.css-133v4sd).ant-btn.ant-btn-block { width: 100%; }
+:where(.css-133v4sd).ant-btn-color-default { color: rgba(0, 0, 0, 0.88); box-shadow: rgba(0, 0, 0, 0.02) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(0, 0, 0); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 255, 255); background: rgba(0, 0, 0, 0.75); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { color: rgb(255, 255, 255); background: rgba(0, 0, 0, 0.95); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-filled { box-shadow: none; background: rgba(0, 0, 0, 0.04); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgba(0, 0, 0, 0.06); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgba(0, 0, 0, 0.15); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-background-ghost { color: rgb(255, 255, 255); background: transparent; border-color: rgb(255, 255, 255); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):hover { background: transparent; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):active { background: transparent; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-background-ghost:disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); border-color: rgb(217, 217, 217); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-link { color: rgba(0, 0, 0, 0.88); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(105, 177, 255); background: transparent; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(9, 88, 217); }
+:where(.css-133v4sd).ant-btn-color-primary { color: rgb(5, 103, 61); box-shadow: rgba(3, 43, 19, 0.42) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-dashed { border-color: rgb(5, 103, 61); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(24, 115, 72); border-color: rgb(24, 115, 72); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(0, 64, 38); border-color: rgb(0, 64, 38); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-filled { box-shadow: none; background: rgb(149, 166, 156); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(106, 153, 126); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(74, 140, 105); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-text { color: rgb(5, 103, 61); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(24, 115, 72); background: rgb(149, 166, 156); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(0, 64, 38); background: rgb(74, 140, 105); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-link { color: rgb(5, 103, 61); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(24, 115, 72); background: transparent; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(0, 64, 38); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-background-ghost { color: rgb(5, 103, 61); background: transparent; border-color: rgb(5, 103, 61); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):hover { background: transparent; color: rgb(24, 115, 72); border-color: rgb(24, 115, 72); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):active { background: transparent; color: rgb(0, 64, 38); border-color: rgb(0, 64, 38); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-background-ghost:disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); border-color: rgb(217, 217, 217); }
+:where(.css-133v4sd).ant-btn-color-dangerous { color: rgb(255, 77, 79); box-shadow: rgba(255, 38, 5, 0.06) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(255, 77, 79); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 120, 117); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(217, 54, 62); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-dashed { border-color: rgb(255, 77, 79); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 120, 117); border-color: rgb(255, 163, 158); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(217, 54, 62); border-color: rgb(217, 54, 62); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-filled { box-shadow: none; background: rgb(255, 242, 240); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 223, 220); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 204, 199); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-text { color: rgb(255, 77, 79); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 120, 117); background: rgb(255, 242, 240); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(255, 120, 117); background: rgb(255, 204, 199); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-link { color: rgb(255, 77, 79); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 120, 117); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(217, 54, 62); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-background-ghost { color: rgb(255, 77, 79); background: transparent; border-color: rgb(255, 77, 79); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):hover { background: transparent; color: rgb(255, 120, 117); border-color: rgb(255, 120, 117); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):active { background: transparent; color: rgb(217, 54, 62); border-color: rgb(217, 54, 62); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-background-ghost:disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); border-color: rgb(217, 217, 217); }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-variant-link { color: rgb(22, 119, 255); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-link.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(105, 177, 255); }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(9, 88, 217); }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-background-ghost { color: rgb(22, 119, 255); background: transparent; border-color: rgb(22, 119, 255); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):hover { background: transparent; color: rgb(105, 177, 255); border-color: rgb(105, 177, 255); }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):active { background: transparent; color: rgb(9, 88, 217); border-color: rgb(9, 88, 217); }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-background-ghost:disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); border-color: rgb(217, 217, 217); }
+:where(.css-133v4sd).ant-btn-color-blue { color: rgb(22, 119, 255); box-shadow: rgba(5, 145, 255, 0.1) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(22, 119, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(64, 150, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(9, 88, 217); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-dashed { border-color: rgb(22, 119, 255); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(64, 150, 255); border-color: rgb(64, 150, 255); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(9, 88, 217); border-color: rgb(9, 88, 217); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-filled { box-shadow: none; background: rgb(230, 244, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(186, 224, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(145, 202, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-link { color: rgb(22, 119, 255); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(64, 150, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(9, 88, 217); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-text { color: rgb(22, 119, 255); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(64, 150, 255); background: rgb(230, 244, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(9, 88, 217); background: rgb(145, 202, 255); }
+:where(.css-133v4sd).ant-btn-color-purple { color: rgb(114, 46, 209); box-shadow: rgba(155, 5, 255, 0.06) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(114, 46, 209); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(146, 84, 222); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(83, 29, 171); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-dashed { border-color: rgb(114, 46, 209); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(146, 84, 222); border-color: rgb(146, 84, 222); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(83, 29, 171); border-color: rgb(83, 29, 171); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-filled { box-shadow: none; background: rgb(249, 240, 255); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(239, 219, 255); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(211, 173, 247); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-link { color: rgb(114, 46, 209); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(146, 84, 222); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(83, 29, 171); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-text { color: rgb(114, 46, 209); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(146, 84, 222); background: rgb(249, 240, 255); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(83, 29, 171); background: rgb(211, 173, 247); }
+:where(.css-133v4sd).ant-btn-color-cyan { color: rgb(19, 194, 194); box-shadow: rgba(5, 255, 215, 0.1) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(19, 194, 194); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(54, 207, 201); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(8, 151, 156); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-dashed { border-color: rgb(19, 194, 194); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(54, 207, 201); border-color: rgb(54, 207, 201); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(8, 151, 156); border-color: rgb(8, 151, 156); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-filled { box-shadow: none; background: rgb(230, 255, 251); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(181, 245, 236); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(135, 232, 222); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-link { color: rgb(19, 194, 194); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(54, 207, 201); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(8, 151, 156); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-text { color: rgb(19, 194, 194); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(54, 207, 201); background: rgb(230, 255, 251); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(8, 151, 156); background: rgb(135, 232, 222); }
+:where(.css-133v4sd).ant-btn-color-green { color: rgb(82, 196, 26); box-shadow: rgba(142, 255, 30, 0.08) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(82, 196, 26); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(115, 209, 61); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(56, 158, 13); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-dashed { border-color: rgb(82, 196, 26); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(115, 209, 61); border-color: rgb(115, 209, 61); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(56, 158, 13); border-color: rgb(56, 158, 13); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-filled { box-shadow: none; background: rgb(246, 255, 237); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(217, 247, 190); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(183, 235, 143); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-link { color: rgb(82, 196, 26); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(115, 209, 61); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(56, 158, 13); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-text { color: rgb(82, 196, 26); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(115, 209, 61); background: rgb(246, 255, 237); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(56, 158, 13); background: rgb(183, 235, 143); }
+:where(.css-133v4sd).ant-btn-color-magenta { color: rgb(235, 47, 150); box-shadow: rgba(255, 5, 105, 0.06) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(235, 47, 150); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(247, 89, 171); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(196, 29, 127); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-dashed { border-color: rgb(235, 47, 150); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(247, 89, 171); border-color: rgb(247, 89, 171); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(196, 29, 127); border-color: rgb(196, 29, 127); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-filled { box-shadow: none; background: rgb(255, 240, 246); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 214, 231); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 173, 210); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-link { color: rgb(235, 47, 150); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(247, 89, 171); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(196, 29, 127); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-text { color: rgb(235, 47, 150); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(247, 89, 171); background: rgb(255, 240, 246); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(196, 29, 127); background: rgb(255, 173, 210); }
+:where(.css-133v4sd).ant-btn-color-pink { color: rgb(235, 47, 150); box-shadow: rgba(255, 5, 105, 0.06) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(235, 47, 150); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(247, 89, 171); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(196, 29, 127); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-dashed { border-color: rgb(235, 47, 150); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(247, 89, 171); border-color: rgb(247, 89, 171); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(196, 29, 127); border-color: rgb(196, 29, 127); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-filled { box-shadow: none; background: rgb(255, 240, 246); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 214, 231); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 173, 210); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-link { color: rgb(235, 47, 150); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(247, 89, 171); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(196, 29, 127); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-text { color: rgb(235, 47, 150); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(247, 89, 171); background: rgb(255, 240, 246); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(196, 29, 127); background: rgb(255, 173, 210); }
+:where(.css-133v4sd).ant-btn-color-red { color: rgb(245, 34, 45); box-shadow: rgba(255, 22, 5, 0.06) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(245, 34, 45); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 77, 79); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(207, 19, 34); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-dashed { border-color: rgb(245, 34, 45); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 77, 79); border-color: rgb(255, 77, 79); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(207, 19, 34); border-color: rgb(207, 19, 34); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-filled { box-shadow: none; background: rgb(255, 241, 240); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 204, 199); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 163, 158); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-link { color: rgb(245, 34, 45); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 77, 79); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(207, 19, 34); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-text { color: rgb(245, 34, 45); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 77, 79); background: rgb(255, 241, 240); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(207, 19, 34); background: rgb(255, 163, 158); }
+:where(.css-133v4sd).ant-btn-color-orange { color: rgb(250, 140, 22); box-shadow: rgba(255, 175, 5, 0.1) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(250, 140, 22); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 169, 64); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(212, 107, 8); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-dashed { border-color: rgb(250, 140, 22); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 169, 64); border-color: rgb(255, 169, 64); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 107, 8); border-color: rgb(212, 107, 8); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-filled { box-shadow: none; background: rgb(255, 247, 230); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 231, 186); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 213, 145); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-link { color: rgb(250, 140, 22); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 169, 64); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 107, 8); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-text { color: rgb(250, 140, 22); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 169, 64); background: rgb(255, 247, 230); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 107, 8); background: rgb(255, 213, 145); }
+:where(.css-133v4sd).ant-btn-color-yellow { color: rgb(250, 219, 20); box-shadow: rgba(245, 255, 5, 0.1) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(250, 219, 20); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 236, 61); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(212, 177, 6); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-dashed { border-color: rgb(250, 219, 20); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 236, 61); border-color: rgb(255, 236, 61); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 177, 6); border-color: rgb(212, 177, 6); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-filled { box-shadow: none; background: rgb(254, 255, 230); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 255, 184); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 251, 143); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-link { color: rgb(250, 219, 20); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 236, 61); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 177, 6); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-text { color: rgb(250, 219, 20); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 236, 61); background: rgb(254, 255, 230); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 177, 6); background: rgb(255, 251, 143); }
+:where(.css-133v4sd).ant-btn-color-volcano { color: rgb(250, 84, 28); box-shadow: rgba(255, 125, 25, 0.1) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(250, 84, 28); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 122, 69); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(212, 56, 13); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-dashed { border-color: rgb(250, 84, 28); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 122, 69); border-color: rgb(255, 122, 69); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 56, 13); border-color: rgb(212, 56, 13); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-filled { box-shadow: none; background: rgb(255, 242, 232); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 216, 191); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 187, 150); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-link { color: rgb(250, 84, 28); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 122, 69); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 56, 13); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-text { color: rgb(250, 84, 28); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 122, 69); background: rgb(255, 242, 232); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 56, 13); background: rgb(255, 187, 150); }
+:where(.css-133v4sd).ant-btn-color-geekblue { color: rgb(47, 84, 235); box-shadow: rgba(5, 88, 255, 0.06) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(47, 84, 235); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(89, 126, 247); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(29, 57, 196); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-dashed { border-color: rgb(47, 84, 235); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(89, 126, 247); border-color: rgb(89, 126, 247); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(29, 57, 196); border-color: rgb(29, 57, 196); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-filled { box-shadow: none; background: rgb(240, 245, 255); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(214, 228, 255); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(173, 198, 255); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-link { color: rgb(47, 84, 235); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(89, 126, 247); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(29, 57, 196); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-text { color: rgb(47, 84, 235); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(89, 126, 247); background: rgb(240, 245, 255); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(29, 57, 196); background: rgb(173, 198, 255); }
+:where(.css-133v4sd).ant-btn-color-lime { color: rgb(160, 217, 17); box-shadow: rgba(225, 255, 5, 0.1) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(160, 217, 17); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(186, 230, 55); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(124, 179, 5); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-dashed { border-color: rgb(160, 217, 17); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(186, 230, 55); border-color: rgb(186, 230, 55); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(124, 179, 5); border-color: rgb(124, 179, 5); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-filled { box-shadow: none; background: rgb(252, 255, 230); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(244, 255, 184); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(234, 255, 143); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-link { color: rgb(160, 217, 17); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(186, 230, 55); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(124, 179, 5); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-text { color: rgb(160, 217, 17); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(186, 230, 55); background: rgb(252, 255, 230); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(124, 179, 5); background: rgb(234, 255, 143); }
+:where(.css-133v4sd).ant-btn-color-gold { color: rgb(250, 173, 20); box-shadow: rgba(255, 215, 5, 0.1) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(250, 173, 20); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 197, 61); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(212, 136, 6); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-dashed { border-color: rgb(250, 173, 20); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 197, 61); border-color: rgb(255, 197, 61); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 136, 6); border-color: rgb(212, 136, 6); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-filled { box-shadow: none; background: rgb(255, 251, 230); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 241, 184); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 229, 143); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-link { color: rgb(250, 173, 20); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 197, 61); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 136, 6); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-text { color: rgb(250, 173, 20); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 197, 61); background: rgb(255, 251, 230); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 136, 6); background: rgb(255, 229, 143); }
+:where(.css-133v4sd).ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-variant-dashed { border-color: rgb(217, 217, 217); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(24, 115, 72); border-color: rgb(24, 115, 72); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(0, 64, 38); border-color: rgb(0, 64, 38); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-variant-text { color: rgba(0, 0, 0, 0.88); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgba(0, 0, 0, 0.88); background: rgba(0, 0, 0, 0.04); }
+:where(.css-133v4sd).ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgba(0, 0, 0, 0.88); background: rgba(0, 0, 0, 0.15); }
+:where(.css-133v4sd).ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(5, 103, 61); }
+:where(.css-133v4sd).ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(24, 115, 72); color: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(0, 64, 38); color: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-variant-link { color: rgb(22, 119, 255); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(105, 177, 255); background: transparent; }
+:where(.css-133v4sd).ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(9, 88, 217); }
+:where(.css-133v4sd).ant-btn-group { position: relative; display: inline-flex; }
+:where(.css-133v4sd).ant-btn-group > span:not(:last-child), :where(.css-133v4sd).ant-btn-group > .ant-btn:not(:last-child), :where(.css-133v4sd).ant-btn-group > span:not(:last-child) > .ant-btn, :where(.css-133v4sd).ant-btn-group > .ant-btn:not(:last-child) > .ant-btn { border-start-end-radius: 0px; border-end-end-radius: 0px; }
+:where(.css-133v4sd).ant-btn-group > span:not(:first-child), :where(.css-133v4sd).ant-btn-group > .ant-btn:not(:first-child) { margin-inline-start: -1px; }
+:where(.css-133v4sd).ant-btn-group > span:not(:first-child), :where(.css-133v4sd).ant-btn-group > .ant-btn:not(:first-child), :where(.css-133v4sd).ant-btn-group > span:not(:first-child) > .ant-btn, :where(.css-133v4sd).ant-btn-group > .ant-btn:not(:first-child) > .ant-btn { border-start-start-radius: 0px; border-end-start-radius: 0px; }
+:where(.css-133v4sd).ant-btn-group .ant-btn { position: relative; z-index: 1; }
+:where(.css-133v4sd).ant-btn-group .ant-btn:hover, :where(.css-133v4sd).ant-btn-group .ant-btn:focus, :where(.css-133v4sd).ant-btn-group .ant-btn:active { z-index: 2; }
+:where(.css-133v4sd).ant-btn-group .ant-btn[disabled] { z-index: 0; }
+:where(.css-133v4sd).ant-btn-group .ant-btn-icon-only { font-size: 14px; }
+:where(.css-133v4sd).ant-btn-group > span:not(:last-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-primary:not(:last-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > span:not(:last-child) > .ant-btn-primary:not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-primary:not(:last-child) > .ant-btn-primary:not(:disabled) { border-inline-end-color: rgb(24, 115, 72); }
+:where(.css-133v4sd).ant-btn-group > span:not(:first-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-primary:not(:first-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > span:not(:first-child) > .ant-btn-primary:not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-primary:not(:first-child) > .ant-btn-primary:not(:disabled) { border-inline-start-color: rgb(24, 115, 72); }
+:where(.css-133v4sd).ant-btn-group > span:not(:last-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-danger:not(:last-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > span:not(:last-child) > .ant-btn-danger:not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-danger:not(:last-child) > .ant-btn-danger:not(:disabled) { border-inline-end-color: rgb(255, 120, 117); }
+:where(.css-133v4sd).ant-btn-group > span:not(:first-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-danger:not(:first-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > span:not(:first-child) > .ant-btn-danger:not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-danger:not(:first-child) > .ant-btn-danger:not(:disabled) { border-inline-start-color: rgb(255, 120, 117); }
+:where(.css-133v4sd).ant-tabs-small > .ant-tabs-nav .ant-tabs-tab { padding: 8px 0px; font-size: 14px; }
+:where(.css-133v4sd).ant-tabs-large > .ant-tabs-nav .ant-tabs-tab { padding: 16px 0px; font-size: 16px; line-height: 1.5; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-small > .ant-tabs-nav .ant-tabs-tab { padding: 4px 8px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-small > .ant-tabs-nav .ant-tabs-nav-add { min-width: 32px; min-height: 32px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-small.ant-tabs-bottom > .ant-tabs-nav .ant-tabs-tab { border-radius: 0px 0px 6px 6px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-small.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab { border-radius: 6px 6px 0px 0px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-small.ant-tabs-right > .ant-tabs-nav .ant-tabs-tab { border-radius: 0px 6px 6px 0px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-small.ant-tabs-left > .ant-tabs-nav .ant-tabs-tab { border-radius: 6px 0px 0px 6px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-large > .ant-tabs-nav .ant-tabs-tab { padding: 11px 16px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-large > .ant-tabs-nav .ant-tabs-nav-add { min-width: 48px; min-height: 48px; }
+:where(.css-133v4sd).ant-tabs-rtl { direction: rtl; }
+:where(.css-133v4sd).ant-tabs-rtl .ant-tabs-nav .ant-tabs-tab { margin: 0px 0px 0px 32px; }
+:where(.css-133v4sd).ant-tabs-rtl .ant-tabs-nav .ant-tabs-tab .ant-tabs-tab:last-of-type { margin-left: 0px; }
+:where(.css-133v4sd).ant-tabs-rtl .ant-tabs-nav .ant-tabs-tab .anticon { margin-right: 0px; margin-left: 12px; }
+:where(.css-133v4sd).ant-tabs-rtl .ant-tabs-nav .ant-tabs-tab .ant-tabs-tab-remove { margin-right: 8px; margin-left: -4px; }
+:where(.css-133v4sd).ant-tabs-rtl .ant-tabs-nav .ant-tabs-tab .ant-tabs-tab-remove .anticon { margin: 0px; }
+:where(.css-133v4sd).ant-tabs-rtl.ant-tabs-left > .ant-tabs-nav { order: 1; }
+:where(.css-133v4sd).ant-tabs-rtl.ant-tabs-left > .ant-tabs-content-holder { order: 0; }
+:where(.css-133v4sd).ant-tabs-rtl.ant-tabs-right > .ant-tabs-nav { order: 0; }
+:where(.css-133v4sd).ant-tabs-rtl.ant-tabs-right > .ant-tabs-content-holder { order: 1; }
+:where(.css-133v4sd).ant-tabs-rtl.ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-rtl.ant-tabs-card.ant-tabs-bottom > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-rtl.ant-tabs-card.ant-tabs-top > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-rtl.ant-tabs-card.ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab { margin-right: 2px; margin-left: 0px; }
+:where(.css-133v4sd).ant-tabs-dropdown-rtl { direction: rtl; }
+:where(.css-133v4sd).ant-tabs-menu-item .ant-tabs-dropdown-rtl { text-align: right; }
+:where(.css-133v4sd).ant-tabs-top, :where(.css-133v4sd).ant-tabs-bottom { flex-direction: column; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav { margin: 0px 0px 16px; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav::before, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav::before, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav::before, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav::before { position: absolute; right: 0px; left: 0px; border-bottom: 1px solid rgb(240, 240, 240); content: ""; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-ink-bar { height: 2px; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-ink-bar-animated, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-ink-bar-animated, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-ink-bar-animated, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-ink-bar-animated { transition: width 0.3s, left 0.3s, right 0.3s; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-nav-wrap::after { top: 0px; bottom: 0px; width: 32px; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-nav-wrap::before { left: 0px; box-shadow: rgba(0, 0, 0, 0.08) 10px 0px 8px -8px inset; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-nav-wrap::after { right: 0px; box-shadow: rgba(0, 0, 0, 0.08) -10px 0px 8px -8px inset; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-left::before, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-left::before, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-left::before, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-left::before { opacity: 1; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-right::after, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-right::after, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-right::after, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-right::after { opacity: 1; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav::before, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav::before { bottom: 0px; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-ink-bar { bottom: 0px; }
+:where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav { order: 1; margin-top: 16px; margin-bottom: 0px; }
+:where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav::before, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav::before { top: 0px; }
+:where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-ink-bar { top: 0px; }
+:where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-content-holder, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-content-holder { order: 0; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav { flex-direction: column; min-width: 40px; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-tab { padding: 8px 24px; text-align: center; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab { margin: 16px 0px 0px; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-wrap, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-wrap, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-wrap, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-wrap { flex-direction: column; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-wrap::after { right: 0px; left: 0px; height: 32px; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-wrap::before { top: 0px; box-shadow: rgba(0, 0, 0, 0.08) 0px 10px 8px -8px inset; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-wrap::after { bottom: 0px; box-shadow: rgba(0, 0, 0, 0.08) 0px -10px 8px -8px inset; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-top::before, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-top::before, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-top::before, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-top::before { opacity: 1; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-bottom::after, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-bottom::after, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-bottom::after, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-bottom::after { opacity: 1; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-ink-bar { width: 2px; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-ink-bar-animated, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-ink-bar-animated, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-ink-bar-animated, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-ink-bar-animated { transition: height 0.3s, top 0.3s; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-list, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-list, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-list, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-list, :where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-operations, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-operations, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-operations, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-operations { flex: 1 0 auto; flex-direction: column; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-ink-bar { right: 0px; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-content-holder, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-content-holder { margin-left: -1px; border-left: 1px solid rgb(217, 217, 217); }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-content-holder > .ant-tabs-content > .ant-tabs-tabpane, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-content-holder > .ant-tabs-content > .ant-tabs-tabpane { padding-left: 24px; }
+:where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav { order: 1; }
+:where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-ink-bar { left: 0px; }
+:where(.css-133v4sd).ant-tabs-right > .ant-tabs-content-holder, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-content-holder { order: 0; margin-right: -1px; border-right: 1px solid rgb(217, 217, 217); }
+:where(.css-133v4sd).ant-tabs-right > .ant-tabs-content-holder > .ant-tabs-content > .ant-tabs-tabpane, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-content-holder > .ant-tabs-content > .ant-tabs-tabpane { padding-right: 24px; }
+:where(.css-133v4sd).ant-tabs-dropdown { box-sizing: border-box; margin: 0px; padding: 0px; color: rgba(0, 0, 0, 0.88); font-size: 14px; line-height: 1.57143; list-style: none; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; position: absolute; top: -9999px; left: -9999px; z-index: 1050; display: block; }
+:where(.css-133v4sd).ant-tabs-dropdown-hidden { display: none; }
+:where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu { max-height: 200px; margin: 0px; padding: 4px 0px; overflow: hidden auto; text-align: left; list-style-type: none; background-color: rgb(255, 255, 255); background-clip: padding-box; border-radius: 8px; outline: none; box-shadow: rgba(0, 0, 0, 0.08) 0px 6px 16px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px -4px, rgba(0, 0, 0, 0.05) 0px 9px 28px 8px; }
+:where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu-item { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: flex; align-items: center; min-width: 120px; margin: 0px; padding: 4px 12px; color: rgba(0, 0, 0, 0.88); font-weight: normal; font-size: 14px; line-height: 1.57143; cursor: pointer; transition: 0.3s; }
+:where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu-item > span { flex: 1 1 0%; white-space: nowrap; }
+:where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu-item-remove { flex: 0 0 auto; margin-left: 12px; color: rgba(0, 0, 0, 0.45); font-size: 12px; background: transparent; border: 0px; cursor: pointer; }
+:where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu-item-remove:hover { color: rgb(24, 115, 72); }
+:where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu-item:hover { background: rgba(0, 0, 0, 0.04); }
+:where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu-item-disabled, :where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu-item-disabled:hover { color: rgba(0, 0, 0, 0.25); background: transparent; cursor: not-allowed; }
+:where(.css-133v4sd).ant-tabs-card > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab { margin: 0px; padding: 8px 16px; background: rgba(0, 0, 0, 0.02); border: 1px solid rgb(240, 240, 240); transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); }
+:where(.css-133v4sd).ant-tabs-card > .ant-tabs-nav .ant-tabs-tab-active, :where(.css-133v4sd).ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab-active { color: rgb(5, 103, 61); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-tabs-card > .ant-tabs-nav .ant-tabs-tab-focus, :where(.css-133v4sd).ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab-focus { outline: rgb(74, 140, 105) solid 3px; outline-offset: -3px; transition: outline-offset, outline; }
+:where(.css-133v4sd).ant-tabs-card > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-card > div > .ant-tabs-nav .ant-tabs-ink-bar { visibility: hidden; }
+:where(.css-133v4sd).ant-tabs-card > .ant-tabs-nav .ant-tabs-tab.ant-tabs-tab-focus .ant-tabs-tab-btn, :where(.css-133v4sd).ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab.ant-tabs-tab-focus .ant-tabs-tab-btn { outline: none; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-bottom > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-top > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab { margin-left: 2px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-top > div > .ant-tabs-nav .ant-tabs-tab { border-radius: 8px 8px 0px 0px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab-active, :where(.css-133v4sd).ant-tabs-card.ant-tabs-top > div > .ant-tabs-nav .ant-tabs-tab-active { border-bottom-color: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-bottom > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-tab { border-radius: 0px 0px 8px 8px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-bottom > .ant-tabs-nav .ant-tabs-tab-active, :where(.css-133v4sd).ant-tabs-card.ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-tab-active { border-top-color: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-left > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-right > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-left > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-right > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab { margin-top: 2px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-left > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-left > div > .ant-tabs-nav .ant-tabs-tab { border-radius: 8px 0px 0px 8px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-left > .ant-tabs-nav .ant-tabs-tab-active, :where(.css-133v4sd).ant-tabs-card.ant-tabs-left > div > .ant-tabs-nav .ant-tabs-tab-active { border-right-color: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-right > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-right > div > .ant-tabs-nav .ant-tabs-tab { border-radius: 0px 8px 8px 0px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-right > .ant-tabs-nav .ant-tabs-tab-active, :where(.css-133v4sd).ant-tabs-card.ant-tabs-right > div > .ant-tabs-nav .ant-tabs-tab-active { border-left-color: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-tabs { box-sizing: border-box; margin: 0px; padding: 0px; color: rgba(0, 0, 0, 0.88); font-size: 14px; line-height: 1.57143; list-style: none; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; display: flex; }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav { position: relative; display: flex; flex: 0 0 auto; align-items: center; }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-wrap, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-wrap { position: relative; display: flex; flex: 1 1 auto; align-self: stretch; overflow: hidden; white-space: nowrap; transform: translate(0px); }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-wrap::after { position: absolute; z-index: 1; opacity: 0; transition: opacity 0.3s; content: ""; pointer-events: none; }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-list, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-list { position: relative; display: flex; transition: opacity 0.3s; }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-operations, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-operations { display: flex; align-self: stretch; }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-operations-hidden, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-operations-hidden { position: absolute; visibility: hidden; pointer-events: none; }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-more, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-more { position: relative; padding: 8px 16px; background: transparent; border: 0px; color: rgba(0, 0, 0, 0.88); }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-more::after, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-more::after { position: absolute; right: 0px; bottom: 0px; left: 0px; height: 5px; transform: translateY(100%); content: ""; }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-add, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-add { min-width: 40px; min-height: 40px; margin-left: 2px; background: transparent; border: 1px solid rgb(240, 240, 240); border-radius: 8px 8px 0px 0px; outline: none; cursor: pointer; color: rgba(0, 0, 0, 0.88); transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-add:hover, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-add:hover { color: rgb(24, 115, 72); }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-add:active, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-add:active, :where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-add:focus:not(:focus-visible), :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-add:focus:not(:focus-visible) { color: rgb(0, 64, 38); }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-add:focus-visible, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-add:focus-visible { outline: rgb(74, 140, 105) solid 3px; outline-offset: -3px; transition: outline-offset, outline; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-extra-content { flex: 0 0 auto; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-ink-bar { position: absolute; background: rgb(5, 103, 61); pointer-events: none; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab { position: relative; -webkit-tap-highlight-color: transparent; display: inline-flex; align-items: center; padding: 12px 0px; font-size: 14px; background: transparent; border: 0px; outline: none; cursor: pointer; color: rgba(0, 0, 0, 0.88); }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab-btn:focus:not(:focus-visible), :where(.css-133v4sd).ant-tabs .ant-tabs-tab-remove:focus:not(:focus-visible), :where(.css-133v4sd).ant-tabs .ant-tabs-tab-btn:active, :where(.css-133v4sd).ant-tabs .ant-tabs-tab-remove:active { color: rgb(0, 64, 38); }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab-btn { outline: none; transition: 0.3s; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab-btn .ant-tabs-tab-icon:not(:last-child) { margin-inline-end: 12px; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab-remove { flex: 0 0 auto; margin-right: -4px; margin-left: 8px; color: rgba(0, 0, 0, 0.45); font-size: 12px; background: transparent; border: none; outline: none; cursor: pointer; transition: 0.3s; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab-remove:hover { color: rgba(0, 0, 0, 0.88); }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab-remove:focus-visible { outline: rgb(74, 140, 105) solid 3px; outline-offset: 1px; transition: outline-offset, outline; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab:hover { color: rgb(24, 115, 72); }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn { color: rgb(5, 103, 61); text-shadow: currentcolor 0px 0px 0.25px; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab.ant-tabs-tab-focus .ant-tabs-tab-btn { outline: rgb(74, 140, 105) solid 3px; outline-offset: 1px; transition: outline-offset, outline; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab.ant-tabs-tab-disabled { color: rgba(0, 0, 0, 0.25); cursor: not-allowed; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab.ant-tabs-tab-disabled .ant-tabs-tab-btn:focus, :where(.css-133v4sd).ant-tabs .ant-tabs-tab.ant-tabs-tab-disabled .ant-tabs-remove:focus, :where(.css-133v4sd).ant-tabs .ant-tabs-tab.ant-tabs-tab-disabled .ant-tabs-tab-btn:active, :where(.css-133v4sd).ant-tabs .ant-tabs-tab.ant-tabs-tab-disabled .ant-tabs-remove:active { color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab .ant-tabs-tab-remove .anticon { margin: 0px; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab .anticon:not(:last-child) { margin-right: 12px; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab + .ant-tabs-tab { margin: 0px 0px 0px 32px; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-content { position: relative; width: 100%; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-content-holder { flex: 1 1 auto; min-width: 0px; min-height: 0px; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tabpane:focus-visible { outline: rgb(74, 140, 105) solid 3px; outline-offset: 1px; transition: outline-offset, outline; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tabpane-hidden { display: none; }
+:where(.css-133v4sd).ant-tabs-centered > .ant-tabs-nav .ant-tabs-nav-wrap:not([class*=".ant-tabs-nav-wrap-ping"]) > .ant-tabs-nav-list, :where(.css-133v4sd).ant-tabs-centered > div > .ant-tabs-nav .ant-tabs-nav-wrap:not([class*=".ant-tabs-nav-wrap-ping"]) > .ant-tabs-nav-list { margin: auto; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-switch-appear, :where(.css-133v4sd).ant-tabs .ant-tabs-switch-enter { transition: none; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-switch-appear-start, :where(.css-133v4sd).ant-tabs .ant-tabs-switch-enter-start { opacity: 0; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-switch-appear-active, :where(.css-133v4sd).ant-tabs .ant-tabs-switch-enter-active { opacity: 1; transition: opacity 0.3s; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-switch-leave { position: absolute; transition: none; inset: 0px; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-switch-leave-start { opacity: 1; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-switch-leave-active { opacity: 0; transition: opacity 0.3s; }
+.anticon .anticon .anticon-icon { display: block; }
+.style_closeButton__4wIru .anticon svg { width: 20px; height: 20px; stroke-width: 3px; }
+.style_bannerH5__ITtfq .style_closeButton__4wIru .anticon svg { width: 16px; height: 16px; }
+.style_backButton__6OViq .anticon { font-size: 14px; }
+.style_googleButton__8b_vP .ant-btn-icon { display: inline-flex; align-items: center; line-height: 1; }
+.style_emailButton__rbW2z .anticon { font-size: 18px; color: rgb(86, 106, 99); }
+.style_errorModal__qpTAw .anticon-close { font-size: 22px; }
+.style_errorModal__qpTAw .ant-btn { width: 289px; height: 48px; background: rgb(86, 221, 166); box-shadow: rgb(141, 222, 185) 0px 4px 0px 0px inset; border-radius: 4px; border: 1px solid rgb(40, 40, 40); text-shadow: none; }
+.style_errorModal__qpTAw .ant-btn span { font-size: 20px; font-weight: 600; color: rgb(255, 255, 255); }
+@media (max-width: 839px) {
+  .style_pageContainer__8O_UM { min-height: calc(-54px + 100vh); padding: 18px 12px; }
+  .style_loginWrap__hCyly { padding: 18px 14px 20px; }
+  .style_pageCard__ZvYEw { border-radius: 12px; }
+  .style_loginWrapEmail__sn6Bm { padding-top: 18px; }
+  .style_modalWrap__Uy5jb.style_loginWrapEmail__sn6Bm .style_emailTopBar__1Lnit { top: -14px; }
+  .style_emailTopBar__1Lnit { top: 10px; left: 10px; }
+  .style_backButton__6OViq { height: 40px; padding: 0px 8px; font-size: 14px; }
+  .style_backButton__6OViq .anticon { font-size: 13px; }
+  .style_header__xWFrT { margin-bottom: 0px; }
+  .style_header__xWFrT h2 { margin-top: 16px; }
+  .style_modalWrap__Uy5jb .style_header__xWFrT h2 { margin-top: 12px; }
+  .style_newsletterOptIn__GTcyw { width: calc(100% - 20px); margin: 0px auto 14px; }
+  .style_newsletterOptIn__GTcyw .ant-checkbox-inner { width: 16px; height: 16px; }
+  .style_newsletterOptIn__GTcyw .ant-checkbox + span { padding-inline-start: 5px; }
+  .style_newsletterOptInLabel__oEPHb { font-size: 12px; line-height: 16px; }
+  .style_googleButton__8b_vP { height: 52px; gap: 8px; }
+  .style_googleButton__8b_vP span { font-size: 17px; }
+  .style_googleButtonWithNewsletter__G981A { margin-top: 4px; }
+  .style_googleSubCopy__mQGBW { margin: 8px 0px 12px; font-size: 13px; }
+  .style_divider__RYl_M { margin-bottom: 12px; gap: 8px; }
+  .style_divider__RYl_M strong { font-size: 12px; }
+  .style_emailButton__rbW2z { height: 48px; }
+  .style_emailButton__rbW2z .anticon { font-size: 17px; }
+  .style_emailButton__rbW2z span { font-size: 16px; }
+  .style_socialLogins__oMG_l { margin-top: 14px; gap: 10px; }
+  .style_iconButton__Aa1fc { width: 44px; height: 44px; }
+  .style_emailForm__Bfzgy .ant-input { height: 48px; }
+  .style_emailSubmitButton__GB8ws { height: 48px; font-size: 16px; }
+  .style_emailHintSpacer__4Wf6t { height: 20px; }
+}
+li, ol, ul { list-style: none; margin: 0px; padding: 0px; }
+.ant-btn span { text-shadow: none; }
+.ant-btn-color-primary { box-shadow: none; }
+.hljs, [class*="hljs-"], code, pre, pre code { font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace; }
+.login-modal .close-btn .anticon { font-size: 24px; color: rgb(74, 74, 74); }
+.style_problemDescription__T4cPe .language-js .hljs-title.class_ { color: rgb(204, 135, 0); }
+.style_problemDescription__T4cPe .language-js .hljs-number { color: rgb(38, 191, 64); }
+.style_problemDescription__T4cPe .language-js .hljs-comment { white-space: break-spaces; font-size: 15px; font-style: italic; color: rgb(114, 148, 92); }
+.style_problemDescription__T4cPe .hljs { border-radius: 8px; padding: 20px 24px; }
+.style_premiumTitle__UrIDj .anticon { margin-right: 8px; font-size: 20px; }
+.style_codeTabsWrap__jMkKK { margin: 20px 0px; }
+.style_codeTabsWrap__jMkKK h3 { padding: 0px; margin: 20px 0px; color: rgb(0, 0, 0); font-size: 24px; font-style: normal; font-weight: 700; line-height: normal; }
+.style_codeTabs__DEEq6 { padding: 0px; margin: 16px 0px; border-radius: 10px; border: 1px solid rgb(211, 211, 211); background: rgb(255, 255, 255); }
+.style_codeTabs__DEEq6 .ant-tabs-nav { padding: 2px 15px 0px; background: rgb(231, 255, 249); margin-bottom: 0px; border-radius: 10px 10px 0px 0px; }
+.style_codeTabs__DEEq6 .ant-tabs-nav::before { border-color: rgb(211, 211, 211); }
+.style_codeTabs__DEEq6 .ant-tabs-nav .ant-tabs-tab { height: 35px; padding: 0px 16px; border-top: 1px solid rgba(0, 0, 0, 0); border-right: 1px solid rgba(0, 0, 0, 0); border-left: 1px solid rgba(0, 0, 0, 0); border-image: initial; border-bottom: none; background-color: rgba(0, 0, 0, 0); }
+.style_codeTabs__DEEq6 .ant-tabs-nav .ant-tabs-tab-active { border-radius: 6px 6px 0px 0px; border-top: 1px solid rgb(211, 211, 211); border-right: 1px solid rgb(211, 211, 211); border-left: 1px solid rgb(211, 211, 211); border-image: initial; border-bottom: none; background: rgb(255, 255, 255); }
+.style_codeTabs__DEEq6 .ant-tabs-nav .ant-tabs-tab-active .ant-tabs-tab-btn { color: rgb(0, 97, 71); }
+.style_codeTabs__DEEq6 .ant-tabs-nav .ant-tabs-tab-btn { color: rgb(102, 102, 102); }
+.style_codeTabs__DEEq6 .ant-tabs-tabpane { position: relative; }
+.style_codeTabs__DEEq6 pre { padding: 0px !important; margin: 0px !important; border: none !important; background: rgba(0, 0, 0, 0) !important; }
+.style_codeTabs__DEEq6 pre code { padding: 16px 30px 20px; background: rgba(0, 0, 0, 0); }
+.style_codeTabs__DEEq6 .style_copyBtn__4MbAa { position: absolute; top: 22px; right: 20px; padding: 0px; height: auto; border: none; background: rgba(0, 0, 0, 0); box-shadow: none; }
+.style_codeTabs__DEEq6 .style_copyBtn__4MbAa:hover { color: rgb(5, 103, 61); background: rgba(0, 0, 0, 0) !important; }
+pre code.hljs { display: block; overflow-x: auto; padding: 1em; }
+code.hljs { padding: 3px 5px; }
+.hljs { color: rgb(36, 41, 46); background: rgb(255, 255, 255); }
+.hljs-doctag, .hljs-keyword, .hljs-meta .hljs-keyword, .hljs-template-tag, .hljs-template-variable, .hljs-type, .hljs-variable.language_ { color: rgb(215, 58, 73); }
+.hljs-title, .hljs-title.class_, .hljs-title.class_.inherited__, .hljs-title.function_ { color: rgb(111, 66, 193); }
+.hljs-attr, .hljs-attribute, .hljs-literal, .hljs-meta, .hljs-number, .hljs-operator, .hljs-selector-attr, .hljs-selector-class, .hljs-selector-id, .hljs-variable { color: rgb(0, 92, 197); }
+.hljs-meta .hljs-string, .hljs-regexp, .hljs-string { color: rgb(3, 47, 98); }
+.hljs-built_in, .hljs-symbol { color: rgb(227, 98, 9); }
+.hljs-code, .hljs-comment, .hljs-formula { color: rgb(106, 115, 125); }
+.hljs-name, .hljs-quote, .hljs-selector-pseudo, .hljs-selector-tag { color: rgb(34, 134, 58); }
+.hljs-subst { color: rgb(36, 41, 46); }
+.hljs-section { color: rgb(0, 92, 197); font-weight: 700; }
+.hljs-bullet { color: rgb(115, 92, 15); }
+.hljs-emphasis { color: rgb(36, 41, 46); font-style: italic; }
+.hljs-strong { color: rgb(36, 41, 46); font-weight: 700; }
+.hljs-addition { color: rgb(34, 134, 58); background-color: rgb(240, 255, 244); }
+.hljs-deletion { color: rgb(179, 29, 40); background-color: rgb(255, 238, 240); }
+.style_errorModal__dGAyj .ant-modal-confirm-body .anticon-exclamation-circle { color: rgb(255, 68, 27); }
+.style_errorModal__dGAyj .ant-modal-confirm-btns .ant-btn { border-radius: 5px; }
+.style_course__yn_w8 .style_learnContent__6Nc1e { margin: 0px auto; padding-bottom: 50px; overflow: auto; }
+.style_course__yn_w8 .style_learnContent__6Nc1e img { width: 100%; }
+.style_course__yn_w8 .style_learnContent__6Nc1e .table-wrap { overflow: auto; margin-bottom: 12px; }
+.style_course__yn_w8 header .anticon { margin-left: 20px; font-size: 20px; }
+.style_problemList__2UuWm .ant-progress-status-success .ant-progress-text .anticon { font-size: 15px; }
+.style_container__9mWse .style_menuToggle__MLC_p .ant-btn { width: 32px; height: 32px; border-radius: 6px; border: 1px solid rgb(174, 174, 174); background: rgb(255, 255, 255); box-shadow: none; }
+.style_articleWrap__Xn2yv { min-height: calc(-286px + 100vh); overflow: auto; background-color: rgb(255, 255, 255); }
+.style_learnContent__K5K7M { min-width: 498px; max-width: 1000px; overflow: auto; margin: 0px auto; padding: 50px 30px; background-color: rgb(255, 255, 255); }
+.style_learnContent__K5K7M .table-wrap { overflow: auto; margin-bottom: 12px; position: relative; }
+.style_learnContent__K5K7M .table-wrap table { border-collapse: collapse; min-width: var(--table-min-width,auto); }
+.style_learnContent__K5K7M .table-wrap td { line-height: 24px; }
+.style_learnContent__K5K7M .table-wrap td a { color: rgb(33, 37, 41) !important; cursor: unset !important; }
+.style_learnContent__K5K7M table.inside-out { width: 100%; min-width: unset; margin: 16px 0px; background-color: rgb(245, 245, 245); border-radius: 4px; border: none; }
+.style_learnContent__K5K7M table.inside-out td { padding: 16px 20px; border: none; }
+.style_learnContent__K5K7M table.inside-out td p { margin: 0px 0px 10px; }
+.style_learnContent__K5K7M table.inside-out td p:last-child { margin-bottom: 0px; }
+.style_learnContent__K5K7M table.inside-out tr { border: none; background-color: rgba(0, 0, 0, 0) !important; }
+.style_learnContent__K5K7M table.inside-out, .style_learnContent__K5K7M table.inside-out * { border: none !important; }
+.style_learnContent__K5K7M table.inside-out + p { text-align: left; }
+.style_learnContent__K5K7M table.split-50 { width: 100%; min-width: unset; margin: 16px 0px; }
+.style_learnContent__K5K7M table.split-50 td { width: 50%; vertical-align: top; padding: 16px 20px; }
+.style_learnContent__K5K7M table.split-50 tr { background-color: rgba(0, 0, 0, 0) !important; }
+.style_learnContent__K5K7M table.split-50, .style_learnContent__K5K7M table.split-50 * { border: none !important; }
+.style_learnContent__K5K7M table.split-50 + p { text-align: left; }
+.style_learnContent__K5K7M .code-table { width: 100%; overflow: auto; margin: 16px 0px !important; }
+.style_learnContent__K5K7M .code-table table { border-collapse: collapse; }
+.style_learnContent__K5K7M .code-table pre { margin: 0px; }
+.style_learnContent__K5K7M .code-table pre code { padding-left: 0px; padding-right: 0px; }
+.style_learnContent__K5K7M .code-table tbody td { font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace; }
+.style_learnContent__K5K7M .code-table td > p { margin: 0px; }
+.style_learnContent__K5K7M .code-table tr:nth-child(2n) { background-color: rgb(255, 255, 255) !important; }
+.style_learnContent__K5K7M mark.highlight-magenta { background-color: rgba(255, 182, 193, 0.4); padding: 2px 0px; border-radius: 2px; }
+.style_learnContent__K5K7M mark.highlight-green { background-color: rgba(152, 251, 152, 0.3); padding: 2px 0px; border-radius: 2px; }
+.style_learnContent__K5K7M > p:last-of-type { margin: 0px; font-size: 14px !important; text-align: left !important; }
+.style_learnContent__K5K7M .style_chapter__grtAe { width: 96px; height: 80px; margin-bottom: 6px; font-size: 80px; font-weight: 600; color: rgb(53, 206, 160); line-height: 80px; }
+.style_learnContent__K5K7M center { width: 100%; overflow: auto; }
+.style_learnContent__K5K7M h1 { margin-top: 0px; margin-bottom: 20px; font-size: 40px; font-weight: 600; color: rgb(40, 40, 40); line-height: 50px; text-wrap: balance; }
+.style_learnContent__K5K7M h2 { margin-top: 16px; font-size: 30px; line-height: 40px; }
+.style_learnContent__K5K7M h2, .style_learnContent__K5K7M h3 { margin-bottom: 10px; font-weight: 600; color: rgb(40, 40, 40); text-wrap: balance; }
+.style_learnContent__K5K7M h3 { font-size: 26px; line-height: 37px; }
+.style_learnContent__K5K7M h4 { margin-bottom: 10px; font-size: 20px; font-weight: 600; color: rgb(40, 40, 40); line-height: 28px; text-wrap: balance; }
+.style_learnContent__K5K7M h5 { font-size: 16px; }
+.style_learnContent__K5K7M h5, .style_learnContent__K5K7M h6 { margin-bottom: 10px; font-weight: 600; color: rgb(40, 40, 40); line-height: 20px; text-wrap: balance; }
+.style_learnContent__K5K7M h6 { font-size: 15px; }
+.style_learnContent__K5K7M hr { margin: 24px 0px; border-top: 1px solid rgb(233, 233, 233); border-bottom: none; }
+.style_learnContent__K5K7M p { margin-bottom: 10px; font-weight: 400; line-height: 26px; font-size: 15px; text-align: justify; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M ul { margin-left: 28px; margin-bottom: 16px; list-style: disc; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M li { list-style: disc; color: rgb(33, 37, 41); line-height: 26px; font-size: 15px; }
+.style_learnContent__K5K7M li p { margin-top: 0px; margin-bottom: 4px; }
+.style_learnContent__K5K7M li li { list-style: circle; }
+.style_learnContent__K5K7M ol { margin-left: 28px; margin-bottom: 16px; }
+.style_learnContent__K5K7M ol, .style_learnContent__K5K7M ol li { list-style: decimal; }
+.style_learnContent__K5K7M a { color: rgb(33, 37, 41); text-decoration: underline; }
+.style_learnContent__K5K7M a:hover, .style_learnContent__K5K7M a:hover p { color: rgb(5, 103, 61); }
+.style_learnContent__K5K7M figcaption { margin: 12px 0px; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M .tableCaption { width: 100%; margin-top: 12px; text-align: center !important; color: rgb(33, 37, 41) !important; }
+.style_learnContent__K5K7M .tableCaption p { text-align: center; }
+.style_learnContent__K5K7M .note-block { padding: 16px; margin: 20px 0px; text-align: left; color: rgb(33, 37, 41); background-color: rgb(245, 245, 245); border: 1px solid rgb(221, 221, 221); border-radius: 6px; font-size: 14px !important; }
+.style_learnContent__K5K7M .note-block p { line-height: 24px; margin: 0px 0px 8px; font-size: 14px !important; }
+.style_learnContent__K5K7M .note-block p:last-child { margin-bottom: 0px; }
+.style_learnContent__K5K7M .note-block ul { margin-top: 8px; margin-left: 18px !important; margin-bottom: 0px !important; }
+.style_learnContent__K5K7M .note-block ul li { line-height: 24px; font-size: 14px; }
+.style_learnContent__K5K7M table { margin: 0px auto; border: 1px solid rgb(233, 233, 233); border-collapse: collapse; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M table tr { border-bottom: 1px solid rgb(233, 233, 233); }
+.style_learnContent__K5K7M table tr:last-child { border-bottom: none; }
+.style_learnContent__K5K7M table tr:nth-child(2n) { background-color: rgb(245, 245, 245); }
+.style_learnContent__K5K7M table tr td { padding: 10px; border-right: 1px solid rgb(233, 233, 233); line-height: 24px; }
+.style_learnContent__K5K7M table tr td:last-child { border-right: none; }
+.style_learnContent__K5K7M thead { border-bottom: 1px solid rgb(233, 233, 233); background-color: rgb(245, 245, 245); }
+.style_learnContent__K5K7M thead th { padding: 10px; border-right: 1px solid rgb(233, 233, 233); text-align: left; }
+.style_learnContent__K5K7M thead th:last-child { border-right: none; }
+.style_learnContent__K5K7M thead th strong { font-weight: 700; }
+.style_learnContent__K5K7M figure { margin: 16px 0px; }
+.style_learnContent__K5K7M .info-box { display: flex; align-items: flex-start; gap: 8px; padding: 16px; background-color: rgb(248, 249, 250); border-left: 4px solid rgb(53, 206, 160); margin: 24px 0px; font-size: 14px; line-height: 1.6; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M .info-box img { flex-shrink: 0; margin-top: 3px; }
+.style_learnContent__K5K7M .info-box p { margin: 0px; }
+.style_learnContent__K5K7M .sample-dialogue { padding: 16px; background-color: rgb(248, 249, 250); border: 1px solid rgb(233, 233, 233); border-radius: 4px; margin: 24px 0px; font-size: 14px; line-height: 1.4; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M .sample-dialogue p { margin: 0px; }
+.style_learnContent__K5K7M .sample-dialogue br { display: none; }
+.style_learnContent__K5K7M pre { flex: 1 1 0%; margin-bottom: 4px; }
+.style_learnContent__K5K7M pre code { word-break: break-all; white-space: pre; color: rgb(22, 105, 176); }
+.style_learnContent__K5K7M u { word-break: break-all; color: rgb(66, 131, 196); }
+.style_learnContent__K5K7M table.style_quote__VVyDM { min-width: unset; width: 100%; margin: 16px 0px; background-color: rgb(245, 245, 245); border-radius: 4px; border: 1px solid rgb(233, 233, 233); }
+.style_learnContent__K5K7M table.style_quote__VVyDM td { padding: 16px 20px; border: none; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td p { margin: 0px 0px 10px; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td p:last-child { margin-bottom: 0px; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td ol, .style_learnContent__K5K7M table.style_quote__VVyDM td ul { margin: 10px 0px 10px 20px; padding: 0px; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td ol li, .style_learnContent__K5K7M table.style_quote__VVyDM td ul li { margin: 6px 0px; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td em { font-style: italic; }
+.style_learnContent__K5K7M table.style_quote__VVyDM tr { border: none; background-color: rgba(0, 0, 0, 0) !important; }
+.style_learnPad__UNRJV .style_learnContent__K5K7M { padding: 20px 30px; }
+.style_learnH5__R4PJq .style_chapter__grtAe { display: block; width: 335px; height: 30px; font-size: 30px; line-height: 30px; text-align: left; font-weight: 600; color: rgb(53, 206, 160); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M { min-width: 320px; padding: 0px 20px 50px; margin: 32px auto 0px; overflow: hidden auto; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M .table-wrap { overflow: auto; margin-bottom: 12px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M .table-wrap td a { color: rgb(33, 37, 41) !important; cursor: unset !important; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h1 { margin-bottom: 0px; font-size: 20px; font-weight: 600; color: rgb(40, 40, 40); line-height: 28px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h2 { margin-top: 16px; font-size: 20px; font-weight: 600; color: rgb(40, 40, 40); line-height: 28px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h3 { font-size: 18px; font-weight: 600; color: rgb(40, 40, 40); line-height: 25px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h4 { font-size: 16px; font-weight: 600; color: rgb(40, 40, 40); line-height: 22px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h5 { margin-bottom: 10px; font-size: 15px; font-weight: 600; color: rgb(40, 40, 40); line-height: 20px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M p { font-size: 15px; color: rgb(33, 37, 41); text-align: left; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ul { margin-left: 28px; margin-bottom: 16px; list-style: disc; color: rgb(33, 37, 41); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ul p code { word-break: break-all; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M li { list-style: disc; color: rgb(33, 37, 41); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M li p { margin: 0px 0px 4px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M li li { list-style: circle; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ol { margin-left: 28px; margin-bottom: 16px; list-style: decimal; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ol li { list-style: decimal; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ol li a { word-break: break-all; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M figcaption { margin: 12px 0px; color: rgb(33, 37, 41); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table { margin: 0px auto; border: 1px solid rgb(233, 233, 233); color: rgb(33, 37, 41); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M thead { border-bottom: 1px solid rgb(233, 233, 233); background-color: rgb(245, 245, 245); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M thead th { padding: 10px; border-right: 1px solid rgb(233, 233, 233); text-align: left; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M thead th:last-child { border-right: none; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M thead th strong { font-weight: 700; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr { border-bottom: 1px solid rgb(233, 233, 233); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr:last-child { border-bottom: none; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr:nth-child(2n) { background-color: rgb(245, 245, 245); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr td { padding: 10px; border-right: 1px solid rgb(233, 233, 233); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr td:last-child { border-right: none; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M figure { margin: 16px 0px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M figure span:first-child { flex: 1 1 0%; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M figure img { max-width: 100%; height: auto; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M pre { flex: 1 1 0%; padding-bottom: 4px; margin-bottom: 4px; overflow: auto; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M pre code { word-break: break-all; color: rgb(22, 105, 176); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M u { word-break: break-all; color: rgb(66, 131, 196); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M code { word-break: break-all; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M blockquote p { font-weight: 400; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 { display: block; width: 100%; min-width: unset; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 tbody { display: block; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 tr { display: flex; flex-direction: column-reverse; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 td { display: block; padding: 10px 0px; width: 100% !important; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 td:first-child { padding-top: 20px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 td:last-child { padding-bottom: 0px; }
+.style_markCompleteWrap__YEi4w { display: flex; justify-content: flex-end; margin-top: 32px; }
+.style_markComplete__jnD2I { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-width: 220px; height: 48px; padding: 0px 22px; border-radius: 6px; border: 1px solid rgb(53, 206, 160); background: rgb(255, 255, 255); color: rgb(20, 159, 118); font-size: 15px; font-weight: 600; cursor: pointer; transition: border-color 0.2s, color 0.2s, background-color 0.2s; }
+.style_markComplete__jnD2I:disabled { opacity: 0.6; cursor: not-allowed; }
+.style_emptySquare__K6JN0 { display: inline-block; width: 18px; height: 18px; border: 2px solid; border-radius: 2px; flex-shrink: 0; }
+.style_markCompleted__Bcull { background: rgb(255, 255, 255); border-color: rgb(53, 206, 160); color: rgb(20, 159, 118); }
+@media (hover: hover) {
+  .style_markCompleted__Bcull:not(:disabled):hover { border-color: rgb(255, 77, 79); color: rgb(255, 77, 79); }
+  .style_markCompleted__Bcull:not(:disabled):hover .style_completedText__zQmXX { display: none; }
+  .style_markCompleted__Bcull:not(:disabled):hover .style_markIncompleteText__ujVfp { display: inline; }
+}
+.style_markCompleteLoading__YL9X9 { background: rgb(255, 255, 255); border-color: rgb(53, 206, 160); color: rgb(153, 153, 153); cursor: default; }
+</style>
+</head>
+<body>
+<article class="style_learnContent__K5K7M">
+<header><h1>Build Binary Tree From Preorder and Inorder Traversals</h1></header><div class="style_problemDescription__T4cPe"><p>Construct a binary tree using arrays of values obtained after a <strong>preorder</strong> traversal and an <strong>inorder</strong> traversal of the tree.</p><h4 id="example">Example:</h4><figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a binary tree data structure.  The tree is rooted at node 5, which branches into two child nodes: 9 on the left and 3 on the right.  Node 9 further branches into a single child node, 2. Node 3 branches into two child nodes: 4 on the left and 7 on the right.  Each node contains a single integer value. The connections between nodes represent parent-child relationships, indicating a hierarchical structure where each node (except the root) has exactly one parent node, and each node can have zero, one, or two child nodes.  There is no information flow explicitly depicted; the diagram solely illustrates the structural organization of the data within the tree." width="202" height="176" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/trees/build-binary-tree-from-preorder-and-inorder-traversals/build-binary-tree-from-preorder-and-inorder-traversals-FBALX2KT.svg" style="color: transparent;"></div></figure><pre><code class="hljs language-python">Input: preorder = [<span class="hljs-number">5</span>, <span class="hljs-number">9</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">7</span>], inorder = [<span class="hljs-number">2</span>, <span class="hljs-number">9</span>, <span class="hljs-number">5</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>, <span class="hljs-number">7</span>]
+</code></pre><h4 id="constraints">Constraints:</h4><ul>
+<li>The tree consists of unique values.</li>
+</ul></div>
+<h2 id="intuition">Intuition</h2>
+<p>The first question that might come to mind is why both the preorder and inorder arrays are needed to solve this problem. Can’t we just use one of them? The reason is that each individual traversal order could represent multiple possible trees. For example, below are some trees that correspond to the following inorder traversal:</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents three different binary trees, each visually depicted with nodes containing numerical values connected by branches, alongside an array labeled 'inorder = [2 9 5 4 3 7]'.  The array represents an inorder traversal of all three trees. The first tree shows a root node '5' with a left subtree containing nodes '9' (parent) and '2' (child) and a right subtree with nodes '3' (parent), '4' (child), and '7' (child). The second tree has a root node '2', with a right subtree containing nodes '4' (parent), '5' (child), and '3' (child), where '3' has a right child '7' and '5' has a left child '9'. The third tree shows a root node '4', with a left subtree containing nodes '5' (parent), '2' (child), and '9' (child) and a right subtree with nodes '7' (parent) and '3' (child).  All three trees contain the same set of nodes (2, 3, 4, 5, 7, 9), but their structures differ, demonstrating that different tree structures can yield the same inorder traversal." loading="lazy" width="590" height="226" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/trees/build-binary-tree-from-preorder-and-inorder-traversals/image-11-07-1-YAWS6UB7.svg" style="color: transparent;"></div></figure>
+<p>If one traversal array isn’t enough, it might be possible to build the tree using an additional traversal array as a reference point, to help identify how each node should be placed.</p>
+<p><strong>The root node</strong><br>
+Whatever our approach, we initially need a way to access the root node since the root node is necessary to construct the rest of the tree.</p>
+<p>To identify where the root node is, let’s first remind ourselves how nodes are processed during each traversal algorithm.</p>
+<table><thead><tr><th>Preorder traversal</th><th>Inorder traversal</th></tr></thead><tbody><tr><td>1. Process the current node</td><td>1. Process the left subtree</td></tr><tr><td>2. Process the left subtree</td><td>2. Process the current node</td></tr><tr><td>3. Process the right subtree</td><td>3. Process the right subtree</td></tr></tbody></table>
+<p>&nbsp;</p>
+<p>Notice that during preorder traversal, the current node is processed before its subtrees. From this, we can infer that preorder traversal processes the root node first, meaning <strong>the first value in the preorder array is the value of the root node.</strong></p>
+<p>With this established, let’s find a method to build the rest of the tree.</p>
+<p><strong>Building the tree</strong><br>
+Consider the preorder and inorder traversal arrays below and the corresponding binary tree:</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a binary tree alongside its preorder and inorder traversal sequences.  The right side shows a binary tree with root node '5'.  Node '5' connects to a left child node '9' and a right child node '3'. Node '9' has a left child node '2', and node '3' has a left child node '4' and a right child node '7'. The left side displays two arrays: 'preorder' which lists the nodes in the order they are visited during a preorder traversal ([5, 9, 2, 3, 4, 7]), and 'inorder' which lists the nodes in the order they are visited during an inorder traversal ([2, 9, 5, 4, 3, 7]).  The preorder traversal starts at the root and recursively visits the left subtree before the right subtree, while the inorder traversal recursively visits the left subtree, then the root, and finally the right subtree.  The image demonstrates the relationship between a binary tree's structure and its preorder and inorder traversal sequences." loading="lazy" width="517" height="145" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/trees/build-binary-tree-from-preorder-and-inorder-traversals/image-11-07-2-K3GDQ4SI.svg" style="color: transparent;"></div></figure>
+<p>As mentioned above, we know the first value of the preorder array, 5, is the value of the root node.</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a visual depiction of a preorder traversal in a tree structure.  A rectangular box labeled 'root' in orange is positioned above an orange arrow pointing downwards towards a preorder array representation. The array, labeled 'preorder = [ 5  9  2  3  4  7 ]', shows a sequence of numbers.  The number 5, the first element in the array, is highlighted by being enclosed in an orange circle below the array, indicating it's the root node of the tree. The arrow visually connects the 'root' label to the first element (5) of the preorder array, signifying that the value 5 is the root node of the tree whose preorder traversal is represented by the array.  The remaining numbers in the array (9, 2, 3, 4, 7) represent the other nodes in the tree, ordered according to the preorder traversal algorithm (root, left subtree, right subtree)." loading="lazy" width="315" height="94" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/trees/build-binary-tree-from-preorder-and-inorder-traversals/image-11-07-3-OEK3VETY.svg" style="color: transparent;"></div></figure>
+<p>Now the question is, what node should be placed next? The preorder array alone isn’t enough to determine this. So, we should consult the inorder array.</p>
+<p>Inorder traversal first visits a node’s left subtree before processing the node itself, so we can deduce that all values in the inorder array to the left of 5 are part of its left subtree. Similarly, all values to the right of 5 in the inorder array belong to its right subtree:</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a binary search tree with the root node labeled '5', highlighted in peach.  The node '5' has a left subtree, shaded light blue, containing nodes '9' and '2', with '9' as the parent node and '2' as its child.  A light orange arrow points from the inorder traversal array element '5' to the root node '5' in the tree.  Similarly, the node '5' has a right subtree, shaded light purple, consisting of nodes '3', '4', and '7', where '3' is the parent node, and '4' and '7' are its left and right children respectively. A violet arrow points from the inorder traversal array element '3' to the node '3' in the tree.  Above the tree, an inorder traversal array `[2, 9, 5, 4, 3, 7]` is shown, with the elements '2' and '9' representing the inorder traversal of the left subtree, '5' representing the root, and '4', '3', and '7' representing the inorder traversal of the right subtree.  The text 'node 5's left subtree' and 'node 5's right subtree' clearly labels the respective subtrees.  The arrows visually connect the inorder traversal array elements to their corresponding nodes in the tree, illustrating the relationship between the inorder traversal and the tree structure." loading="lazy" width="316" height="237" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/trees/build-binary-tree-from-preorder-and-inorder-traversals/image-11-07-4-LEU6CGFU.svg" style="color: transparent;"></div></figure>
+<p>Now what? With the root node placed, we have two subtrees to build: node 5’s left and right subtrees.</p>
+<p>If we build the tree starting with the already-created root node, followed by the left subtree and then the right subtree, we’re effectively <strong>building the tree using preorder traversal</strong>. This is useful because we happen to have an array of values from a preorder traversal, which means we know the exact order in which the nodes should be created.</p>
+<blockquote>
+<p>As we’re building the tree using preorder traversal, the next node to be created at any point will be the next value in the preorder array. This means we can iterate through the preorder array to place each new node.</p>
+</blockquote>
+<p>Based on this, we know the next node to be placed will have a value of 9. But how do we know if node 9 is a left child or a right child of 5?</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="The image represents two possible binary tree structures derived from a preorder traversal sequence.  At the top, a preorder traversal array is shown as `preorder = [5 9 2 3 4 7]`. A downward-pointing orange arrow highlights the number `9` within this array. Below the array, two small binary trees are presented.  Both trees have a root node labeled `5` (in a black circle).  The left tree shows a dashed line connecting the root node `5` to a child node `9` (in an orange circle), while the right tree shows the same root node `5` connected via a dashed line to a child node `9` (also in an orange circle). The word 'OR' is placed between the two trees, indicating that both structures are valid interpretations of the preorder traversal sequence given the ambiguity inherent in preorder traversals without additional information.  The difference lies in which node is considered the child of the root node `5`." loading="lazy" width="340" height="149" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/trees/build-binary-tree-from-preorder-and-inorder-traversals/image-11-07-5-F3U2ODGZ.svg" style="color: transparent;"></div></figure>
+<p>This is where the inorder array comes in, as it helps us determine the structure of the tree. Consider the left subtree:</p>
+<ul>
+<li>
+<p>When we want to build the left subtree of a node, we look at the part of the inorder array that corresponds to the left subtree. In our example, this is the subarray [2, 9].</p>
+</li>
+<li>
+<p>If this subarray is not empty, we proceed to build the left subtree, starting with node 9.</p>
+</li>
+<li>
+<p>If this subarray is empty, it means there is no left subtree, so the current node’s left child is null.</p>
+</li>
+</ul>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a diagram illustrating the construction of a binary tree from an inorder traversal array.  The top line shows the inorder traversal array `inorder = [2 9 5 4 3 7]` split into two subarrays: `[2 9 5]` (highlighted in light blue) and `[4 3 7]` (highlighted in light purple). A light blue curved arrow connects the first subarray to the text 'left subarray not empty → left subtree exists,' indicating that the non-empty left subarray implies the existence of a left subtree in the corresponding binary tree. Similarly, a light purple curved arrow connects the second subarray to the text 'right subarray not empty → right subtree exists,' showing that the non-empty right subarray implies the existence of a right subtree.  The diagram visually demonstrates how the presence of non-empty subarrays in an inorder traversal directly relates to the existence of left and right subtrees during binary tree construction." loading="lazy" width="484" height="107" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/trees/build-binary-tree-from-preorder-and-inorder-traversals/image-11-07-6-LDV5E7JK.svg" style="color: transparent;"></div></figure>
+<p>The same logic applies to the right subtree: we only build it if its corresponding inorder subarray isn’t empty.</p>
+<p>Now, let’s devise a strategy for our algorithm. To utilize the two traversal arrays, we can assign a pointer to each:</p>
+<ul>
+<li>
+<p>A <strong><code>preorder_index</code></strong> points to the value of the current subtree’s root node. Once this node is created, increment <code>preorder_index</code> so it points to the value of the next node to be created.</p>
+</li>
+<li>
+<p>An <strong><code>inorder_index</code></strong> is used to determine the position of the same value in the inorder array. We can find the index of this value by searching through the inorder array.</p>
+</li>
+</ul>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a visual explanation of constructing a binary tree from its preorder and inorder traversal sequences.  The top section shows a labeled box 'preorder_index' pointing down to a preorder traversal sequence represented as `preorder = [5 9 2 3 4 7]`. Below this, another labeled box 'inorder_index' points to an inorder traversal sequence `inorder = [2 9 5 4 3 7]`, with the numbers 2 and 9 highlighted in light blue, and 4, 3, and 7 highlighted in light purple.  To the right, a binary tree is depicted with the root node labeled '5'.  The left subtree, represented by `[2,9]` in cyan, and the right subtree, represented by `[4,3,7]` in violet, branch from the root node. The diagram illustrates how the preorder and inorder sequences, along with their indices, are used to reconstruct the structure of the binary tree." loading="lazy" width="522" height="132" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/trees/build-binary-tree-from-preorder-and-inorder-traversals/image-11-07-7-U5OY5LOE.svg" style="color: transparent;"></div></figure>
+<p>At each recursive call, once these indexes are obtained, we:</p>
+<ol>
+<li>
+<p>Create the current node using the value pointed at by <code>preorder_index</code>.</p>
+</li>
+<li>
+<p>Increment <code>preorder_index</code> so it points to the value of the next node to be created.</p>
+</li>
+<li>
+<p>Make a recursive call to build the current node’s left and right subtrees:</p>
+<ul>
+<li>Pass in the subarray <code>inorder[0, inorder_index - 1]</code> to build the left subtree.</li>
+<li>Pass in the subarray <code>inorder[inorder_index + 1, n - 1]</code> to build the right subtree.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Optimization - left and right pointers</strong><br>
+One inefficiency of the above approach is that we extract entire subarrays out of the inorder array whenever we make a recursive call, which takes <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span> time each time we do this, where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> denotes the length of each input array. A more efficient approach is to <strong>define the range of each inorder subarray using left and right pointers</strong>. Specifically:</p>
+<ul>
+<li>
+<p>The left subtree contains the values in the range <strong><code>[left, inorder_index - 1]</code></strong>.</p>
+</li>
+<li>
+<p>The right subtree contains the values in the range <strong><code>[inorder_index + 1, right]</code></strong>.</p>
+</li>
+</ul>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a diagram illustrating a recursive algorithm for constructing a binary tree from its preorder and inorder traversal sequences.  At the top, a box labeled 'preorder_index' points down to a preorder traversal sequence represented as `preorder = [5 9 2 3 4 7]`. Below this, boxes labeled 'left' and 'right' branch from the preorder sequence.  The 'left' box points to a portion of the inorder traversal sequence, `inorder = [2 9]`, highlighted in light blue, representing the left subtree.  The 'right' box points to `inorder = [4 3 7]`, highlighted in lavender, representing the right subtree.  Gray curved arrows connect the highlighted inorder subsequences to further subdivisions of the inorder sequence, indicated by `inorder = [2 9 5 4 3 7]` and `inorder = [2 9 5 4 3 7]`, respectively, with orange dashed lines showing the recursive partitioning of the inorder sequence to identify left and right subtrees.  The numbers within the inorder sequences are used to locate the root of each subtree based on its position in the preorder sequence, recursively building the binary tree.  The labels 'left' and 'right' consistently indicate the partitioning of the inorder sequence to define the left and right subtrees at each recursive step." loading="lazy" width="624" height="264" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/trees/build-binary-tree-from-preorder-and-inorder-traversals/image-11-07-8-B4RLGF6X.svg" style="color: transparent;"></div></figure>
+<p>This allows us to define subarrays by just moving pointers, as opposed to creating completely new subarrays.</p>
+<p><strong>Optimization - hash map</strong><br>
+At each node, it’s necessary to set <code>inorder_index</code> to the position of the same value pointed at by <code>preorder_index</code>. Performing a linear search for this value would take <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span> time for each node. Instead, we can use a <strong>hash map</strong> to store the inorder array values and their indexes, allowing us to retrieve any value's index from the inorder array in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span> time.</p>
+<div class="style_tryBanner__WFMKc"><div><div class="style_tryTitle__dVqce">Try it yourself</div><div class="style_tryDesc___lKzS">Write your solution to the problem before checking the reference implementation.</div></div><a target="_blank" href="https://bytebytego.com/exercises/coding-patterns/trees/build-binary-tree-from-preorder-and-inorder-traversals"><button type="button" class="ant-btn css-133v4sd ant-btn-default ant-btn-color-default ant-btn-variant-outlined style_openBtn__F_m3N"><span>Open Code Editor</span></button></a></div>
+<h2 id="implementation">Implementation</h2>
+<div class="style_codeTabsWrap__jMkKK"><div class="ant-tabs ant-tabs-top ant-tabs-card style_codeTabs__DEEq6 css-133v4sd"><div role="tablist" aria-orientation="horizontal" class="ant-tabs-nav"><div class="ant-tabs-nav-wrap"><div class="ant-tabs-nav-list" style="transform: translate(0px, 0px);"><div data-node-key="0" class="ant-tabs-tab ant-tabs-tab-active"><div role="tab" aria-selected="true" class="ant-tabs-tab-btn" tabindex="0" id="rc-tabs-0-tab-0" aria-controls="rc-tabs-0-panel-0">Python</div></div><div data-node-key="1" class="ant-tabs-tab"><div role="tab" aria-selected="false" class="ant-tabs-tab-btn" tabindex="-1" id="rc-tabs-0-tab-1" aria-controls="rc-tabs-0-panel-1">JavaScript</div></div><div data-node-key="2" class="ant-tabs-tab"><div role="tab" aria-selected="false" class="ant-tabs-tab-btn" tabindex="-1" id="rc-tabs-0-tab-2" aria-controls="rc-tabs-0-panel-2">Java</div></div><div class="ant-tabs-ink-bar ant-tabs-ink-bar-animated"></div></div></div><div class="ant-tabs-nav-operations ant-tabs-nav-operations-hidden"><button type="button" class="ant-tabs-nav-more" aria-haspopup="listbox" aria-controls="rc-tabs-0-more-popup" id="rc-tabs-0-more" aria-expanded="false" style="visibility: hidden; order: 1;"><span role="img" aria-label="ellipsis" class="anticon anticon-ellipsis"><svg viewBox="64 64 896 896" focusable="false" data-icon="ellipsis" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M176 511a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0z"></path></svg></span></button></div></div><div class="ant-tabs-content-holder"><div class="ant-tabs-content ant-tabs-content-top"><div role="tabpanel" tabindex="0" aria-hidden="false" class="ant-tabs-tabpane ant-tabs-tabpane-active" id="rc-tabs-0-panel-0" aria-labelledby="rc-tabs-0-tab-0"><pre><code class="hljs language-python"><span class="hljs-keyword">from</span> ds <span class="hljs-keyword">import</span> TreeNode
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">List</span>
+    
+preorder_index = <span class="hljs-number">0</span>
+inorder_indexes_map = {}
+    
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">build_binary_tree</span>(<span class="hljs-params">preorder: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>], inorder: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]</span>) -&gt; TreeNode:
+    <span class="hljs-keyword">global</span> inorder_indexes_map
+    <span class="hljs-comment"># Populate the hash map with the inorder values and their indexes.</span>
+    <span class="hljs-keyword">for</span> i, val <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(inorder):
+        inorder_indexes_map[val] = i
+    <span class="hljs-comment"># Build the tree and return its root node.</span>
+    <span class="hljs-keyword">return</span> build_subtree(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(inorder) - <span class="hljs-number">1</span>, preorder, inorder)
+    
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">build_subtree</span>(<span class="hljs-params">left, right, preorder, inorder</span>):
+    <span class="hljs-keyword">global</span> preorder_index, inorder_indexes_map
+    <span class="hljs-comment"># Base case: if no elements are in this range, return None.</span>
+    <span class="hljs-keyword">if</span> left &gt; right:
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+    val = preorder[preorder_index]
+    <span class="hljs-comment"># Set 'inorder_index' to the index of the same value pointed at by</span>
+    <span class="hljs-comment"># 'preorder_index'.</span>
+    inorder_index = inorder_indexes_map[val]
+    node = TreeNode(val)
+    <span class="hljs-comment"># Advance 'preorder_index' so it points to the value of the next node to be</span>
+    <span class="hljs-comment"># created.</span>
+    preorder_index += <span class="hljs-number">1</span>
+    <span class="hljs-comment"># Build the left and right subtrees and connect them to the current node.</span>
+    node.left = build_subtree(left, inorder_index - <span class="hljs-number">1</span>, preorder, inorder)
+    node.right = build_subtree(inorder_index + <span class="hljs-number">1</span>, right, preorder, inorder)
+    <span class="hljs-keyword">return</span> node
+</code></pre><button type="button" class="ant-btn css-133v4sd ant-btn-default ant-btn-color-default ant-btn-variant-outlined style_copyBtn__4MbAa"><img alt="" loading="lazy" width="16" height="16" decoding="async" data-nimg="1" src="https://bytebytego.com/_next/static/media/copy.3248da0c.svg" style="color: transparent;"></button></div></div></div></div></div>
+<h3 id="complexity-analysis">Complexity Analysis</h3>
+<p><strong>Time complexity:</strong> The time complexity of <code>build_binary_tree</code> is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>, as it makes one call to the <code>build_subtree</code> function, which recursively traverses each element in the <code>preorder</code> and <code>inorder</code> arrays once, resulting in an <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span> runtime.</p>
+<p><strong>Space complexity:</strong> The space complexity is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span> due to the space taken up by the recursive call stack, which can grow as large as the height of the binary tree. The largest possible height of a binary tree is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span>. The hash map <code>inorder_indexes_map</code> also takes up <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span> space.</p>
+</article>
+</body>
+</html>

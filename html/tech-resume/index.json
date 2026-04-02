@@ -1,0 +1,121 @@
+{
+  "name": "How to Write a Good Resume",
+  "slug": "tech-resume",
+  "url": "https://bytebytego.com/courses/tech-resume",
+  "chapters": [
+    {
+      "number": "00",
+      "title": "Acknowledgements",
+      "file": "00-acknowledgements.html",
+      "html_length": 20694
+    },
+    {
+      "number": "01",
+      "title": "Introduction",
+      "file": "01-introduction.html",
+      "html_length": 25665
+    },
+    {
+      "number": "02",
+      "title": "PART 1: RESUMES AND THE HIRING PROCESS",
+      "file": "02-part-1-resumes-and-the-hiring-process.html",
+      "html_length": 20483
+    },
+    {
+      "number": "03",
+      "title": "Chapter 1: Why Resumes and CVs are Important",
+      "file": "03-chapter-1-why-resumes-and-cvs-are-important.html",
+      "html_length": 37551
+    },
+    {
+      "number": "04",
+      "title": "Chapter 2: The Hiring Pipeline",
+      "file": "04-chapter-2-the-hiring-pipeline.html",
+      "html_length": 100304
+    },
+    {
+      "number": "05",
+      "title": "PART 2: WRITING THE RESUME",
+      "file": "05-part-2-writing-the-resume.html",
+      "html_length": 21731
+    },
+    {
+      "number": "06",
+      "title": "Chapter 3: Tech Resume Basics",
+      "file": "06-chapter-3-tech-resume-basics.html",
+      "html_length": 44238
+    },
+    {
+      "number": "07",
+      "title": "Chapter 4: Resume Structure",
+      "file": "07-chapter-4-resume-structure.html",
+      "html_length": 86381
+    },
+    {
+      "number": "08",
+      "title": "Chapter 5: Standing Out",
+      "file": "08-chapter-5-standing-out.html",
+      "html_length": 94596
+    },
+    {
+      "number": "09",
+      "title": "Chapter 6: Common Mistakes",
+      "file": "09-chapter-6-common-mistakes.html",
+      "html_length": 55460
+    },
+    {
+      "number": "10",
+      "title": "Chapter 7: Different Experience Levels, Different Career Paths",
+      "file": "10-chapter-7-different-experience-levels-different-career-paths.html",
+      "html_length": 71750
+    },
+    {
+      "number": "11",
+      "title": "Chapter 8: Exercises to Polish Your Resume",
+      "file": "11-chapter-8-exercises-to-polish-your-resume.html",
+      "html_length": 33739
+    },
+    {
+      "number": "12",
+      "title": "Chapter 9: Beyond the Resume",
+      "file": "12-chapter-9-beyond-the-resume.html",
+      "html_length": 70472
+    },
+    {
+      "number": "13",
+      "title": "PART 3: EXAMPLES AND INSPIRATION",
+      "file": "13-part-3-examples-and-inspiration.html",
+      "html_length": 20848
+    },
+    {
+      "number": "14",
+      "title": "Chapter 10: Good Resume Template Principles",
+      "file": "14-chapter-10-good-resume-template-principles.html",
+      "html_length": 68672
+    },
+    {
+      "number": "15",
+      "title": "Chapter 11: Resume Templates",
+      "file": "15-chapter-11-resume-templates.html",
+      "html_length": 113872
+    },
+    {
+      "number": "16",
+      "title": "Chapter 12: Resume Improvement Examples",
+      "file": "16-chapter-12-resume-improvement-examples.html",
+      "html_length": 105804
+    },
+    {
+      "number": "17",
+      "title": "Chapter 13: Advice for Hiring Managers on Running a Good Screening Process",
+      "file": "17-chapter-13-advice-for-hiring-managers-on-running-a-good-screening-process.html",
+      "html_length": 41110
+    },
+    {
+      "number": "18",
+      "title": "Conclusion",
+      "file": "18-conclusion.html",
+      "html_length": 19808
+    }
+  ]
+}

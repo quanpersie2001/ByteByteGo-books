@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coding Interview Patterns – Product Array Without Current Element</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css">
+<style>
+/* === ByteByteGo extracted styles === */
+body { font-family: 'Be Vietnam Pro', 'Bricolage Grotesque', sans-serif; }
+.anticon { display: inline-flex; align-items: center; color: inherit; font-style: normal; line-height: 0; text-align: center; text-transform: none; vertical-align: -0.125em; text-rendering: optimizelegibility; -webkit-font-smoothing: antialiased; }
+.anticon > * { line-height: 1; }
+.anticon svg { display: inline-block; }
+.anticon::before { display: none; }
+.anticon .anticon-icon { display: block; }
+.anticon[tabindex] { cursor: pointer; }
+.anticon-spin::before, .anticon-spin { display: inline-block; animation: 1s linear 0s infinite normal none running loadingCircle; }
+a:where(.css-133v4sd) { color: rgb(22, 119, 255); text-decoration: none; background-color: transparent; outline: none; cursor: pointer; transition: color 0.3s; }
+a:where(.css-133v4sd):hover { color: rgb(105, 177, 255); }
+a:where(.css-133v4sd):active { color: rgb(9, 88, 217); }
+a:where(.css-133v4sd):active, a:where(.css-133v4sd):hover { text-decoration: none; outline: 0px; }
+a:where(.css-133v4sd):focus { text-decoration: none; outline: 0px; }
+a:where(.css-133v4sd)[disabled] { color: rgba(0, 0, 0, 0.25); cursor: not-allowed; }
+:where(.css-133v4sd).anticon { display: inline-flex; align-items: center; color: inherit; font-style: normal; line-height: 0; text-align: center; text-transform: none; vertical-align: -0.125em; text-rendering: optimizelegibility; -webkit-font-smoothing: antialiased; }
+:where(.css-133v4sd).anticon > * { line-height: 1; }
+:where(.css-133v4sd).anticon svg { display: inline-block; }
+:where(.css-133v4sd).anticon .anticon .anticon-icon { display: block; }
+:where(.css-133v4sd).ant-dropdown-trigger.ant-btn > .anticon-down, :where(.css-133v4sd).ant-dropdown-trigger.ant-btn > .ant-btn-icon > .anticon-down { font-size: 12px; }
+:where(.css-133v4sd).ant-dropdown .ant-dropdown-wrap .ant-btn > .anticon-down { font-size: 12px; }
+:where(.css-133v4sd).ant-dropdown .ant-dropdown-wrap .anticon-down::before { transition: transform 0.2s; }
+:where(.css-133v4sd).ant-dropdown .ant-dropdown-wrap-open .anticon-down::before { transform: rotate(180deg); }
+:where(.css-133v4sd).ant-menu .ant-menu-item .ant-menu-item-icon, :where(.css-133v4sd).ant-menu .ant-menu-submenu-title .ant-menu-item-icon, :where(.css-133v4sd).ant-menu .ant-menu-item .anticon, :where(.css-133v4sd).ant-menu .ant-menu-submenu-title .anticon { min-width: 14px; font-size: 14px; transition: font-size 0.2s cubic-bezier(0.215, 0.61, 0.355, 1), margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), color 0.3s; }
+:where(.css-133v4sd).ant-menu .ant-menu-item .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu .ant-menu-submenu-title .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu .ant-menu-item .anticon + span, :where(.css-133v4sd).ant-menu .ant-menu-submenu-title .anticon + span { margin-inline-start: 10px; opacity: 1; transition: opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), margin 0.3s, color 0.3s; }
+:where(.css-133v4sd).ant-menu .ant-menu-item.ant-menu-item-only-child > .anticon, :where(.css-133v4sd).ant-menu .ant-menu-submenu-title.ant-menu-item-only-child > .anticon, :where(.css-133v4sd).ant-menu .ant-menu-item.ant-menu-item-only-child > .ant-menu-item-icon, :where(.css-133v4sd).ant-menu .ant-menu-submenu-title.ant-menu-item-only-child > .ant-menu-item-icon { margin-inline-end: 0px; }
+:where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-item .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-submenu-title .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-item .anticon, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-submenu-title .anticon { min-width: 14px; font-size: 14px; transition: font-size 0.2s cubic-bezier(0.215, 0.61, 0.355, 1), margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), color 0.3s; }
+:where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-item .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-submenu-title .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-item .anticon + span, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-submenu-title .anticon + span { margin-inline-start: 10px; opacity: 1; transition: opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), margin 0.3s, color 0.3s; }
+:where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-item.ant-menu-item-only-child > .anticon, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-submenu-title.ant-menu-item-only-child > .anticon, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-item.ant-menu-item-only-child > .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-submenu-title.ant-menu-item-only-child > .ant-menu-item-icon { margin-inline-end: 0px; }
+:where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-item .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-submenu > .ant-menu-submenu-title .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item .anticon, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-item .anticon, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-submenu > .ant-menu-submenu-title .anticon, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .anticon { margin: 0px; font-size: 16px; line-height: 40px; }
+:where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-item .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-submenu > .ant-menu-submenu-title .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item .anticon + span, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-item .anticon + span, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-submenu > .ant-menu-submenu-title .anticon + span, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .anticon + span { display: inline-block; opacity: 0; }
+:where(.css-133v4sd).ant-menu-inline-collapsed .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-inline-collapsed .anticon { display: inline-block; }
+:where(.css-133v4sd).ant-menu-inline-collapsed-tooltip .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-inline-collapsed-tooltip .anticon { display: none; }
+:where(.css-133v4sd).ant-btn { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; font-size: 14px; box-sizing: border-box; }
+:where(.css-133v4sd).ant-btn::before, :where(.css-133v4sd).ant-btn::after { box-sizing: border-box; }
+:where(.css-133v4sd).ant-btn [class^="ant-btn"], :where(.css-133v4sd).ant-btn [class*=" ant-btn"] { box-sizing: border-box; }
+:where(.css-133v4sd).ant-btn [class^="ant-btn"]::before, :where(.css-133v4sd).ant-btn [class*=" ant-btn"]::before, :where(.css-133v4sd).ant-btn [class^="ant-btn"]::after, :where(.css-133v4sd).ant-btn [class*=" ant-btn"]::after { box-sizing: border-box; }
+:where(.css-133v4sd).ant-btn { outline: none; position: relative; display: inline-flex; gap: 8px; align-items: center; justify-content: center; font-weight: 400; white-space: nowrap; text-align: center; background: transparent; border: 1px solid transparent; cursor: pointer; transition: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1); user-select: none; touch-action: manipulation; color: rgba(0, 0, 0, 0.88); }
+:where(.css-133v4sd).ant-btn:disabled > * { pointer-events: none; }
+:where(.css-133v4sd).ant-btn .ant-btn-icon > svg { display: inline-flex; align-items: center; color: inherit; font-style: normal; line-height: 0; text-align: center; text-transform: none; vertical-align: -0.125em; text-rendering: optimizelegibility; -webkit-font-smoothing: antialiased; }
+:where(.css-133v4sd).ant-btn .ant-btn-icon > svg > * { line-height: 1; }
+:where(.css-133v4sd).ant-btn .ant-btn-icon > svg svg { display: inline-block; }
+:where(.css-133v4sd).ant-btn > a { color: currentcolor; }
+:where(.css-133v4sd).ant-btn:not(:disabled):focus-visible { outline: rgb(74, 140, 105) solid 3px; outline-offset: 1px; transition: outline-offset, outline; }
+:where(.css-133v4sd).ant-btn.ant-btn-two-chinese-chars::first-letter { letter-spacing: 0.34em; }
+:where(.css-133v4sd).ant-btn.ant-btn-two-chinese-chars > :not(.anticon) { margin-inline-end: -0.34em; letter-spacing: 0.34em; }
+:where(.css-133v4sd).ant-btn.ant-btn-icon-only { padding-inline: 0px; }
+:where(.css-133v4sd).ant-btn.ant-btn-icon-only.ant-btn-compact-item { flex: 0 0 auto; }
+:where(.css-133v4sd).ant-btn.ant-btn-icon-only.ant-btn-round { width: auto; }
+:where(.css-133v4sd).ant-btn.ant-btn-loading { opacity: 0.65; cursor: default; }
+:where(.css-133v4sd).ant-btn .ant-btn-loading-icon { transition: width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); }
+:where(.css-133v4sd).ant-btn:not(.ant-btn-icon-end) .ant-btn-loading-icon-motion-appear-start, :where(.css-133v4sd).ant-btn:not(.ant-btn-icon-end) .ant-btn-loading-icon-motion-enter-start { margin-inline-end: -8px; }
+:where(.css-133v4sd).ant-btn:not(.ant-btn-icon-end) .ant-btn-loading-icon-motion-appear-active, :where(.css-133v4sd).ant-btn:not(.ant-btn-icon-end) .ant-btn-loading-icon-motion-enter-active { margin-inline-end: 0px; }
+:where(.css-133v4sd).ant-btn:not(.ant-btn-icon-end) .ant-btn-loading-icon-motion-leave-start { margin-inline-end: 0px; }
+:where(.css-133v4sd).ant-btn:not(.ant-btn-icon-end) .ant-btn-loading-icon-motion-leave-active { margin-inline-end: -8px; }
+:where(.css-133v4sd).ant-btn-icon-end { flex-direction: row-reverse; }
+:where(.css-133v4sd).ant-btn-icon-end .ant-btn-loading-icon-motion-appear-start, :where(.css-133v4sd).ant-btn-icon-end .ant-btn-loading-icon-motion-enter-start { margin-inline-start: -8px; }
+:where(.css-133v4sd).ant-btn-icon-end .ant-btn-loading-icon-motion-appear-active, :where(.css-133v4sd).ant-btn-icon-end .ant-btn-loading-icon-motion-enter-active { margin-inline-start: 0px; }
+:where(.css-133v4sd).ant-btn-icon-end .ant-btn-loading-icon-motion-leave-start { margin-inline-start: 0px; }
+:where(.css-133v4sd).ant-btn-icon-end .ant-btn-loading-icon-motion-leave-active { margin-inline-start: -8px; }
+:where(.css-133v4sd).ant-btn { font-size: 14px; height: 32px; padding: 0px 15px; border-radius: 6px; }
+:where(.css-133v4sd).ant-btn.ant-btn-icon-only { width: 32px; }
+:where(.css-133v4sd).ant-btn.ant-btn-icon-only .anticon { font-size: inherit; }
+:where(.css-133v4sd).ant-btn.ant-btn-circle.ant-btn { min-width: 32px; padding-inline: 0px; border-radius: 50%; }
+:where(.css-133v4sd).ant-btn.ant-btn-round.ant-btn { border-radius: 32px; padding-inline: 16px; }
+:where(.css-133v4sd).ant-btn-sm { font-size: 14px; height: 24px; padding: 0px 7px; border-radius: 4px; }
+:where(.css-133v4sd).ant-btn-sm.ant-btn-icon-only { width: 24px; }
+:where(.css-133v4sd).ant-btn-sm.ant-btn-icon-only .anticon { font-size: inherit; }
+:where(.css-133v4sd).ant-btn.ant-btn-circle.ant-btn-sm { min-width: 24px; padding-inline: 0px; border-radius: 50%; }
+:where(.css-133v4sd).ant-btn.ant-btn-round.ant-btn-sm { border-radius: 24px; padding-inline: 12px; }
+:where(.css-133v4sd).ant-btn-lg { font-size: 16px; height: 40px; padding: 0px 15px; border-radius: 8px; }
+:where(.css-133v4sd).ant-btn-lg.ant-btn-icon-only { width: 40px; }
+:where(.css-133v4sd).ant-btn-lg.ant-btn-icon-only .anticon { font-size: inherit; }
+:where(.css-133v4sd).ant-btn.ant-btn-circle.ant-btn-lg { min-width: 40px; padding-inline: 0px; border-radius: 50%; }
+:where(.css-133v4sd).ant-btn.ant-btn-round.ant-btn-lg { border-radius: 40px; padding-inline: 20px; }
+:where(.css-133v4sd).ant-btn.ant-btn-block { width: 100%; }
+:where(.css-133v4sd).ant-btn-color-default { color: rgba(0, 0, 0, 0.88); box-shadow: rgba(0, 0, 0, 0.02) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(0, 0, 0); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 255, 255); background: rgba(0, 0, 0, 0.75); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { color: rgb(255, 255, 255); background: rgba(0, 0, 0, 0.95); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-filled { box-shadow: none; background: rgba(0, 0, 0, 0.04); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgba(0, 0, 0, 0.06); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgba(0, 0, 0, 0.15); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-background-ghost { color: rgb(255, 255, 255); background: transparent; border-color: rgb(255, 255, 255); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):hover { background: transparent; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):active { background: transparent; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-background-ghost:disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); border-color: rgb(217, 217, 217); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-link { color: rgba(0, 0, 0, 0.88); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(105, 177, 255); background: transparent; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(9, 88, 217); }
+:where(.css-133v4sd).ant-btn-color-primary { color: rgb(5, 103, 61); box-shadow: rgba(3, 43, 19, 0.42) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-dashed { border-color: rgb(5, 103, 61); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(24, 115, 72); border-color: rgb(24, 115, 72); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(0, 64, 38); border-color: rgb(0, 64, 38); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-filled { box-shadow: none; background: rgb(149, 166, 156); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(106, 153, 126); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(74, 140, 105); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-text { color: rgb(5, 103, 61); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(24, 115, 72); background: rgb(149, 166, 156); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(0, 64, 38); background: rgb(74, 140, 105); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-link { color: rgb(5, 103, 61); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(24, 115, 72); background: transparent; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(0, 64, 38); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-background-ghost { color: rgb(5, 103, 61); background: transparent; border-color: rgb(5, 103, 61); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):hover { background: transparent; color: rgb(24, 115, 72); border-color: rgb(24, 115, 72); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):active { background: transparent; color: rgb(0, 64, 38); border-color: rgb(0, 64, 38); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-background-ghost:disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); border-color: rgb(217, 217, 217); }
+:where(.css-133v4sd).ant-btn-color-dangerous { color: rgb(255, 77, 79); box-shadow: rgba(255, 38, 5, 0.06) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(255, 77, 79); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 120, 117); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(217, 54, 62); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-dashed { border-color: rgb(255, 77, 79); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 120, 117); border-color: rgb(255, 163, 158); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(217, 54, 62); border-color: rgb(217, 54, 62); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-filled { box-shadow: none; background: rgb(255, 242, 240); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 223, 220); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 204, 199); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-text { color: rgb(255, 77, 79); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 120, 117); background: rgb(255, 242, 240); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(255, 120, 117); background: rgb(255, 204, 199); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-link { color: rgb(255, 77, 79); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 120, 117); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(217, 54, 62); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-background-ghost { color: rgb(255, 77, 79); background: transparent; border-color: rgb(255, 77, 79); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):hover { background: transparent; color: rgb(255, 120, 117); border-color: rgb(255, 120, 117); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):active { background: transparent; color: rgb(217, 54, 62); border-color: rgb(217, 54, 62); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-background-ghost:disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); border-color: rgb(217, 217, 217); }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-variant-link { color: rgb(22, 119, 255); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-link.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(105, 177, 255); }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(9, 88, 217); }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-background-ghost { color: rgb(22, 119, 255); background: transparent; border-color: rgb(22, 119, 255); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):hover { background: transparent; color: rgb(105, 177, 255); border-color: rgb(105, 177, 255); }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):active { background: transparent; color: rgb(9, 88, 217); border-color: rgb(9, 88, 217); }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-background-ghost:disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); border-color: rgb(217, 217, 217); }
+:where(.css-133v4sd).ant-btn-color-blue { color: rgb(22, 119, 255); box-shadow: rgba(5, 145, 255, 0.1) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(22, 119, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(64, 150, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(9, 88, 217); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-dashed { border-color: rgb(22, 119, 255); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(64, 150, 255); border-color: rgb(64, 150, 255); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(9, 88, 217); border-color: rgb(9, 88, 217); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-filled { box-shadow: none; background: rgb(230, 244, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(186, 224, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(145, 202, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-link { color: rgb(22, 119, 255); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(64, 150, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(9, 88, 217); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-text { color: rgb(22, 119, 255); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(64, 150, 255); background: rgb(230, 244, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(9, 88, 217); background: rgb(145, 202, 255); }
+:where(.css-133v4sd).ant-btn-color-purple { color: rgb(114, 46, 209); box-shadow: rgba(155, 5, 255, 0.06) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(114, 46, 209); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(146, 84, 222); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(83, 29, 171); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-dashed { border-color: rgb(114, 46, 209); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(146, 84, 222); border-color: rgb(146, 84, 222); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(83, 29, 171); border-color: rgb(83, 29, 171); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-filled { box-shadow: none; background: rgb(249, 240, 255); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(239, 219, 255); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(211, 173, 247); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-link { color: rgb(114, 46, 209); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(146, 84, 222); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(83, 29, 171); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-text { color: rgb(114, 46, 209); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(146, 84, 222); background: rgb(249, 240, 255); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(83, 29, 171); background: rgb(211, 173, 247); }
+:where(.css-133v4sd).ant-btn-color-cyan { color: rgb(19, 194, 194); box-shadow: rgba(5, 255, 215, 0.1) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(19, 194, 194); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(54, 207, 201); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(8, 151, 156); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-dashed { border-color: rgb(19, 194, 194); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(54, 207, 201); border-color: rgb(54, 207, 201); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(8, 151, 156); border-color: rgb(8, 151, 156); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-filled { box-shadow: none; background: rgb(230, 255, 251); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(181, 245, 236); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(135, 232, 222); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-link { color: rgb(19, 194, 194); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(54, 207, 201); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(8, 151, 156); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-text { color: rgb(19, 194, 194); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(54, 207, 201); background: rgb(230, 255, 251); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(8, 151, 156); background: rgb(135, 232, 222); }
+:where(.css-133v4sd).ant-btn-color-green { color: rgb(82, 196, 26); box-shadow: rgba(142, 255, 30, 0.08) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(82, 196, 26); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(115, 209, 61); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(56, 158, 13); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-dashed { border-color: rgb(82, 196, 26); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(115, 209, 61); border-color: rgb(115, 209, 61); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(56, 158, 13); border-color: rgb(56, 158, 13); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-filled { box-shadow: none; background: rgb(246, 255, 237); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(217, 247, 190); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(183, 235, 143); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-link { color: rgb(82, 196, 26); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(115, 209, 61); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(56, 158, 13); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-text { color: rgb(82, 196, 26); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(115, 209, 61); background: rgb(246, 255, 237); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(56, 158, 13); background: rgb(183, 235, 143); }
+:where(.css-133v4sd).ant-btn-color-magenta { color: rgb(235, 47, 150); box-shadow: rgba(255, 5, 105, 0.06) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(235, 47, 150); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(247, 89, 171); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(196, 29, 127); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-dashed { border-color: rgb(235, 47, 150); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(247, 89, 171); border-color: rgb(247, 89, 171); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(196, 29, 127); border-color: rgb(196, 29, 127); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-filled { box-shadow: none; background: rgb(255, 240, 246); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 214, 231); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 173, 210); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-link { color: rgb(235, 47, 150); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(247, 89, 171); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(196, 29, 127); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-text { color: rgb(235, 47, 150); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(247, 89, 171); background: rgb(255, 240, 246); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(196, 29, 127); background: rgb(255, 173, 210); }
+:where(.css-133v4sd).ant-btn-color-pink { color: rgb(235, 47, 150); box-shadow: rgba(255, 5, 105, 0.06) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(235, 47, 150); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(247, 89, 171); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(196, 29, 127); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-dashed { border-color: rgb(235, 47, 150); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(247, 89, 171); border-color: rgb(247, 89, 171); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(196, 29, 127); border-color: rgb(196, 29, 127); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-filled { box-shadow: none; background: rgb(255, 240, 246); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 214, 231); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 173, 210); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-link { color: rgb(235, 47, 150); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(247, 89, 171); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(196, 29, 127); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-text { color: rgb(235, 47, 150); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(247, 89, 171); background: rgb(255, 240, 246); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(196, 29, 127); background: rgb(255, 173, 210); }
+:where(.css-133v4sd).ant-btn-color-red { color: rgb(245, 34, 45); box-shadow: rgba(255, 22, 5, 0.06) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(245, 34, 45); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 77, 79); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(207, 19, 34); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-dashed { border-color: rgb(245, 34, 45); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 77, 79); border-color: rgb(255, 77, 79); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(207, 19, 34); border-color: rgb(207, 19, 34); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-filled { box-shadow: none; background: rgb(255, 241, 240); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 204, 199); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 163, 158); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-link { color: rgb(245, 34, 45); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 77, 79); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(207, 19, 34); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-text { color: rgb(245, 34, 45); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 77, 79); background: rgb(255, 241, 240); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(207, 19, 34); background: rgb(255, 163, 158); }
+:where(.css-133v4sd).ant-btn-color-orange { color: rgb(250, 140, 22); box-shadow: rgba(255, 175, 5, 0.1) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(250, 140, 22); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 169, 64); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(212, 107, 8); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-dashed { border-color: rgb(250, 140, 22); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 169, 64); border-color: rgb(255, 169, 64); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 107, 8); border-color: rgb(212, 107, 8); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-filled { box-shadow: none; background: rgb(255, 247, 230); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 231, 186); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 213, 145); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-link { color: rgb(250, 140, 22); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 169, 64); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 107, 8); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-text { color: rgb(250, 140, 22); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 169, 64); background: rgb(255, 247, 230); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 107, 8); background: rgb(255, 213, 145); }
+:where(.css-133v4sd).ant-btn-color-yellow { color: rgb(250, 219, 20); box-shadow: rgba(245, 255, 5, 0.1) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(250, 219, 20); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 236, 61); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(212, 177, 6); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-dashed { border-color: rgb(250, 219, 20); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 236, 61); border-color: rgb(255, 236, 61); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 177, 6); border-color: rgb(212, 177, 6); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-filled { box-shadow: none; background: rgb(254, 255, 230); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 255, 184); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 251, 143); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-link { color: rgb(250, 219, 20); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 236, 61); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 177, 6); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-text { color: rgb(250, 219, 20); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 236, 61); background: rgb(254, 255, 230); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 177, 6); background: rgb(255, 251, 143); }
+:where(.css-133v4sd).ant-btn-color-volcano { color: rgb(250, 84, 28); box-shadow: rgba(255, 125, 25, 0.1) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(250, 84, 28); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 122, 69); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(212, 56, 13); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-dashed { border-color: rgb(250, 84, 28); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 122, 69); border-color: rgb(255, 122, 69); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 56, 13); border-color: rgb(212, 56, 13); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-filled { box-shadow: none; background: rgb(255, 242, 232); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 216, 191); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 187, 150); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-link { color: rgb(250, 84, 28); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 122, 69); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 56, 13); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-text { color: rgb(250, 84, 28); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 122, 69); background: rgb(255, 242, 232); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 56, 13); background: rgb(255, 187, 150); }
+:where(.css-133v4sd).ant-btn-color-geekblue { color: rgb(47, 84, 235); box-shadow: rgba(5, 88, 255, 0.06) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(47, 84, 235); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(89, 126, 247); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(29, 57, 196); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-dashed { border-color: rgb(47, 84, 235); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(89, 126, 247); border-color: rgb(89, 126, 247); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(29, 57, 196); border-color: rgb(29, 57, 196); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-filled { box-shadow: none; background: rgb(240, 245, 255); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(214, 228, 255); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(173, 198, 255); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-link { color: rgb(47, 84, 235); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(89, 126, 247); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(29, 57, 196); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-text { color: rgb(47, 84, 235); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(89, 126, 247); background: rgb(240, 245, 255); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(29, 57, 196); background: rgb(173, 198, 255); }
+:where(.css-133v4sd).ant-btn-color-lime { color: rgb(160, 217, 17); box-shadow: rgba(225, 255, 5, 0.1) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(160, 217, 17); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(186, 230, 55); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(124, 179, 5); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-dashed { border-color: rgb(160, 217, 17); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(186, 230, 55); border-color: rgb(186, 230, 55); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(124, 179, 5); border-color: rgb(124, 179, 5); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-filled { box-shadow: none; background: rgb(252, 255, 230); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(244, 255, 184); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(234, 255, 143); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-link { color: rgb(160, 217, 17); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(186, 230, 55); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(124, 179, 5); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-text { color: rgb(160, 217, 17); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(186, 230, 55); background: rgb(252, 255, 230); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(124, 179, 5); background: rgb(234, 255, 143); }
+:where(.css-133v4sd).ant-btn-color-gold { color: rgb(250, 173, 20); box-shadow: rgba(255, 215, 5, 0.1) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(250, 173, 20); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 197, 61); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(212, 136, 6); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-dashed { border-color: rgb(250, 173, 20); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 197, 61); border-color: rgb(255, 197, 61); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 136, 6); border-color: rgb(212, 136, 6); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-filled { box-shadow: none; background: rgb(255, 251, 230); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 241, 184); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 229, 143); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-link { color: rgb(250, 173, 20); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 197, 61); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 136, 6); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-text { color: rgb(250, 173, 20); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 197, 61); background: rgb(255, 251, 230); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 136, 6); background: rgb(255, 229, 143); }
+:where(.css-133v4sd).ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-variant-dashed { border-color: rgb(217, 217, 217); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(24, 115, 72); border-color: rgb(24, 115, 72); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(0, 64, 38); border-color: rgb(0, 64, 38); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-variant-text { color: rgba(0, 0, 0, 0.88); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgba(0, 0, 0, 0.88); background: rgba(0, 0, 0, 0.04); }
+:where(.css-133v4sd).ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgba(0, 0, 0, 0.88); background: rgba(0, 0, 0, 0.15); }
+:where(.css-133v4sd).ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(5, 103, 61); }
+:where(.css-133v4sd).ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(24, 115, 72); color: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(0, 64, 38); color: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-variant-link { color: rgb(22, 119, 255); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(105, 177, 255); background: transparent; }
+:where(.css-133v4sd).ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(9, 88, 217); }
+:where(.css-133v4sd).ant-btn-group { position: relative; display: inline-flex; }
+:where(.css-133v4sd).ant-btn-group > span:not(:last-child), :where(.css-133v4sd).ant-btn-group > .ant-btn:not(:last-child), :where(.css-133v4sd).ant-btn-group > span:not(:last-child) > .ant-btn, :where(.css-133v4sd).ant-btn-group > .ant-btn:not(:last-child) > .ant-btn { border-start-end-radius: 0px; border-end-end-radius: 0px; }
+:where(.css-133v4sd).ant-btn-group > span:not(:first-child), :where(.css-133v4sd).ant-btn-group > .ant-btn:not(:first-child) { margin-inline-start: -1px; }
+:where(.css-133v4sd).ant-btn-group > span:not(:first-child), :where(.css-133v4sd).ant-btn-group > .ant-btn:not(:first-child), :where(.css-133v4sd).ant-btn-group > span:not(:first-child) > .ant-btn, :where(.css-133v4sd).ant-btn-group > .ant-btn:not(:first-child) > .ant-btn { border-start-start-radius: 0px; border-end-start-radius: 0px; }
+:where(.css-133v4sd).ant-btn-group .ant-btn { position: relative; z-index: 1; }
+:where(.css-133v4sd).ant-btn-group .ant-btn:hover, :where(.css-133v4sd).ant-btn-group .ant-btn:focus, :where(.css-133v4sd).ant-btn-group .ant-btn:active { z-index: 2; }
+:where(.css-133v4sd).ant-btn-group .ant-btn[disabled] { z-index: 0; }
+:where(.css-133v4sd).ant-btn-group .ant-btn-icon-only { font-size: 14px; }
+:where(.css-133v4sd).ant-btn-group > span:not(:last-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-primary:not(:last-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > span:not(:last-child) > .ant-btn-primary:not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-primary:not(:last-child) > .ant-btn-primary:not(:disabled) { border-inline-end-color: rgb(24, 115, 72); }
+:where(.css-133v4sd).ant-btn-group > span:not(:first-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-primary:not(:first-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > span:not(:first-child) > .ant-btn-primary:not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-primary:not(:first-child) > .ant-btn-primary:not(:disabled) { border-inline-start-color: rgb(24, 115, 72); }
+:where(.css-133v4sd).ant-btn-group > span:not(:last-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-danger:not(:last-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > span:not(:last-child) > .ant-btn-danger:not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-danger:not(:last-child) > .ant-btn-danger:not(:disabled) { border-inline-end-color: rgb(255, 120, 117); }
+:where(.css-133v4sd).ant-btn-group > span:not(:first-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-danger:not(:first-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > span:not(:first-child) > .ant-btn-danger:not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-danger:not(:first-child) > .ant-btn-danger:not(:disabled) { border-inline-start-color: rgb(255, 120, 117); }
+:where(.css-133v4sd).ant-tabs-small > .ant-tabs-nav .ant-tabs-tab { padding: 8px 0px; font-size: 14px; }
+:where(.css-133v4sd).ant-tabs-large > .ant-tabs-nav .ant-tabs-tab { padding: 16px 0px; font-size: 16px; line-height: 1.5; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-small > .ant-tabs-nav .ant-tabs-tab { padding: 4px 8px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-small > .ant-tabs-nav .ant-tabs-nav-add { min-width: 32px; min-height: 32px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-small.ant-tabs-bottom > .ant-tabs-nav .ant-tabs-tab { border-radius: 0px 0px 6px 6px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-small.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab { border-radius: 6px 6px 0px 0px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-small.ant-tabs-right > .ant-tabs-nav .ant-tabs-tab { border-radius: 0px 6px 6px 0px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-small.ant-tabs-left > .ant-tabs-nav .ant-tabs-tab { border-radius: 6px 0px 0px 6px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-large > .ant-tabs-nav .ant-tabs-tab { padding: 11px 16px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-large > .ant-tabs-nav .ant-tabs-nav-add { min-width: 48px; min-height: 48px; }
+:where(.css-133v4sd).ant-tabs-rtl { direction: rtl; }
+:where(.css-133v4sd).ant-tabs-rtl .ant-tabs-nav .ant-tabs-tab { margin: 0px 0px 0px 32px; }
+:where(.css-133v4sd).ant-tabs-rtl .ant-tabs-nav .ant-tabs-tab .ant-tabs-tab:last-of-type { margin-left: 0px; }
+:where(.css-133v4sd).ant-tabs-rtl .ant-tabs-nav .ant-tabs-tab .anticon { margin-right: 0px; margin-left: 12px; }
+:where(.css-133v4sd).ant-tabs-rtl .ant-tabs-nav .ant-tabs-tab .ant-tabs-tab-remove { margin-right: 8px; margin-left: -4px; }
+:where(.css-133v4sd).ant-tabs-rtl .ant-tabs-nav .ant-tabs-tab .ant-tabs-tab-remove .anticon { margin: 0px; }
+:where(.css-133v4sd).ant-tabs-rtl.ant-tabs-left > .ant-tabs-nav { order: 1; }
+:where(.css-133v4sd).ant-tabs-rtl.ant-tabs-left > .ant-tabs-content-holder { order: 0; }
+:where(.css-133v4sd).ant-tabs-rtl.ant-tabs-right > .ant-tabs-nav { order: 0; }
+:where(.css-133v4sd).ant-tabs-rtl.ant-tabs-right > .ant-tabs-content-holder { order: 1; }
+:where(.css-133v4sd).ant-tabs-rtl.ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-rtl.ant-tabs-card.ant-tabs-bottom > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-rtl.ant-tabs-card.ant-tabs-top > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-rtl.ant-tabs-card.ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab { margin-right: 2px; margin-left: 0px; }
+:where(.css-133v4sd).ant-tabs-dropdown-rtl { direction: rtl; }
+:where(.css-133v4sd).ant-tabs-menu-item .ant-tabs-dropdown-rtl { text-align: right; }
+:where(.css-133v4sd).ant-tabs-top, :where(.css-133v4sd).ant-tabs-bottom { flex-direction: column; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav { margin: 0px 0px 16px; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav::before, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav::before, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav::before, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav::before { position: absolute; right: 0px; left: 0px; border-bottom: 1px solid rgb(240, 240, 240); content: ""; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-ink-bar { height: 2px; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-ink-bar-animated, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-ink-bar-animated, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-ink-bar-animated, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-ink-bar-animated { transition: width 0.3s, left 0.3s, right 0.3s; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-nav-wrap::after { top: 0px; bottom: 0px; width: 32px; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-nav-wrap::before { left: 0px; box-shadow: rgba(0, 0, 0, 0.08) 10px 0px 8px -8px inset; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-nav-wrap::after { right: 0px; box-shadow: rgba(0, 0, 0, 0.08) -10px 0px 8px -8px inset; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-left::before, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-left::before, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-left::before, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-left::before { opacity: 1; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-right::after, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-right::after, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-right::after, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-right::after { opacity: 1; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav::before, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav::before { bottom: 0px; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-ink-bar { bottom: 0px; }
+:where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav { order: 1; margin-top: 16px; margin-bottom: 0px; }
+:where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav::before, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav::before { top: 0px; }
+:where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-ink-bar { top: 0px; }
+:where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-content-holder, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-content-holder { order: 0; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav { flex-direction: column; min-width: 40px; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-tab { padding: 8px 24px; text-align: center; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab { margin: 16px 0px 0px; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-wrap, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-wrap, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-wrap, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-wrap { flex-direction: column; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-wrap::after { right: 0px; left: 0px; height: 32px; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-wrap::before { top: 0px; box-shadow: rgba(0, 0, 0, 0.08) 0px 10px 8px -8px inset; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-wrap::after { bottom: 0px; box-shadow: rgba(0, 0, 0, 0.08) 0px -10px 8px -8px inset; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-top::before, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-top::before, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-top::before, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-top::before { opacity: 1; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-bottom::after, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-bottom::after, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-bottom::after, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-bottom::after { opacity: 1; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-ink-bar { width: 2px; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-ink-bar-animated, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-ink-bar-animated, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-ink-bar-animated, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-ink-bar-animated { transition: height 0.3s, top 0.3s; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-list, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-list, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-list, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-list, :where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-operations, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-operations, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-operations, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-operations { flex: 1 0 auto; flex-direction: column; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-ink-bar { right: 0px; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-content-holder, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-content-holder { margin-left: -1px; border-left: 1px solid rgb(217, 217, 217); }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-content-holder > .ant-tabs-content > .ant-tabs-tabpane, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-content-holder > .ant-tabs-content > .ant-tabs-tabpane { padding-left: 24px; }
+:where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav { order: 1; }
+:where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-ink-bar { left: 0px; }
+:where(.css-133v4sd).ant-tabs-right > .ant-tabs-content-holder, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-content-holder { order: 0; margin-right: -1px; border-right: 1px solid rgb(217, 217, 217); }
+:where(.css-133v4sd).ant-tabs-right > .ant-tabs-content-holder > .ant-tabs-content > .ant-tabs-tabpane, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-content-holder > .ant-tabs-content > .ant-tabs-tabpane { padding-right: 24px; }
+:where(.css-133v4sd).ant-tabs-dropdown { box-sizing: border-box; margin: 0px; padding: 0px; color: rgba(0, 0, 0, 0.88); font-size: 14px; line-height: 1.57143; list-style: none; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; position: absolute; top: -9999px; left: -9999px; z-index: 1050; display: block; }
+:where(.css-133v4sd).ant-tabs-dropdown-hidden { display: none; }
+:where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu { max-height: 200px; margin: 0px; padding: 4px 0px; overflow: hidden auto; text-align: left; list-style-type: none; background-color: rgb(255, 255, 255); background-clip: padding-box; border-radius: 8px; outline: none; box-shadow: rgba(0, 0, 0, 0.08) 0px 6px 16px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px -4px, rgba(0, 0, 0, 0.05) 0px 9px 28px 8px; }
+:where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu-item { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: flex; align-items: center; min-width: 120px; margin: 0px; padding: 4px 12px; color: rgba(0, 0, 0, 0.88); font-weight: normal; font-size: 14px; line-height: 1.57143; cursor: pointer; transition: 0.3s; }
+:where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu-item > span { flex: 1 1 0%; white-space: nowrap; }
+:where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu-item-remove { flex: 0 0 auto; margin-left: 12px; color: rgba(0, 0, 0, 0.45); font-size: 12px; background: transparent; border: 0px; cursor: pointer; }
+:where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu-item-remove:hover { color: rgb(24, 115, 72); }
+:where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu-item:hover { background: rgba(0, 0, 0, 0.04); }
+:where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu-item-disabled, :where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu-item-disabled:hover { color: rgba(0, 0, 0, 0.25); background: transparent; cursor: not-allowed; }
+:where(.css-133v4sd).ant-tabs-card > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab { margin: 0px; padding: 8px 16px; background: rgba(0, 0, 0, 0.02); border: 1px solid rgb(240, 240, 240); transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); }
+:where(.css-133v4sd).ant-tabs-card > .ant-tabs-nav .ant-tabs-tab-active, :where(.css-133v4sd).ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab-active { color: rgb(5, 103, 61); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-tabs-card > .ant-tabs-nav .ant-tabs-tab-focus, :where(.css-133v4sd).ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab-focus { outline: rgb(74, 140, 105) solid 3px; outline-offset: -3px; transition: outline-offset, outline; }
+:where(.css-133v4sd).ant-tabs-card > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-card > div > .ant-tabs-nav .ant-tabs-ink-bar { visibility: hidden; }
+:where(.css-133v4sd).ant-tabs-card > .ant-tabs-nav .ant-tabs-tab.ant-tabs-tab-focus .ant-tabs-tab-btn, :where(.css-133v4sd).ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab.ant-tabs-tab-focus .ant-tabs-tab-btn { outline: none; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-bottom > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-top > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab { margin-left: 2px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-top > div > .ant-tabs-nav .ant-tabs-tab { border-radius: 8px 8px 0px 0px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab-active, :where(.css-133v4sd).ant-tabs-card.ant-tabs-top > div > .ant-tabs-nav .ant-tabs-tab-active { border-bottom-color: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-bottom > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-tab { border-radius: 0px 0px 8px 8px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-bottom > .ant-tabs-nav .ant-tabs-tab-active, :where(.css-133v4sd).ant-tabs-card.ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-tab-active { border-top-color: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-left > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-right > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-left > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-right > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab { margin-top: 2px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-left > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-left > div > .ant-tabs-nav .ant-tabs-tab { border-radius: 8px 0px 0px 8px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-left > .ant-tabs-nav .ant-tabs-tab-active, :where(.css-133v4sd).ant-tabs-card.ant-tabs-left > div > .ant-tabs-nav .ant-tabs-tab-active { border-right-color: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-right > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-right > div > .ant-tabs-nav .ant-tabs-tab { border-radius: 0px 8px 8px 0px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-right > .ant-tabs-nav .ant-tabs-tab-active, :where(.css-133v4sd).ant-tabs-card.ant-tabs-right > div > .ant-tabs-nav .ant-tabs-tab-active { border-left-color: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-tabs { box-sizing: border-box; margin: 0px; padding: 0px; color: rgba(0, 0, 0, 0.88); font-size: 14px; line-height: 1.57143; list-style: none; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; display: flex; }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav { position: relative; display: flex; flex: 0 0 auto; align-items: center; }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-wrap, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-wrap { position: relative; display: flex; flex: 1 1 auto; align-self: stretch; overflow: hidden; white-space: nowrap; transform: translate(0px); }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-wrap::after { position: absolute; z-index: 1; opacity: 0; transition: opacity 0.3s; content: ""; pointer-events: none; }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-list, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-list { position: relative; display: flex; transition: opacity 0.3s; }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-operations, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-operations { display: flex; align-self: stretch; }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-operations-hidden, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-operations-hidden { position: absolute; visibility: hidden; pointer-events: none; }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-more, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-more { position: relative; padding: 8px 16px; background: transparent; border: 0px; color: rgba(0, 0, 0, 0.88); }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-more::after, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-more::after { position: absolute; right: 0px; bottom: 0px; left: 0px; height: 5px; transform: translateY(100%); content: ""; }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-add, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-add { min-width: 40px; min-height: 40px; margin-left: 2px; background: transparent; border: 1px solid rgb(240, 240, 240); border-radius: 8px 8px 0px 0px; outline: none; cursor: pointer; color: rgba(0, 0, 0, 0.88); transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-add:hover, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-add:hover { color: rgb(24, 115, 72); }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-add:active, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-add:active, :where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-add:focus:not(:focus-visible), :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-add:focus:not(:focus-visible) { color: rgb(0, 64, 38); }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-add:focus-visible, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-add:focus-visible { outline: rgb(74, 140, 105) solid 3px; outline-offset: -3px; transition: outline-offset, outline; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-extra-content { flex: 0 0 auto; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-ink-bar { position: absolute; background: rgb(5, 103, 61); pointer-events: none; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab { position: relative; -webkit-tap-highlight-color: transparent; display: inline-flex; align-items: center; padding: 12px 0px; font-size: 14px; background: transparent; border: 0px; outline: none; cursor: pointer; color: rgba(0, 0, 0, 0.88); }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab-btn:focus:not(:focus-visible), :where(.css-133v4sd).ant-tabs .ant-tabs-tab-remove:focus:not(:focus-visible), :where(.css-133v4sd).ant-tabs .ant-tabs-tab-btn:active, :where(.css-133v4sd).ant-tabs .ant-tabs-tab-remove:active { color: rgb(0, 64, 38); }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab-btn { outline: none; transition: 0.3s; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab-btn .ant-tabs-tab-icon:not(:last-child) { margin-inline-end: 12px; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab-remove { flex: 0 0 auto; margin-right: -4px; margin-left: 8px; color: rgba(0, 0, 0, 0.45); font-size: 12px; background: transparent; border: none; outline: none; cursor: pointer; transition: 0.3s; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab-remove:hover { color: rgba(0, 0, 0, 0.88); }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab-remove:focus-visible { outline: rgb(74, 140, 105) solid 3px; outline-offset: 1px; transition: outline-offset, outline; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab:hover { color: rgb(24, 115, 72); }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn { color: rgb(5, 103, 61); text-shadow: currentcolor 0px 0px 0.25px; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab.ant-tabs-tab-focus .ant-tabs-tab-btn { outline: rgb(74, 140, 105) solid 3px; outline-offset: 1px; transition: outline-offset, outline; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab.ant-tabs-tab-disabled { color: rgba(0, 0, 0, 0.25); cursor: not-allowed; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab.ant-tabs-tab-disabled .ant-tabs-tab-btn:focus, :where(.css-133v4sd).ant-tabs .ant-tabs-tab.ant-tabs-tab-disabled .ant-tabs-remove:focus, :where(.css-133v4sd).ant-tabs .ant-tabs-tab.ant-tabs-tab-disabled .ant-tabs-tab-btn:active, :where(.css-133v4sd).ant-tabs .ant-tabs-tab.ant-tabs-tab-disabled .ant-tabs-remove:active { color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab .ant-tabs-tab-remove .anticon { margin: 0px; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab .anticon:not(:last-child) { margin-right: 12px; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab + .ant-tabs-tab { margin: 0px 0px 0px 32px; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-content { position: relative; width: 100%; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-content-holder { flex: 1 1 auto; min-width: 0px; min-height: 0px; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tabpane:focus-visible { outline: rgb(74, 140, 105) solid 3px; outline-offset: 1px; transition: outline-offset, outline; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tabpane-hidden { display: none; }
+:where(.css-133v4sd).ant-tabs-centered > .ant-tabs-nav .ant-tabs-nav-wrap:not([class*=".ant-tabs-nav-wrap-ping"]) > .ant-tabs-nav-list, :where(.css-133v4sd).ant-tabs-centered > div > .ant-tabs-nav .ant-tabs-nav-wrap:not([class*=".ant-tabs-nav-wrap-ping"]) > .ant-tabs-nav-list { margin: auto; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-switch-appear, :where(.css-133v4sd).ant-tabs .ant-tabs-switch-enter { transition: none; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-switch-appear-start, :where(.css-133v4sd).ant-tabs .ant-tabs-switch-enter-start { opacity: 0; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-switch-appear-active, :where(.css-133v4sd).ant-tabs .ant-tabs-switch-enter-active { opacity: 1; transition: opacity 0.3s; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-switch-leave { position: absolute; transition: none; inset: 0px; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-switch-leave-start { opacity: 1; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-switch-leave-active { opacity: 0; transition: opacity 0.3s; }
+.anticon .anticon .anticon-icon { display: block; }
+.style_closeButton__4wIru .anticon svg { width: 20px; height: 20px; stroke-width: 3px; }
+.style_bannerH5__ITtfq .style_closeButton__4wIru .anticon svg { width: 16px; height: 16px; }
+.style_backButton__6OViq .anticon { font-size: 14px; }
+.style_googleButton__8b_vP .ant-btn-icon { display: inline-flex; align-items: center; line-height: 1; }
+.style_emailButton__rbW2z .anticon { font-size: 18px; color: rgb(86, 106, 99); }
+.style_errorModal__qpTAw .anticon-close { font-size: 22px; }
+.style_errorModal__qpTAw .ant-btn { width: 289px; height: 48px; background: rgb(86, 221, 166); box-shadow: rgb(141, 222, 185) 0px 4px 0px 0px inset; border-radius: 4px; border: 1px solid rgb(40, 40, 40); text-shadow: none; }
+.style_errorModal__qpTAw .ant-btn span { font-size: 20px; font-weight: 600; color: rgb(255, 255, 255); }
+@media (max-width: 839px) {
+  .style_pageContainer__8O_UM { min-height: calc(-54px + 100vh); padding: 18px 12px; }
+  .style_loginWrap__hCyly { padding: 18px 14px 20px; }
+  .style_pageCard__ZvYEw { border-radius: 12px; }
+  .style_loginWrapEmail__sn6Bm { padding-top: 18px; }
+  .style_modalWrap__Uy5jb.style_loginWrapEmail__sn6Bm .style_emailTopBar__1Lnit { top: -14px; }
+  .style_emailTopBar__1Lnit { top: 10px; left: 10px; }
+  .style_backButton__6OViq { height: 40px; padding: 0px 8px; font-size: 14px; }
+  .style_backButton__6OViq .anticon { font-size: 13px; }
+  .style_header__xWFrT { margin-bottom: 0px; }
+  .style_header__xWFrT h2 { margin-top: 16px; }
+  .style_modalWrap__Uy5jb .style_header__xWFrT h2 { margin-top: 12px; }
+  .style_newsletterOptIn__GTcyw { width: calc(100% - 20px); margin: 0px auto 14px; }
+  .style_newsletterOptIn__GTcyw .ant-checkbox-inner { width: 16px; height: 16px; }
+  .style_newsletterOptIn__GTcyw .ant-checkbox + span { padding-inline-start: 5px; }
+  .style_newsletterOptInLabel__oEPHb { font-size: 12px; line-height: 16px; }
+  .style_googleButton__8b_vP { height: 52px; gap: 8px; }
+  .style_googleButton__8b_vP span { font-size: 17px; }
+  .style_googleButtonWithNewsletter__G981A { margin-top: 4px; }
+  .style_googleSubCopy__mQGBW { margin: 8px 0px 12px; font-size: 13px; }
+  .style_divider__RYl_M { margin-bottom: 12px; gap: 8px; }
+  .style_divider__RYl_M strong { font-size: 12px; }
+  .style_emailButton__rbW2z { height: 48px; }
+  .style_emailButton__rbW2z .anticon { font-size: 17px; }
+  .style_emailButton__rbW2z span { font-size: 16px; }
+  .style_socialLogins__oMG_l { margin-top: 14px; gap: 10px; }
+  .style_iconButton__Aa1fc { width: 44px; height: 44px; }
+  .style_emailForm__Bfzgy .ant-input { height: 48px; }
+  .style_emailSubmitButton__GB8ws { height: 48px; font-size: 16px; }
+  .style_emailHintSpacer__4Wf6t { height: 20px; }
+}
+li, ol, ul { list-style: none; margin: 0px; padding: 0px; }
+.ant-btn span { text-shadow: none; }
+.ant-btn-color-primary { box-shadow: none; }
+.hljs, [class*="hljs-"], code, pre, pre code { font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace; }
+.login-modal .close-btn .anticon { font-size: 24px; color: rgb(74, 74, 74); }
+.style_problemDescription__T4cPe .language-js .hljs-title.class_ { color: rgb(204, 135, 0); }
+.style_problemDescription__T4cPe .language-js .hljs-number { color: rgb(38, 191, 64); }
+.style_problemDescription__T4cPe .language-js .hljs-comment { white-space: break-spaces; font-size: 15px; font-style: italic; color: rgb(114, 148, 92); }
+.style_problemDescription__T4cPe .hljs { border-radius: 8px; padding: 20px 24px; }
+.style_premiumTitle__UrIDj .anticon { margin-right: 8px; font-size: 20px; }
+.style_codeTabsWrap__jMkKK { margin: 20px 0px; }
+.style_codeTabsWrap__jMkKK h3 { padding: 0px; margin: 20px 0px; color: rgb(0, 0, 0); font-size: 24px; font-style: normal; font-weight: 700; line-height: normal; }
+.style_codeTabs__DEEq6 { padding: 0px; margin: 16px 0px; border-radius: 10px; border: 1px solid rgb(211, 211, 211); background: rgb(255, 255, 255); }
+.style_codeTabs__DEEq6 .ant-tabs-nav { padding: 2px 15px 0px; background: rgb(231, 255, 249); margin-bottom: 0px; border-radius: 10px 10px 0px 0px; }
+.style_codeTabs__DEEq6 .ant-tabs-nav::before { border-color: rgb(211, 211, 211); }
+.style_codeTabs__DEEq6 .ant-tabs-nav .ant-tabs-tab { height: 35px; padding: 0px 16px; border-top: 1px solid rgba(0, 0, 0, 0); border-right: 1px solid rgba(0, 0, 0, 0); border-left: 1px solid rgba(0, 0, 0, 0); border-image: initial; border-bottom: none; background-color: rgba(0, 0, 0, 0); }
+.style_codeTabs__DEEq6 .ant-tabs-nav .ant-tabs-tab-active { border-radius: 6px 6px 0px 0px; border-top: 1px solid rgb(211, 211, 211); border-right: 1px solid rgb(211, 211, 211); border-left: 1px solid rgb(211, 211, 211); border-image: initial; border-bottom: none; background: rgb(255, 255, 255); }
+.style_codeTabs__DEEq6 .ant-tabs-nav .ant-tabs-tab-active .ant-tabs-tab-btn { color: rgb(0, 97, 71); }
+.style_codeTabs__DEEq6 .ant-tabs-nav .ant-tabs-tab-btn { color: rgb(102, 102, 102); }
+.style_codeTabs__DEEq6 .ant-tabs-tabpane { position: relative; }
+.style_codeTabs__DEEq6 pre { padding: 0px !important; margin: 0px !important; border: none !important; background: rgba(0, 0, 0, 0) !important; }
+.style_codeTabs__DEEq6 pre code { padding: 16px 30px 20px; background: rgba(0, 0, 0, 0); }
+.style_codeTabs__DEEq6 .style_copyBtn__4MbAa { position: absolute; top: 22px; right: 20px; padding: 0px; height: auto; border: none; background: rgba(0, 0, 0, 0); box-shadow: none; }
+.style_codeTabs__DEEq6 .style_copyBtn__4MbAa:hover { color: rgb(5, 103, 61); background: rgba(0, 0, 0, 0) !important; }
+pre code.hljs { display: block; overflow-x: auto; padding: 1em; }
+code.hljs { padding: 3px 5px; }
+.hljs { color: rgb(36, 41, 46); background: rgb(255, 255, 255); }
+.hljs-doctag, .hljs-keyword, .hljs-meta .hljs-keyword, .hljs-template-tag, .hljs-template-variable, .hljs-type, .hljs-variable.language_ { color: rgb(215, 58, 73); }
+.hljs-title, .hljs-title.class_, .hljs-title.class_.inherited__, .hljs-title.function_ { color: rgb(111, 66, 193); }
+.hljs-attr, .hljs-attribute, .hljs-literal, .hljs-meta, .hljs-number, .hljs-operator, .hljs-selector-attr, .hljs-selector-class, .hljs-selector-id, .hljs-variable { color: rgb(0, 92, 197); }
+.hljs-meta .hljs-string, .hljs-regexp, .hljs-string { color: rgb(3, 47, 98); }
+.hljs-built_in, .hljs-symbol { color: rgb(227, 98, 9); }
+.hljs-code, .hljs-comment, .hljs-formula { color: rgb(106, 115, 125); }
+.hljs-name, .hljs-quote, .hljs-selector-pseudo, .hljs-selector-tag { color: rgb(34, 134, 58); }
+.hljs-subst { color: rgb(36, 41, 46); }
+.hljs-section { color: rgb(0, 92, 197); font-weight: 700; }
+.hljs-bullet { color: rgb(115, 92, 15); }
+.hljs-emphasis { color: rgb(36, 41, 46); font-style: italic; }
+.hljs-strong { color: rgb(36, 41, 46); font-weight: 700; }
+.hljs-addition { color: rgb(34, 134, 58); background-color: rgb(240, 255, 244); }
+.hljs-deletion { color: rgb(179, 29, 40); background-color: rgb(255, 238, 240); }
+.style_errorModal__dGAyj .ant-modal-confirm-body .anticon-exclamation-circle { color: rgb(255, 68, 27); }
+.style_errorModal__dGAyj .ant-modal-confirm-btns .ant-btn { border-radius: 5px; }
+.style_course__yn_w8 .style_learnContent__6Nc1e { margin: 0px auto; padding-bottom: 50px; overflow: auto; }
+.style_course__yn_w8 .style_learnContent__6Nc1e img { width: 100%; }
+.style_course__yn_w8 .style_learnContent__6Nc1e .table-wrap { overflow: auto; margin-bottom: 12px; }
+.style_course__yn_w8 header .anticon { margin-left: 20px; font-size: 20px; }
+.style_problemList__2UuWm .ant-progress-status-success .ant-progress-text .anticon { font-size: 15px; }
+.style_container__9mWse .style_menuToggle__MLC_p .ant-btn { width: 32px; height: 32px; border-radius: 6px; border: 1px solid rgb(174, 174, 174); background: rgb(255, 255, 255); box-shadow: none; }
+.style_articleWrap__Xn2yv { min-height: calc(-286px + 100vh); overflow: auto; background-color: rgb(255, 255, 255); }
+.style_learnContent__K5K7M { min-width: 498px; max-width: 1000px; overflow: auto; margin: 0px auto; padding: 50px 30px; background-color: rgb(255, 255, 255); }
+.style_learnContent__K5K7M .table-wrap { overflow: auto; margin-bottom: 12px; position: relative; }
+.style_learnContent__K5K7M .table-wrap table { border-collapse: collapse; min-width: var(--table-min-width,auto); }
+.style_learnContent__K5K7M .table-wrap td { line-height: 24px; }
+.style_learnContent__K5K7M .table-wrap td a { color: rgb(33, 37, 41) !important; cursor: unset !important; }
+.style_learnContent__K5K7M table.inside-out { width: 100%; min-width: unset; margin: 16px 0px; background-color: rgb(245, 245, 245); border-radius: 4px; border: none; }
+.style_learnContent__K5K7M table.inside-out td { padding: 16px 20px; border: none; }
+.style_learnContent__K5K7M table.inside-out td p { margin: 0px 0px 10px; }
+.style_learnContent__K5K7M table.inside-out td p:last-child { margin-bottom: 0px; }
+.style_learnContent__K5K7M table.inside-out tr { border: none; background-color: rgba(0, 0, 0, 0) !important; }
+.style_learnContent__K5K7M table.inside-out, .style_learnContent__K5K7M table.inside-out * { border: none !important; }
+.style_learnContent__K5K7M table.inside-out + p { text-align: left; }
+.style_learnContent__K5K7M table.split-50 { width: 100%; min-width: unset; margin: 16px 0px; }
+.style_learnContent__K5K7M table.split-50 td { width: 50%; vertical-align: top; padding: 16px 20px; }
+.style_learnContent__K5K7M table.split-50 tr { background-color: rgba(0, 0, 0, 0) !important; }
+.style_learnContent__K5K7M table.split-50, .style_learnContent__K5K7M table.split-50 * { border: none !important; }
+.style_learnContent__K5K7M table.split-50 + p { text-align: left; }
+.style_learnContent__K5K7M .code-table { width: 100%; overflow: auto; margin: 16px 0px !important; }
+.style_learnContent__K5K7M .code-table table { border-collapse: collapse; }
+.style_learnContent__K5K7M .code-table pre { margin: 0px; }
+.style_learnContent__K5K7M .code-table pre code { padding-left: 0px; padding-right: 0px; }
+.style_learnContent__K5K7M .code-table tbody td { font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace; }
+.style_learnContent__K5K7M .code-table td > p { margin: 0px; }
+.style_learnContent__K5K7M .code-table tr:nth-child(2n) { background-color: rgb(255, 255, 255) !important; }
+.style_learnContent__K5K7M mark.highlight-magenta { background-color: rgba(255, 182, 193, 0.4); padding: 2px 0px; border-radius: 2px; }
+.style_learnContent__K5K7M mark.highlight-green { background-color: rgba(152, 251, 152, 0.3); padding: 2px 0px; border-radius: 2px; }
+.style_learnContent__K5K7M > p:last-of-type { margin: 0px; font-size: 14px !important; text-align: left !important; }
+.style_learnContent__K5K7M .style_chapter__grtAe { width: 96px; height: 80px; margin-bottom: 6px; font-size: 80px; font-weight: 600; color: rgb(53, 206, 160); line-height: 80px; }
+.style_learnContent__K5K7M center { width: 100%; overflow: auto; }
+.style_learnContent__K5K7M h1 { margin-top: 0px; margin-bottom: 20px; font-size: 40px; font-weight: 600; color: rgb(40, 40, 40); line-height: 50px; text-wrap: balance; }
+.style_learnContent__K5K7M h2 { margin-top: 16px; font-size: 30px; line-height: 40px; }
+.style_learnContent__K5K7M h2, .style_learnContent__K5K7M h3 { margin-bottom: 10px; font-weight: 600; color: rgb(40, 40, 40); text-wrap: balance; }
+.style_learnContent__K5K7M h3 { font-size: 26px; line-height: 37px; }
+.style_learnContent__K5K7M h4 { margin-bottom: 10px; font-size: 20px; font-weight: 600; color: rgb(40, 40, 40); line-height: 28px; text-wrap: balance; }
+.style_learnContent__K5K7M h5 { font-size: 16px; }
+.style_learnContent__K5K7M h5, .style_learnContent__K5K7M h6 { margin-bottom: 10px; font-weight: 600; color: rgb(40, 40, 40); line-height: 20px; text-wrap: balance; }
+.style_learnContent__K5K7M h6 { font-size: 15px; }
+.style_learnContent__K5K7M hr { margin: 24px 0px; border-top: 1px solid rgb(233, 233, 233); border-bottom: none; }
+.style_learnContent__K5K7M p { margin-bottom: 10px; font-weight: 400; line-height: 26px; font-size: 15px; text-align: justify; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M ul { margin-left: 28px; margin-bottom: 16px; list-style: disc; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M li { list-style: disc; color: rgb(33, 37, 41); line-height: 26px; font-size: 15px; }
+.style_learnContent__K5K7M li p { margin-top: 0px; margin-bottom: 4px; }
+.style_learnContent__K5K7M li li { list-style: circle; }
+.style_learnContent__K5K7M ol { margin-left: 28px; margin-bottom: 16px; }
+.style_learnContent__K5K7M ol, .style_learnContent__K5K7M ol li { list-style: decimal; }
+.style_learnContent__K5K7M a { color: rgb(33, 37, 41); text-decoration: underline; }
+.style_learnContent__K5K7M a:hover, .style_learnContent__K5K7M a:hover p { color: rgb(5, 103, 61); }
+.style_learnContent__K5K7M figcaption { margin: 12px 0px; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M .tableCaption { width: 100%; margin-top: 12px; text-align: center !important; color: rgb(33, 37, 41) !important; }
+.style_learnContent__K5K7M .tableCaption p { text-align: center; }
+.style_learnContent__K5K7M .note-block { padding: 16px; margin: 20px 0px; text-align: left; color: rgb(33, 37, 41); background-color: rgb(245, 245, 245); border: 1px solid rgb(221, 221, 221); border-radius: 6px; font-size: 14px !important; }
+.style_learnContent__K5K7M .note-block p { line-height: 24px; margin: 0px 0px 8px; font-size: 14px !important; }
+.style_learnContent__K5K7M .note-block p:last-child { margin-bottom: 0px; }
+.style_learnContent__K5K7M .note-block ul { margin-top: 8px; margin-left: 18px !important; margin-bottom: 0px !important; }
+.style_learnContent__K5K7M .note-block ul li { line-height: 24px; font-size: 14px; }
+.style_learnContent__K5K7M table { margin: 0px auto; border: 1px solid rgb(233, 233, 233); border-collapse: collapse; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M table tr { border-bottom: 1px solid rgb(233, 233, 233); }
+.style_learnContent__K5K7M table tr:last-child { border-bottom: none; }
+.style_learnContent__K5K7M table tr:nth-child(2n) { background-color: rgb(245, 245, 245); }
+.style_learnContent__K5K7M table tr td { padding: 10px; border-right: 1px solid rgb(233, 233, 233); line-height: 24px; }
+.style_learnContent__K5K7M table tr td:last-child { border-right: none; }
+.style_learnContent__K5K7M thead { border-bottom: 1px solid rgb(233, 233, 233); background-color: rgb(245, 245, 245); }
+.style_learnContent__K5K7M thead th { padding: 10px; border-right: 1px solid rgb(233, 233, 233); text-align: left; }
+.style_learnContent__K5K7M thead th:last-child { border-right: none; }
+.style_learnContent__K5K7M thead th strong { font-weight: 700; }
+.style_learnContent__K5K7M figure { margin: 16px 0px; }
+.style_learnContent__K5K7M .info-box { display: flex; align-items: flex-start; gap: 8px; padding: 16px; background-color: rgb(248, 249, 250); border-left: 4px solid rgb(53, 206, 160); margin: 24px 0px; font-size: 14px; line-height: 1.6; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M .info-box img { flex-shrink: 0; margin-top: 3px; }
+.style_learnContent__K5K7M .info-box p { margin: 0px; }
+.style_learnContent__K5K7M .sample-dialogue { padding: 16px; background-color: rgb(248, 249, 250); border: 1px solid rgb(233, 233, 233); border-radius: 4px; margin: 24px 0px; font-size: 14px; line-height: 1.4; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M .sample-dialogue p { margin: 0px; }
+.style_learnContent__K5K7M .sample-dialogue br { display: none; }
+.style_learnContent__K5K7M pre { flex: 1 1 0%; margin-bottom: 4px; }
+.style_learnContent__K5K7M pre code { word-break: break-all; white-space: pre; color: rgb(22, 105, 176); }
+.style_learnContent__K5K7M u { word-break: break-all; color: rgb(66, 131, 196); }
+.style_learnContent__K5K7M table.style_quote__VVyDM { min-width: unset; width: 100%; margin: 16px 0px; background-color: rgb(245, 245, 245); border-radius: 4px; border: 1px solid rgb(233, 233, 233); }
+.style_learnContent__K5K7M table.style_quote__VVyDM td { padding: 16px 20px; border: none; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td p { margin: 0px 0px 10px; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td p:last-child { margin-bottom: 0px; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td ol, .style_learnContent__K5K7M table.style_quote__VVyDM td ul { margin: 10px 0px 10px 20px; padding: 0px; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td ol li, .style_learnContent__K5K7M table.style_quote__VVyDM td ul li { margin: 6px 0px; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td em { font-style: italic; }
+.style_learnContent__K5K7M table.style_quote__VVyDM tr { border: none; background-color: rgba(0, 0, 0, 0) !important; }
+.style_learnPad__UNRJV .style_learnContent__K5K7M { padding: 20px 30px; }
+.style_learnH5__R4PJq .style_chapter__grtAe { display: block; width: 335px; height: 30px; font-size: 30px; line-height: 30px; text-align: left; font-weight: 600; color: rgb(53, 206, 160); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M { min-width: 320px; padding: 0px 20px 50px; margin: 32px auto 0px; overflow: hidden auto; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M .table-wrap { overflow: auto; margin-bottom: 12px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M .table-wrap td a { color: rgb(33, 37, 41) !important; cursor: unset !important; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h1 { margin-bottom: 0px; font-size: 20px; font-weight: 600; color: rgb(40, 40, 40); line-height: 28px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h2 { margin-top: 16px; font-size: 20px; font-weight: 600; color: rgb(40, 40, 40); line-height: 28px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h3 { font-size: 18px; font-weight: 600; color: rgb(40, 40, 40); line-height: 25px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h4 { font-size: 16px; font-weight: 600; color: rgb(40, 40, 40); line-height: 22px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h5 { margin-bottom: 10px; font-size: 15px; font-weight: 600; color: rgb(40, 40, 40); line-height: 20px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M p { font-size: 15px; color: rgb(33, 37, 41); text-align: left; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ul { margin-left: 28px; margin-bottom: 16px; list-style: disc; color: rgb(33, 37, 41); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ul p code { word-break: break-all; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M li { list-style: disc; color: rgb(33, 37, 41); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M li p { margin: 0px 0px 4px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M li li { list-style: circle; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ol { margin-left: 28px; margin-bottom: 16px; list-style: decimal; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ol li { list-style: decimal; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ol li a { word-break: break-all; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M figcaption { margin: 12px 0px; color: rgb(33, 37, 41); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table { margin: 0px auto; border: 1px solid rgb(233, 233, 233); color: rgb(33, 37, 41); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M thead { border-bottom: 1px solid rgb(233, 233, 233); background-color: rgb(245, 245, 245); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M thead th { padding: 10px; border-right: 1px solid rgb(233, 233, 233); text-align: left; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M thead th:last-child { border-right: none; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M thead th strong { font-weight: 700; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr { border-bottom: 1px solid rgb(233, 233, 233); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr:last-child { border-bottom: none; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr:nth-child(2n) { background-color: rgb(245, 245, 245); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr td { padding: 10px; border-right: 1px solid rgb(233, 233, 233); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr td:last-child { border-right: none; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M figure { margin: 16px 0px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M figure span:first-child { flex: 1 1 0%; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M figure img { max-width: 100%; height: auto; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M pre { flex: 1 1 0%; padding-bottom: 4px; margin-bottom: 4px; overflow: auto; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M pre code { word-break: break-all; color: rgb(22, 105, 176); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M u { word-break: break-all; color: rgb(66, 131, 196); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M code { word-break: break-all; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M blockquote p { font-weight: 400; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 { display: block; width: 100%; min-width: unset; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 tbody { display: block; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 tr { display: flex; flex-direction: column-reverse; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 td { display: block; padding: 10px 0px; width: 100% !important; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 td:first-child { padding-top: 20px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 td:last-child { padding-bottom: 0px; }
+.style_markCompleteWrap__YEi4w { display: flex; justify-content: flex-end; margin-top: 32px; }
+.style_markComplete__jnD2I { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-width: 220px; height: 48px; padding: 0px 22px; border-radius: 6px; border: 1px solid rgb(53, 206, 160); background: rgb(255, 255, 255); color: rgb(20, 159, 118); font-size: 15px; font-weight: 600; cursor: pointer; transition: border-color 0.2s, color 0.2s, background-color 0.2s; }
+.style_markComplete__jnD2I:disabled { opacity: 0.6; cursor: not-allowed; }
+.style_emptySquare__K6JN0 { display: inline-block; width: 18px; height: 18px; border: 2px solid; border-radius: 2px; flex-shrink: 0; }
+.style_markCompleted__Bcull { background: rgb(255, 255, 255); border-color: rgb(53, 206, 160); color: rgb(20, 159, 118); }
+@media (hover: hover) {
+  .style_markCompleted__Bcull:not(:disabled):hover { border-color: rgb(255, 77, 79); color: rgb(255, 77, 79); }
+  .style_markCompleted__Bcull:not(:disabled):hover .style_completedText__zQmXX { display: none; }
+  .style_markCompleted__Bcull:not(:disabled):hover .style_markIncompleteText__ujVfp { display: inline; }
+}
+.style_markCompleteLoading__YL9X9 { background: rgb(255, 255, 255); border-color: rgb(53, 206, 160); color: rgb(153, 153, 153); cursor: default; }
+</style>
+</head>
+<body>
+<article class="style_learnContent__K5K7M">
+<header><h1>Product Array Without Current Element</h1></header><div class="style_problemDescription__T4cPe"><p>Given an array of integers, return an array res so that <code>res[i]</code> is equal to the product of all the elements of the input array except <code>nums[i]</code> itself.</p><h4 id="example">Example:</h4><pre><code class="hljs language-python">Input: nums = [<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]
+Output: [<span class="hljs-number">60</span>, <span class="hljs-number">40</span>, <span class="hljs-number">120</span>, <span class="hljs-number">30</span>, <span class="hljs-number">24</span>]
+</code></pre><p>Explanation: The output value at index 0 is the product of all numbers except <code>nums[0]</code> (3⋅1⋅4⋅5 = 60). The same logic applies to the rest of the output.</p></div>
+<h2 id="intuition">Intuition</h2>
+<p>The straightforward solution to this problem is to find the total product of the array and divide it by each of the values in nums individually to get the output array:</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a calculation demonstrating a coding pattern.  The left side shows an array `[2, 3, 1, 4, 5]` with each element visually connected via orange curved lines to a central node labeled 'product = 120'. This indicates that the product of all elements in the array is 120. An arrow points to the right, leading to a calculation where 120 is divided by each element of the original array: `res = [120/2, 120/3, 120/1, 120/4, 120/5]`.  Below this, the results of these divisions are shown as a new array: `res = [60, 40, 120, 30, 24]`.  The diagram visually illustrates the process of calculating the result of dividing a product by each of its factors." loading="lazy" width="551" height="92" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/prefix-sums/product-array-without-current-element/image-10-03-1-N4GBWUNI.svg" style="color: transparent;"></div></figure>
+<p>This approach allows us to solve the problem in linear time and constant space. However, a potential follow-up question by an interviewer is: <strong>what if we can’t use division?</strong> Let’s explore a solution to this.</p>
+<p><strong>Avoiding division</strong><br>
+A brute force approach involves calculating the output value for each index one by one. This would take <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span> time per index, leading to an overall time complexity of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1.0641em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.8141em;"><span style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>, where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> denotes the length of the array. This is inefficient, so let's look at other approaches.</p>
+<p>An important insight is that the output for any given index can be determined by multiplying two things:</p>
+<ol>
+<li>The product of all numbers to the left of the index.</li>
+<li>The product of all numbers to the right of the index.</li>
+</ol>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a diagram illustrating a coding pattern, likely related to array processing or a similar data structure.  A top-level element labeled 'i' points downwards to an array-like structure visually divided into two parts. The left part, highlighted in light blue, contains the numbers '2' and '3', with a calculation 'product = 6' indicating their multiplication. The right part, highlighted in light purple, contains '4' and '5', with a corresponding calculation 'product = 20'.  A gray brace connects the results of these sub-calculations ('6' and '20'), leading to a final calculation 'res[i] = 6 * 20 = 120', showing the multiplication of the two sub-products and assigning the result (120) to an array element 'res[i]', where 'i' likely represents an index.  The diagram visually demonstrates a process where sub-arrays are processed independently to produce intermediate results, which are then combined to generate a final result." loading="lazy" width="231" height="137" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/prefix-sums/product-array-without-current-element/image-10-03-2-4VEDNKPP.svg" style="color: transparent;"></div></figure>
+<p>Why is this helpful? If we have precomputed the products of all values to the left and right of each index, we can quickly calculate the output for each index. More specifically, we would need two arrays that contain the left and right products of each index, respectively:</p>
+<ul>
+<li>
+<p><code>left_products</code><em>:</em> an array where <code>left_products[i]</code> is the <strong>product of all values to the left of i</strong>.</p>
+</li>
+<li>
+<p><code>right_products</code>: an array where <code>right_products[i]</code> is the <strong>product of all values to the right of i</strong>.</p>
+</li>
+</ul>
+<p>To obtain the <code>left_products</code> array, we need to keep track of a cumulative product of all elements we encounter as we move from left to right. The value of this product at a specific index should represent the product of all values to its left. The same is true of the <code>right_products</code> array, but the cumulative products start from the right. Once we have these arrays, multiplying the left and right product values at each index gives us the output value of that index.</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a step-by-step calculation of the product of all elements in an array except the element at the current index.  The top row shows an input array `nums` containing the integers [2, 3, 1, 4, 5]. Below this, `left_products` array stores the cumulative product of elements to the left of each index in `nums`, starting with 1 (the product of zero elements).  Each element in `left_products` is calculated by multiplying the previous element by the corresponding element in `nums`. Similarly, `right_products` calculates the cumulative product of elements to the right of each index, starting from the rightmost element and moving left.  Asterisks (*) visually represent the multiplication operations between consecutive elements in `nums` to obtain `left_products`.  Double vertical lines (||) represent the multiplication between corresponding elements of `left_products` and `right_products` to produce the final `res` array, which contains the product of all elements in `nums` except the element at the current index.  For example, `res[0]` (60) is calculated as `left_products[0]` (1) * `right_products[0]` (60)." loading="lazy" width="439" height="152" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/prefix-sums/product-array-without-current-element/image-10-03-3-VYSSWNKT.svg" style="color: transparent;"></div></figure>
+<p>Since the left and right product arrays are formed through cumulative multiplication, this leads us to the concept of prefix products.</p>
+<p><strong>Prefix products</strong><br>
+Prefix products are created in the same way as a prefix sum array, with two key differences:</p>
+<ol>
+<li>Instead of cumulative addition, we use cumulative multiplication.</li>
+<li>We initialize the prefix product array with 1 instead of 0, to avoid multiplying the cumulative products by 0.</li>
+</ol>
+<p>Let’s try creating the <code>left_products</code> array, initializing it with 1 at index 0:</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a code snippet showcasing an array named `nums` initialized with the integer values [2, 3, 1, 4, 5].  Below it, another array named `left_products` is partially shown, initialized with the value `[1` suggesting it's an array intended to store the product of numbers to the left of each element in the `nums` array.  The arrangement is vertical, with `nums` above `left_products`, implying a sequential relationship where `left_products` is likely calculated based on the values in `nums`.  No explicit connections or information flow are visually depicted beyond the implied relationship between the two arrays; the image only shows the initial state of the arrays before any computation is performed.  There are no URLs or parameters present." loading="lazy" width="380" height="58" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/prefix-sums/product-array-without-current-element/image-10-03-4-DZZMAPDB.svg" style="color: transparent;"></div></figure>
+<hr>
+<p>For each subsequent index in the <code>left_products</code> array, we calculate its value by multiplying the running product by the previous value in the <code>nums</code> array:</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a visual depiction of a calculation step within a coding pattern, likely related to prefix or suffix product calculation.  The top line shows a list named 'nums' containing the integer array [2, 3, 1, 4, 5].  Below, a list named 'left_products' is initialized as an array.  Gray arrows indicate that the initial values of 'nums' (2 and then 3) are being processed.  A central asterisk (*) symbolizes a calculation operation.  An orange arrow shows the result of this operation (2, likely the product of 2 and 1) being appended to 'left_products'.  The diagram suggests an iterative process where elements from 'nums' are sequentially multiplied and accumulated into 'left_products', representing a running product from the left side of the 'nums' array.  The incomplete 'left_products' array and the continuation of 'nums' imply that the calculation is ongoing." loading="lazy" width="384" height="58" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/prefix-sums/product-array-without-current-element/image-10-03-5-HHXGSRBD.svg" style="color: transparent;"></div></figure>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a calculation step involving two arrays labeled `nums` and `left_products`. The array `nums` is displayed as `[ 2 3 1 4 5 ]`, and the array `left_products` is displayed as `[ 1 2 6 ]`. The diagram illustrates how the value '6' in the `left_products` array is derived. Two grey arrows point towards a red asterisk symbol located between the two arrays. One arrow originates from the number '3' in the `nums` array (specifically the second element, index 1). The other arrow originates from the number '2' in the `left_products` array (the second element, index 1). A curved orange arrow originates from the red asterisk and points towards the number '6' in the `left_products` array (the third element, index 2). The number '6' is highlighted in orange. This visual representation indicates that the value '6' in `left_products` is the result of multiplying the value '3' from `nums` by the value '2' from `left_products`, demonstrating a step in calculating prefix products where `left_products[i] = nums[i-1] * left_products[i-1]`. Specifically, it shows `left_products[2] = nums[1] * left_products[1]`, or 6 = 3 * 2." loading="lazy" width="384" height="58" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/prefix-sums/product-array-without-current-element/image-10-03-6-3NKFAYMJ.svg" style="color: transparent;"></div></figure>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a visual depiction of a calculation step within a coding pattern, likely related to prefix or suffix product calculation in an array.  The top line shows an array named 'nums' containing the integer values [2, 3, 1, 4, 5]. Below this, another array named 'left_products' is shown, initialized with values [1, 2, 6, 6, 1].  Grey arrows indicate that the values 1, 3, and 1 from the 'nums' array are being multiplied cumulatively to generate the corresponding values in the 'left_products' array (1*1=1, 1*2=2, 1*2*3=6). An orange curved arrow points from the value '4' in the 'nums' array to the value '6' in the 'left_products' array, indicating that the next calculation step involves multiplying the current cumulative product (6) by 4 to update the next element in 'left_products'.  A '*' symbol is placed near the point of calculation to highlight the multiplication operation. The final value in 'left_products' (1) is not explicitly shown to be calculated in the image." loading="lazy" width="384" height="58" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/prefix-sums/product-array-without-current-element/image-10-03-7-5RVNNOFE.svg" style="color: transparent;"></div></figure>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a visual depiction of a calculation involving two arrays.  The top array, labeled 'nums = [2 3 1 4 5]', contains five numerical elements: 2, 3, 1, 4, and 5, enclosed within square brackets. The bottom array, labeled 'left_products = [1 2 6 6 24]', also contains five elements: 1, 2, 6, 6, and 24, similarly enclosed in square brackets.  Grey arrows point from the elements 4 and 6 in the 'nums' array to the asterisk (*) symbol, indicating a multiplication operation. An orange curved arrow originates from the asterisk and points to the final element, 24, in the 'left_products' array, signifying that 24 is the result of multiplying 4 and 6.  The arrangement visually demonstrates a cumulative product calculation from left to right within the 'nums' array, resulting in the corresponding values in the 'left_products' array.  The final element in 'left_products' (24) is highlighted in orange to emphasize it as the result of the calculation." loading="lazy" width="384" height="58" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/prefix-sums/product-array-without-current-element/image-10-03-8-4SC67TAJ.svg" style="color: transparent;"></div></figure>
+<hr>
+<p>The same can be done for the <code>right_products</code> array, but starting on the right and moving leftward:</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a snippet of code illustrating a computation.  The top line declares a variable named `nums` and assigns it an array containing the integer values [2, 3, 1, 4, 5]. Below this, a second line declares a variable named `right_products` and initializes it as an array, currently empty except for a single closing bracket `]`.  The arrangement suggests that the `right_products` array will be populated based on calculations involving the `nums` array.  There is no explicit connection shown between the two arrays, only their declaration and initial values.  The image implies a process where the `right_products` array will be filled with values derived from the `nums` array, likely involving a right-to-left product calculation. The number `1` at the end of `right_products` suggests an initial value or a placeholder for the result of the computation." loading="lazy" width="383" height="57" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/prefix-sums/product-array-without-current-element/image-10-03-9-AUS57RSC.svg" style="color: transparent;"></div></figure>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a visual depiction of a coding pattern, likely related to array manipulation.  The top line shows an array named 'nums' initialized with the integer values [2, 3, 1, 4, 5]. Below this, a partially filled array named 'right_products' is shown as an empty array `[]`.  An orange curved arrow points from the number 5 in the 'nums' array to an asterisk (*), indicating a calculation is performed on this element.  Gray arrows point from both the 5 and the 1 (the last two elements of the 'nums' array) to the asterisk, suggesting a multiplication operation. The result of this multiplication (5 * 1 = 5) is then shown as the first element (5) in the 'right_products' array.  The diagram illustrates a step-by-step process of calculating the product of elements to the right of each element in the 'nums' array and storing the results in the 'right_products' array.  The diagram only shows the calculation for the last element, implying a similar process would be repeated for the preceding elements." loading="lazy" width="384" height="57" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/prefix-sums/product-array-without-current-element/image-10-03-10-YCIVOIZO.svg" style="color: transparent;"></div></figure>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a visual depiction of a coding pattern, likely illustrating the calculation of cumulative products from right to left within an array.  The top line shows an array named 'nums' containing the integer values [2, 3, 1, 4, 5]. Below, an array named 'right_products' is initialized as empty.  The core of the diagram shows the calculation process:  grey arrows point from the elements of the 'nums' array (4 and 5) to a multiplication symbol (*), indicating that these elements are being multiplied. The result of 4 * 5 = 20 is shown in orange, and an orange curved arrow points to this result from the multiplication symbol, highlighting the flow of calculation.  This 20 is the first element of the 'right_products' array. The next element of 'right_products' (5) is calculated by multiplying the next element to the left in 'nums' (1) with the previous result (20/5 = 4, which is not explicitly shown but implied). The final element of 'right_products' (1) is simply the last element of 'nums'. The diagram visually demonstrates a right-to-left cumulative product calculation." loading="lazy" width="384" height="57" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/prefix-sums/product-array-without-current-element/image-10-03-11-CY3FIWS6.svg" style="color: transparent;"></div></figure>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a diagram illustrating a coding pattern, likely related to calculating cumulative products from right to left within an array.  The top line shows an array named 'nums' containing the integer values [2, 3, 1, 4, 5]. Below this, an array named 'right_products' is partially shown, initialized as an empty array.  Gray arrows point from the 'nums' array to the 'right_products' array, indicating a calculation flow.  A multiplication symbol (*) is positioned centrally, suggesting that the calculation involves multiplication.  An orange curved arrow points from the last element (5) of 'nums' to the first element (20) of 'right_products', indicating that the first element of 'right_products' is the cumulative product of the elements in 'nums' from right to left (5 * 4 * 1 * 3 * 2 = 120, but the image shows 20, which is likely a mistake or a simplified example). The subsequent elements in 'right_products' (20, 5, 1) are also derived from this right-to-left cumulative product calculation, with each element representing the product of the remaining elements to its right in the 'nums' array.  The diagram visually demonstrates the process of generating a new array containing cumulative products from the right side of the input array." loading="lazy" width="384" height="57" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/prefix-sums/product-array-without-current-element/image-10-03-12-4URC62ZT.svg" style="color: transparent;"></div></figure>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a diagram illustrating a calculation of right products.  The top row shows a list labeled 'nums = [2 3 1 4 5]', representing an array named 'nums' containing the integer values 2, 3, 1, 4, and 5.  Below this, labeled 'right_products =', is a second array showing the result of a calculation.  This array contains the values [60 20 20 5 1].  Gray arrows point from the 'nums' array to the 'right_products' array, indicating a dependency.  A prominent orange curved arrow points from the first element of the 'right_products' array (60) to the asterisk (*) symbol, which is positioned between the two arrays, suggesting that the calculation starts from the rightmost element of the 'nums' array and proceeds leftward, accumulating products.  The asterisk likely represents the multiplication operation used in the calculation." loading="lazy" width="384" height="57" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/prefix-sums/product-array-without-current-element/image-10-03-13-XNC7B4L7.svg" style="color: transparent;"></div></figure>
+<hr>
+<p>Once both arrays are populated, we can compute each value of the output array, where <code>res[i]</code> is equal to the product of <code>left_products[i]</code> and <code>right_products[i]</code>, as previously demonstrated.</p>
+<p><strong>Reducing space</strong><br>
+We have successfully found a solution that doesn't involve division and runs in linear time. However, this solution takes up linear space due to the left and right product arrays. Can we compute the output array in place without taking up extra space?</p>
+<p>An important thing to realize is that we don’t necessarily need to create the left and right product arrays to populate the output array. Instead, we can <strong>directly compute and store the left and right products in the output array as we calculate them</strong>.</p>
+<p>This can be done in two steps:</p>
+<p>1. First, populate the output array (<code>res</code>) the same way we populated <code>left_products</code>. This prepares the output array to be multiplied by the right products:</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a step-by-step calculation of the product of elements to the left of each element in an array.  The top line shows an array named `nums` containing the integer values [2, 3, 1, 4, 5]. Below it, `left_products` is an array initialized with the cumulative product of elements to the left of each corresponding element in `nums`, shown in gray.  The first element is 1 (as there are no elements to its left), the second is 2 (the product of the first element in `nums`), the third is 6 (2*3), the fourth is 6 (2*3*1), and the fifth is 24 (2*3*1*4). Finally, `res` is an array that appears to be a copy of `left_products`, displayed in black, with a gray arrow pointing to the right from the end of `res`, indicating the final result of the calculation.  The values in `res` are identical to those in `left_products`, suggesting that the calculation of the cumulative left products is complete and stored in `res`." loading="lazy" width="406" height="100" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/prefix-sums/product-array-without-current-element/image-10-03-14-JGVIF7K3.svg" style="color: transparent;"></div></figure>
+<p>2. Then, instead of populating a <code>right_products</code> array, we directly multiply the running product from the right (<code>right_product</code>) into the output array:</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a step-by-step illustration of a coding pattern, likely for calculating the product of array elements to the right of each element.  Two instances are shown, each depicting an array `nums` = [2, 3, 1, 4, 5] and an array `res` which is being populated.  The `res` array initially contains [1, 2, 6, 6, 24] in the first instance and [1, 2, 6, 30, 24] in the second.  A variable `right_product` is used; it starts at 1.  Each instance shows a dashed box containing calculations.  In the first instance, the calculation `res[i] = res[i] * right_product` updates `res[3]` (initially 6) to 24 by multiplying it with `right_product` (1). Then, `right_product` is updated to 5 (1 * 5).  The second instance shows a similar calculation, but now `res[3]` (initially 6) is updated to 30 (6 * 5), and `right_product` is updated to 20 (5 * 4).  Arrows indicate the flow of information:  the updated `right_product` value from one step feeds into the next step's calculation, and the updated `res[i]` value reflects the result of the calculation.  The `(i)` symbols above the `nums` arrays indicate the iteration index." loading="lazy" width="624" height="303" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/prefix-sums/product-array-without-current-element/image-10-03-15-YYG3YCWG.svg" style="color: transparent;"></div></figure>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a step-by-step illustration of an array manipulation algorithm.  The left side shows two arrays: `nums` containing the integer values [2, 3, 1, 4, 5], and `res` initialized to [1, 2,  ,  ,  ]. An arrow points from a small 'i' symbol to the element '1' in `nums`, indicating the current index being processed. The third element of `res` is highlighted in peach and shows the value 120, resulting from a calculation. The right side displays the calculation details: `res[i] = res[i] * right_product`, where `res[i]` represents the current element in `res` (initially 6), and `right_product` is a variable. The calculation shows `6 * 20 = 120`, updating `res[i]`.  Below, the update of `right_product` is shown as `right_product = right_product * nums[i]`, which calculates `20 * 1 = 20`, implying that `right_product` is iteratively updated based on the elements in `nums`.  The overall diagram visualizes a process where an array (`res`) is populated by multiplying its elements with a dynamically updated `right_product`, derived from the `nums` array." loading="lazy" width="624" height="124" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/prefix-sums/product-array-without-current-element/image-10-03-16-R7U4TU72.svg" style="color: transparent;"></div></figure>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a step-by-step illustration of a coding pattern, likely related to array manipulation.  The left side shows an array named `nums` containing the integer values [2, 3, 1, 4, 5], and another array `res` initialized as [1,  _, _, _, _].  A downward arrow points from a labeled box 'i' to the element '3' in `nums`, indicating an iteration index. The second element of `res` is highlighted with a peach-colored circle containing the value 40. The right side displays a calculation demonstrating how the value 40 is derived: `res[i] = res[i] * right_product`, where `res[i]` (the second element of `res`) is calculated as 2 (the first element of `nums`) multiplied by 20 (the `right_product`).  Further calculations show that `right_product` is updated iteratively: initially it's 20, then it becomes 60 (20 * 3), implying a right-to-left product calculation across the `nums` array.  The overall diagram visualizes a single iteration of an algorithm, likely calculating the product of all elements to the right of each element in `nums` and storing the result in `res`." loading="lazy" width="624" height="124" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/prefix-sums/product-array-without-current-element/image-10-03-17-KGXPQAXO.svg" style="color: transparent;"></div></figure>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a step-by-step illustration of a coding pattern, likely related to array manipulation.  The left side shows an input array `nums` containing the integer values [2, 3, 1, 4, 5], and an output array `res` initialized with [60, 40, 120, 30, 24].  An arrow labeled 'i' points from a small square to the `nums` array, indicating an iterative process. The highlighted value '60' in `res` corresponds to the first element. The right side displays a calculation box detailing the computation for the first element of `res`.  The formula `res[i] = res[i] * right_product` is shown, with `res[i]` initially set to 1.  The `right_product` variable is updated iteratively; in this example, it starts at 60 and is then updated to 120 (60 * 2) for the next iteration, implying a right-to-left calculation involving the product of elements in `nums`.  The calculation shows the intermediate steps: 1 * 60 = 60, and then the update of `right_product` to 120 for the next iteration.  The overall pattern suggests a cumulative product calculation from the right side of the `nums` array, influencing the values in the `res` array." loading="lazy" width="624" height="125" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/prefix-sums/product-array-without-current-element/image-10-03-18-F3DT7OCI.svg" style="color: transparent;"></div></figure>
+<hr>
+<div class="style_tryBanner__WFMKc"><div><div class="style_tryTitle__dVqce">Try it yourself</div><div class="style_tryDesc___lKzS">Write your solution to the problem before checking the reference implementation.</div></div><a target="_blank" href="https://bytebytego.com/exercises/coding-patterns/prefix-sums/product-array-without-current-element"><button type="button" class="ant-btn css-133v4sd ant-btn-default ant-btn-color-default ant-btn-variant-outlined style_openBtn__F_m3N"><span>Open Code Editor</span></button></a></div>
+<h2 id="implementation">Implementation</h2>
+<div class="style_codeTabsWrap__jMkKK"><div class="ant-tabs ant-tabs-top ant-tabs-card style_codeTabs__DEEq6 css-133v4sd"><div role="tablist" aria-orientation="horizontal" class="ant-tabs-nav"><div class="ant-tabs-nav-wrap"><div class="ant-tabs-nav-list" style="transform: translate(0px, 0px);"><div data-node-key="0" class="ant-tabs-tab ant-tabs-tab-active"><div role="tab" aria-selected="true" class="ant-tabs-tab-btn" tabindex="0" id="rc-tabs-0-tab-0" aria-controls="rc-tabs-0-panel-0">Python</div></div><div data-node-key="1" class="ant-tabs-tab"><div role="tab" aria-selected="false" class="ant-tabs-tab-btn" tabindex="-1" id="rc-tabs-0-tab-1" aria-controls="rc-tabs-0-panel-1">JavaScript</div></div><div data-node-key="2" class="ant-tabs-tab"><div role="tab" aria-selected="false" class="ant-tabs-tab-btn" tabindex="-1" id="rc-tabs-0-tab-2" aria-controls="rc-tabs-0-panel-2">Java</div></div><div class="ant-tabs-ink-bar ant-tabs-ink-bar-animated"></div></div></div><div class="ant-tabs-nav-operations ant-tabs-nav-operations-hidden"><button type="button" class="ant-tabs-nav-more" aria-haspopup="listbox" aria-controls="rc-tabs-0-more-popup" id="rc-tabs-0-more" aria-expanded="false" style="visibility: hidden; order: 1;"><span role="img" aria-label="ellipsis" class="anticon anticon-ellipsis"><svg viewBox="64 64 896 896" focusable="false" data-icon="ellipsis" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M176 511a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0z"></path></svg></span></button></div></div><div class="ant-tabs-content-holder"><div class="ant-tabs-content ant-tabs-content-top"><div role="tabpanel" tabindex="0" aria-hidden="false" class="ant-tabs-tabpane ant-tabs-tabpane-active" id="rc-tabs-0-panel-0" aria-labelledby="rc-tabs-0-tab-0"><pre><code class="hljs language-python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">List</span>
+    
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">product_array_without_current_element</span>(<span class="hljs-params">nums: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]</span>) -&gt; <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]:
+    n = <span class="hljs-built_in">len</span>(nums)
+    res = [<span class="hljs-number">1</span>] * n
+    <span class="hljs-comment"># Populate the output with the running left product.</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, n):
+        res[i] = res[i - <span class="hljs-number">1</span>] * nums[i - <span class="hljs-number">1</span>]
+    <span class="hljs-comment"># Multiply the output with the running right product, from right to left.</span>
+    right_product = <span class="hljs-number">1</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n - <span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>):
+        res[i] *= right_product
+        right_product *= nums[i]
+    <span class="hljs-keyword">return</span> res
+</code></pre><button type="button" class="ant-btn css-133v4sd ant-btn-default ant-btn-color-default ant-btn-variant-outlined style_copyBtn__4MbAa"><img alt="" loading="lazy" width="16" height="16" decoding="async" data-nimg="1" src="https://bytebytego.com/_next/static/media/copy.3248da0c.svg" style="color: transparent;"></button></div></div></div></div></div>
+<h3 id="complexity-analysis">Complexity Analysis</h3>
+<p><strong>Time complexity:</strong> The time complexity of <code>product_array_without_current_element</code> is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span> because we iterate over the <code>nums</code> array twice.</p>
+<p><strong>Space complexity:</strong> The space complexity is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span>. The <code>res</code> array is not included in the space complexity analysis.</p>
+</article>
+</body>
+</html>

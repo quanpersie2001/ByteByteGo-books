@@ -1,0 +1,73 @@
+{
+  "name": "Generative AI System Design Interview",
+  "slug": "genai-system-design-interview",
+  "url": "https://bytebytego.com/courses/genai-system-design-interview",
+  "chapters": [
+    {
+      "number": "01",
+      "title": "Introduction and Overview",
+      "file": "01-introduction-and-overview.html",
+      "html_length": 166459
+    },
+    {
+      "number": "02",
+      "title": "Gmail Smart Compose",
+      "file": "02-gmail-smart-compose.html",
+      "html_length": 172161
+    },
+    {
+      "number": "03",
+      "title": "Google Translate",
+      "file": "03-google-translate.html",
+      "html_length": 116338
+    },
+    {
+      "number": "04",
+      "title": "ChatGPT: Personal Assistant Chatbot",
+      "file": "04-chatgpt-personal-assistant-chatbot.html",
+      "html_length": 286652
+    },
+    {
+      "number": "05",
+      "title": "Image Captioning",
+      "file": "05-image-captioning.html",
+      "html_length": 86516
+    },
+    {
+      "number": "06",
+      "title": "Retrieval-Augmented Generation",
+      "file": "06-retrieval-augmented-generation.html",
+      "html_length": 125825
+    },
+    {
+      "number": "07",
+      "title": "Realistic Face Generation",
+      "file": "07-realistic-face-generation.html",
+      "html_length": 168358
+    },
+    {
+      "number": "08",
+      "title": "High-Resolution Image Synthesis",
+      "file": "08-high-resolution-image-synthesis.html",
+      "html_length": 124121
+    },
+    {
+      "number": "09",
+      "title": "Text-to-Image Generation",
+      "file": "09-text-to-image-generation.html",
+      "html_length": 190727
+    },
+    {
+      "number": "10",
+      "title": "Personalized Headshot Generation",
+      "file": "10-personalized-headshot-generation.html",
+      "html_length": 113812
+    },
+    {
+      "number": "11",
+      "title": "Text-to-Video Generation",
+      "file": "11-text-to-video-generation.html",
+      "html_length": 98442
+    }
+  ]
+}

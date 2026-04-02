@@ -1,0 +1,91 @@
+{
+  "name": "Object-Oriented Design Interview",
+  "slug": "object-oriented-design-interview",
+  "url": "https://bytebytego.com/courses/object-oriented-design-interview",
+  "chapters": [
+    {
+      "number": "01",
+      "title": "What is an Object-Oriented Design Interview",
+      "file": "01-what-is-an-object-oriented-design-interview.html",
+      "html_length": 28367
+    },
+    {
+      "number": "02",
+      "title": "A Framework for the OOD Interview",
+      "file": "02-a-framework-for-the-ood-interview.html",
+      "html_length": 47701
+    },
+    {
+      "number": "03",
+      "title": "OOP Fundamentals",
+      "file": "03-oop-fundamentals.html",
+      "html_length": 86951
+    },
+    {
+      "number": "04",
+      "title": "Design a Parking Lot",
+      "file": "04-design-a-parking-lot.html",
+      "html_length": 94714
+    },
+    {
+      "number": "05",
+      "title": "Design a Movie Ticket Booking System",
+      "file": "05-design-a-movie-ticket-booking-system.html",
+      "html_length": 95946
+    },
+    {
+      "number": "06",
+      "title": "Design a Unix File Search System",
+      "file": "06-design-a-unix-file-search-system.html",
+      "html_length": 87514
+    },
+    {
+      "number": "07",
+      "title": "Design a Vending Machine",
+      "file": "07-design-a-vending-machine.html",
+      "html_length": 81014
+    },
+    {
+      "number": "08",
+      "title": "Design an Elevator System",
+      "file": "08-design-an-elevator-system.html",
+      "html_length": 82248
+    },
+    {
+      "number": "09",
+      "title": "Design a Grocery Store System",
+      "file": "09-design-a-grocery-store-system.html",
+      "html_length": 92947
+    },
+    {
+      "number": "10",
+      "title": "Design a Tic Tac Toe Game",
+      "file": "10-design-a-tic-tac-toe-game.html",
+      "html_length": 73996
+    },
+    {
+      "number": "11",
+      "title": "Design a Blackjack Game",
+      "file": "11-design-a-blackjack-game.html",
+      "html_length": 98031
+    },
+    {
+      "number": "12",
+      "title": "Design a Shipping Locker System",
+      "file": "12-design-a-shipping-locker-system.html",
+      "html_length": 89900
+    },
+    {
+      "number": "13",
+      "title": "Design an ATM System",
+      "file": "13-design-an-atm-system.html",
+      "html_length": 89395
+    },
+    {
+      "number": "14",
+      "title": "Design a Restaurant Management System",
+      "file": "14-design-a-restaurant-management-system.html",
+      "html_length": 95335
+    }
+  ]
+}

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mobile System Design Interview – A framework for Mobile SD interviews</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css">
+<style>
+/* === ByteByteGo extracted styles === */
+body { font-family: 'Be Vietnam Pro', 'Bricolage Grotesque', sans-serif; }
+a:where(.css-133v4sd) { color: rgb(22, 119, 255); text-decoration: none; background-color: transparent; outline: none; cursor: pointer; transition: color 0.3s; }
+a:where(.css-133v4sd):hover { color: rgb(105, 177, 255); }
+a:where(.css-133v4sd):active { color: rgb(9, 88, 217); }
+a:where(.css-133v4sd):active, a:where(.css-133v4sd):hover { text-decoration: none; outline: 0px; }
+a:where(.css-133v4sd):focus { text-decoration: none; outline: 0px; }
+a:where(.css-133v4sd)[disabled] { color: rgba(0, 0, 0, 0.25); cursor: not-allowed; }
+li, ol, ul { list-style: none; margin: 0px; padding: 0px; }
+.hljs, [class*="hljs-"], code, pre, pre code { font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace; }
+.style_problemDescription__T4cPe .language-js .hljs-title.class_ { color: rgb(204, 135, 0); }
+.style_problemDescription__T4cPe .language-js .hljs-number { color: rgb(38, 191, 64); }
+.style_problemDescription__T4cPe .language-js .hljs-comment { white-space: break-spaces; font-size: 15px; font-style: italic; color: rgb(114, 148, 92); }
+.style_problemDescription__T4cPe .hljs { border-radius: 8px; padding: 20px 24px; }
+pre code.hljs { display: block; overflow-x: auto; padding: 1em; }
+code.hljs { padding: 3px 5px; }
+.hljs { color: rgb(36, 41, 46); background: rgb(255, 255, 255); }
+.hljs-doctag, .hljs-keyword, .hljs-meta .hljs-keyword, .hljs-template-tag, .hljs-template-variable, .hljs-type, .hljs-variable.language_ { color: rgb(215, 58, 73); }
+.hljs-title, .hljs-title.class_, .hljs-title.class_.inherited__, .hljs-title.function_ { color: rgb(111, 66, 193); }
+.hljs-attr, .hljs-attribute, .hljs-literal, .hljs-meta, .hljs-number, .hljs-operator, .hljs-selector-attr, .hljs-selector-class, .hljs-selector-id, .hljs-variable { color: rgb(0, 92, 197); }
+.hljs-meta .hljs-string, .hljs-regexp, .hljs-string { color: rgb(3, 47, 98); }
+.hljs-built_in, .hljs-symbol { color: rgb(227, 98, 9); }
+.hljs-code, .hljs-comment, .hljs-formula { color: rgb(106, 115, 125); }
+.hljs-name, .hljs-quote, .hljs-selector-pseudo, .hljs-selector-tag { color: rgb(34, 134, 58); }
+.hljs-subst { color: rgb(36, 41, 46); }
+.hljs-section { color: rgb(0, 92, 197); font-weight: 700; }
+.hljs-bullet { color: rgb(115, 92, 15); }
+.hljs-emphasis { color: rgb(36, 41, 46); font-style: italic; }
+.hljs-strong { color: rgb(36, 41, 46); font-weight: 700; }
+.hljs-addition { color: rgb(34, 134, 58); background-color: rgb(240, 255, 244); }
+.hljs-deletion { color: rgb(179, 29, 40); background-color: rgb(255, 238, 240); }
+.style_course__yn_w8 .style_learnContent__6Nc1e { margin: 0px auto; padding-bottom: 50px; overflow: auto; }
+.style_course__yn_w8 .style_learnContent__6Nc1e img { width: 100%; }
+.style_course__yn_w8 .style_learnContent__6Nc1e .table-wrap { overflow: auto; margin-bottom: 12px; }
+.style_articleWrap__Xn2yv { min-height: calc(-286px + 100vh); overflow: auto; background-color: rgb(255, 255, 255); }
+.style_learnContent__K5K7M { min-width: 498px; max-width: 1000px; overflow: auto; margin: 0px auto; padding: 50px 30px; background-color: rgb(255, 255, 255); }
+.style_learnContent__K5K7M .table-wrap { overflow: auto; margin-bottom: 12px; position: relative; }
+.style_learnContent__K5K7M .table-wrap table { border-collapse: collapse; min-width: var(--table-min-width,auto); }
+.style_learnContent__K5K7M .table-wrap td { line-height: 24px; }
+.style_learnContent__K5K7M .table-wrap td a { color: rgb(33, 37, 41) !important; cursor: unset !important; }
+.style_learnContent__K5K7M table.inside-out { width: 100%; min-width: unset; margin: 16px 0px; background-color: rgb(245, 245, 245); border-radius: 4px; border: none; }
+.style_learnContent__K5K7M table.inside-out td { padding: 16px 20px; border: none; }
+.style_learnContent__K5K7M table.inside-out td p { margin: 0px 0px 10px; }
+.style_learnContent__K5K7M table.inside-out td p:last-child { margin-bottom: 0px; }
+.style_learnContent__K5K7M table.inside-out tr { border: none; background-color: rgba(0, 0, 0, 0) !important; }
+.style_learnContent__K5K7M table.inside-out, .style_learnContent__K5K7M table.inside-out * { border: none !important; }
+.style_learnContent__K5K7M table.inside-out + p { text-align: left; }
+.style_learnContent__K5K7M table.split-50 { width: 100%; min-width: unset; margin: 16px 0px; }
+.style_learnContent__K5K7M table.split-50 td { width: 50%; vertical-align: top; padding: 16px 20px; }
+.style_learnContent__K5K7M table.split-50 tr { background-color: rgba(0, 0, 0, 0) !important; }
+.style_learnContent__K5K7M table.split-50, .style_learnContent__K5K7M table.split-50 * { border: none !important; }
+.style_learnContent__K5K7M table.split-50 + p { text-align: left; }
+.style_learnContent__K5K7M .code-table { width: 100%; overflow: auto; margin: 16px 0px !important; }
+.style_learnContent__K5K7M .code-table table { border-collapse: collapse; }
+.style_learnContent__K5K7M .code-table pre { margin: 0px; }
+.style_learnContent__K5K7M .code-table pre code { padding-left: 0px; padding-right: 0px; }
+.style_learnContent__K5K7M .code-table tbody td { font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace; }
+.style_learnContent__K5K7M .code-table td > p { margin: 0px; }
+.style_learnContent__K5K7M .code-table tr:nth-child(2n) { background-color: rgb(255, 255, 255) !important; }
+.style_learnContent__K5K7M mark.highlight-magenta { background-color: rgba(255, 182, 193, 0.4); padding: 2px 0px; border-radius: 2px; }
+.style_learnContent__K5K7M mark.highlight-green { background-color: rgba(152, 251, 152, 0.3); padding: 2px 0px; border-radius: 2px; }
+.style_learnContent__K5K7M > p:last-of-type { margin: 0px; font-size: 14px !important; text-align: left !important; }
+.style_learnContent__K5K7M .style_chapter__grtAe { width: 96px; height: 80px; margin-bottom: 6px; font-size: 80px; font-weight: 600; color: rgb(53, 206, 160); line-height: 80px; }
+.style_learnContent__K5K7M center { width: 100%; overflow: auto; }
+.style_learnContent__K5K7M h1 { margin-top: 0px; margin-bottom: 20px; font-size: 40px; font-weight: 600; color: rgb(40, 40, 40); line-height: 50px; text-wrap: balance; }
+.style_learnContent__K5K7M h2 { margin-top: 16px; font-size: 30px; line-height: 40px; }
+.style_learnContent__K5K7M h2, .style_learnContent__K5K7M h3 { margin-bottom: 10px; font-weight: 600; color: rgb(40, 40, 40); text-wrap: balance; }
+.style_learnContent__K5K7M h3 { font-size: 26px; line-height: 37px; }
+.style_learnContent__K5K7M h4 { margin-bottom: 10px; font-size: 20px; font-weight: 600; color: rgb(40, 40, 40); line-height: 28px; text-wrap: balance; }
+.style_learnContent__K5K7M h5 { font-size: 16px; }
+.style_learnContent__K5K7M h5, .style_learnContent__K5K7M h6 { margin-bottom: 10px; font-weight: 600; color: rgb(40, 40, 40); line-height: 20px; text-wrap: balance; }
+.style_learnContent__K5K7M h6 { font-size: 15px; }
+.style_learnContent__K5K7M hr { margin: 24px 0px; border-top: 1px solid rgb(233, 233, 233); border-bottom: none; }
+.style_learnContent__K5K7M p { margin-bottom: 10px; font-weight: 400; line-height: 26px; font-size: 15px; text-align: justify; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M ul { margin-left: 28px; margin-bottom: 16px; list-style: disc; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M li { list-style: disc; color: rgb(33, 37, 41); line-height: 26px; font-size: 15px; }
+.style_learnContent__K5K7M li p { margin-top: 0px; margin-bottom: 4px; }
+.style_learnContent__K5K7M li li { list-style: circle; }
+.style_learnContent__K5K7M ol { margin-left: 28px; margin-bottom: 16px; }
+.style_learnContent__K5K7M ol, .style_learnContent__K5K7M ol li { list-style: decimal; }
+.style_learnContent__K5K7M a { color: rgb(33, 37, 41); text-decoration: underline; }
+.style_learnContent__K5K7M a:hover, .style_learnContent__K5K7M a:hover p { color: rgb(5, 103, 61); }
+.style_learnContent__K5K7M figcaption { margin: 12px 0px; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M .tableCaption { width: 100%; margin-top: 12px; text-align: center !important; color: rgb(33, 37, 41) !important; }
+.style_learnContent__K5K7M .tableCaption p { text-align: center; }
+.style_learnContent__K5K7M .note-block { padding: 16px; margin: 20px 0px; text-align: left; color: rgb(33, 37, 41); background-color: rgb(245, 245, 245); border: 1px solid rgb(221, 221, 221); border-radius: 6px; font-size: 14px !important; }
+.style_learnContent__K5K7M .note-block p { line-height: 24px; margin: 0px 0px 8px; font-size: 14px !important; }
+.style_learnContent__K5K7M .note-block p:last-child { margin-bottom: 0px; }
+.style_learnContent__K5K7M .note-block ul { margin-top: 8px; margin-left: 18px !important; margin-bottom: 0px !important; }
+.style_learnContent__K5K7M .note-block ul li { line-height: 24px; font-size: 14px; }
+.style_learnContent__K5K7M table { margin: 0px auto; border: 1px solid rgb(233, 233, 233); border-collapse: collapse; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M table tr { border-bottom: 1px solid rgb(233, 233, 233); }
+.style_learnContent__K5K7M table tr:last-child { border-bottom: none; }
+.style_learnContent__K5K7M table tr:nth-child(2n) { background-color: rgb(245, 245, 245); }
+.style_learnContent__K5K7M table tr td { padding: 10px; border-right: 1px solid rgb(233, 233, 233); line-height: 24px; }
+.style_learnContent__K5K7M table tr td:last-child { border-right: none; }
+.style_learnContent__K5K7M thead { border-bottom: 1px solid rgb(233, 233, 233); background-color: rgb(245, 245, 245); }
+.style_learnContent__K5K7M thead th { padding: 10px; border-right: 1px solid rgb(233, 233, 233); text-align: left; }
+.style_learnContent__K5K7M thead th:last-child { border-right: none; }
+.style_learnContent__K5K7M thead th strong { font-weight: 700; }
+.style_learnContent__K5K7M figure { margin: 16px 0px; }
+.style_learnContent__K5K7M .info-box { display: flex; align-items: flex-start; gap: 8px; padding: 16px; background-color: rgb(248, 249, 250); border-left: 4px solid rgb(53, 206, 160); margin: 24px 0px; font-size: 14px; line-height: 1.6; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M .info-box img { flex-shrink: 0; margin-top: 3px; }
+.style_learnContent__K5K7M .info-box p { margin: 0px; }
+.style_learnContent__K5K7M .sample-dialogue { padding: 16px; background-color: rgb(248, 249, 250); border: 1px solid rgb(233, 233, 233); border-radius: 4px; margin: 24px 0px; font-size: 14px; line-height: 1.4; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M .sample-dialogue p { margin: 0px; }
+.style_learnContent__K5K7M .sample-dialogue br { display: none; }
+.style_learnContent__K5K7M pre { flex: 1 1 0%; margin-bottom: 4px; }
+.style_learnContent__K5K7M pre code { word-break: break-all; white-space: pre; color: rgb(22, 105, 176); }
+.style_learnContent__K5K7M u { word-break: break-all; color: rgb(66, 131, 196); }
+.style_learnContent__K5K7M table.style_quote__VVyDM { min-width: unset; width: 100%; margin: 16px 0px; background-color: rgb(245, 245, 245); border-radius: 4px; border: 1px solid rgb(233, 233, 233); }
+.style_learnContent__K5K7M table.style_quote__VVyDM td { padding: 16px 20px; border: none; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td p { margin: 0px 0px 10px; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td p:last-child { margin-bottom: 0px; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td ol, .style_learnContent__K5K7M table.style_quote__VVyDM td ul { margin: 10px 0px 10px 20px; padding: 0px; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td ol li, .style_learnContent__K5K7M table.style_quote__VVyDM td ul li { margin: 6px 0px; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td em { font-style: italic; }
+.style_learnContent__K5K7M table.style_quote__VVyDM tr { border: none; background-color: rgba(0, 0, 0, 0) !important; }
+.style_learnPad__UNRJV .style_learnContent__K5K7M { padding: 20px 30px; }
+.style_learnH5__R4PJq .style_chapter__grtAe { display: block; width: 335px; height: 30px; font-size: 30px; line-height: 30px; text-align: left; font-weight: 600; color: rgb(53, 206, 160); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M { min-width: 320px; padding: 0px 20px 50px; margin: 32px auto 0px; overflow: hidden auto; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M .table-wrap { overflow: auto; margin-bottom: 12px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M .table-wrap td a { color: rgb(33, 37, 41) !important; cursor: unset !important; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h1 { margin-bottom: 0px; font-size: 20px; font-weight: 600; color: rgb(40, 40, 40); line-height: 28px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h2 { margin-top: 16px; font-size: 20px; font-weight: 600; color: rgb(40, 40, 40); line-height: 28px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h3 { font-size: 18px; font-weight: 600; color: rgb(40, 40, 40); line-height: 25px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h4 { font-size: 16px; font-weight: 600; color: rgb(40, 40, 40); line-height: 22px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h5 { margin-bottom: 10px; font-size: 15px; font-weight: 600; color: rgb(40, 40, 40); line-height: 20px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M p { font-size: 15px; color: rgb(33, 37, 41); text-align: left; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ul { margin-left: 28px; margin-bottom: 16px; list-style: disc; color: rgb(33, 37, 41); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ul p code { word-break: break-all; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M li { list-style: disc; color: rgb(33, 37, 41); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M li p { margin: 0px 0px 4px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M li li { list-style: circle; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ol { margin-left: 28px; margin-bottom: 16px; list-style: decimal; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ol li { list-style: decimal; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ol li a { word-break: break-all; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M figcaption { margin: 12px 0px; color: rgb(33, 37, 41); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table { margin: 0px auto; border: 1px solid rgb(233, 233, 233); color: rgb(33, 37, 41); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M thead { border-bottom: 1px solid rgb(233, 233, 233); background-color: rgb(245, 245, 245); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M thead th { padding: 10px; border-right: 1px solid rgb(233, 233, 233); text-align: left; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M thead th:last-child { border-right: none; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M thead th strong { font-weight: 700; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr { border-bottom: 1px solid rgb(233, 233, 233); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr:last-child { border-bottom: none; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr:nth-child(2n) { background-color: rgb(245, 245, 245); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr td { padding: 10px; border-right: 1px solid rgb(233, 233, 233); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr td:last-child { border-right: none; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M figure { margin: 16px 0px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M figure span:first-child { flex: 1 1 0%; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M figure img { max-width: 100%; height: auto; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M pre { flex: 1 1 0%; padding-bottom: 4px; margin-bottom: 4px; overflow: auto; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M pre code { word-break: break-all; color: rgb(22, 105, 176); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M u { word-break: break-all; color: rgb(66, 131, 196); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M code { word-break: break-all; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M blockquote p { font-weight: 400; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 { display: block; width: 100%; min-width: unset; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 tbody { display: block; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 tr { display: flex; flex-direction: column-reverse; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 td { display: block; padding: 10px 0px; width: 100% !important; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 td:first-child { padding-top: 20px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 td:last-child { padding-bottom: 0px; }
+.style_markCompleteWrap__YEi4w { display: flex; justify-content: flex-end; margin-top: 32px; }
+.style_markComplete__jnD2I { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-width: 220px; height: 48px; padding: 0px 22px; border-radius: 6px; border: 1px solid rgb(53, 206, 160); background: rgb(255, 255, 255); color: rgb(20, 159, 118); font-size: 15px; font-weight: 600; cursor: pointer; transition: border-color 0.2s, color 0.2s, background-color 0.2s; }
+.style_markComplete__jnD2I:disabled { opacity: 0.6; cursor: not-allowed; }
+.style_emptySquare__K6JN0 { display: inline-block; width: 18px; height: 18px; border: 2px solid; border-radius: 2px; flex-shrink: 0; }
+.style_markCompleted__Bcull { background: rgb(255, 255, 255); border-color: rgb(53, 206, 160); color: rgb(20, 159, 118); }
+@media (hover: hover) {
+  .style_markCompleted__Bcull:not(:disabled):hover { border-color: rgb(255, 77, 79); color: rgb(255, 77, 79); }
+  .style_markCompleted__Bcull:not(:disabled):hover .style_completedText__zQmXX { display: none; }
+  .style_markCompleted__Bcull:not(:disabled):hover .style_markIncompleteText__ujVfp { display: inline; }
+}
+.style_markCompleteLoading__YL9X9 { background: rgb(255, 255, 255); border-color: rgb(53, 206, 160); color: rgb(153, 153, 153); cursor: default; }
+</style>
+</head>
+<body>
+<article class="style_learnContent__K5K7M">
+<header><strong class="style_chapter__grtAe">02</strong><h1>A framework for Mobile SD interviews</h1></header><p>Having a clear framework for Mobile System Design (MSD) interviews is more important than many realize. Without a clear structure, the interview can feel disorganized and challenging for both you and the interviewer. Unlike coding interviews with defined solutions, system design challenges invite multiple valid approaches, making a methodical strategy essential.</p>
+<p>Below, we briefly outline a 5-step framework to give you a high-level understanding. Detailed explanations and practical applications of each step are explored through case studies in later chapters.</p>
+<h2 id="a-5-step-framework-for-effective-mobile-system-design-interviews">A 5-step framework for effective mobile system design interviews</h2>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a flowchart outlining a five-step process for mobile system design.  The process begins with step 1, 'Understand the problem and establish design scope,' a rectangular box labeled with a bold '1' in a circle.  A line connects this box to step 2, 'API design,' another rectangular box labeled with a bold '2' in a circle.  Step 2 is connected to step 3, 'High-level client architecture,' a rectangular box labeled with a bold '3' in a circle.  Step 3 is connected to step 4, 'Design deep dive,' a rectangular box labeled with a bold '4' in a circle. Finally, step 4 connects to step 5, 'Wrap-up,' a rectangular box labeled with a bold '5' in a circle. The flow is generally sequential, with the exception of the connection from step 3 back to step 4, suggesting an iterative refinement process between high-level architecture and the detailed design.  All boxes are light gray with dark gray borders and text inside.  The connections between the boxes are represented by simple lines with small circles indicating connection points." width="500" height="328" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/mobile-system-design-interview/a-framework-for-mobile-sd-interviews/figure-2-1-2ETKJDTJ.svg" style="color: transparent;"></div><div style="display: flex; justify-content: center;"><figcaption class="py-1">Figure 1: High-level steps of the MSDI framework</figcaption></div></figure>
+<h3 id="step-1-understand-the-problem-and-establish-design-scope">Step 1: Understand the problem and establish design scope</h3>
+<p>MSD interviews typically start with broad questions such as "Design a News Feed app" or "Design a Pagination library." While these questions may seem straightforward, understanding exactly what you need to design is a crucial part of the interview.</p>
+<p>Your first task is to clarify what's in and out of scope by asking targeted questions to define the boundaries of your design. The interviewer's answers will guide your technology choices and help you make informed trade-offs. This initial scoping sets the foundation for your solution, making each interview unique.</p>
+<p>What kind of questions should you ask? Here's a list of different types of questions to help you get started:</p>
+<ul>
+<li>
+<p><strong>What are we building?</strong> These help uncover both functional and non-functional requirements, as well as what is out of scope for the interview. For example, you could ask:</p>
+<ul>
+<li><em>What features, screens, or critical user journeys are we designing?</em></li>
+<li><em>Are we pre-fetching data? Are we including user authentication in the design?</em></li>
+</ul>
+</li>
+<li>
+<p><strong>For whom are we building?</strong> These help understand the scale, usage patterns, and how performant the solution should be. For example, you could ask:</p>
+<ul>
+<li><em>How many daily active users (DAU) does the product have? What's the expected growth?</em></li>
+<li><em>Are we building a minimum viable product (MVP) or a final product?</em></li>
+<li><em>What's our target market? A specific region or worldwide? What's the typical usage scenario? At home or on the train?</em></li>
+</ul>
+</li>
+<li>
+<p><strong>What are the system's constraints?</strong> These clarify the system boundaries and technology choices. For example, you could ask:</p>
+<ul>
+<li><em>Which mobile platforms are we targeting (e.g., iOS, Android, or both)?</em></li>
+<li><em>Are there any existing systems or APIs the mobile app must integrate with?</em></li>
+</ul>
+</li>
+</ul>
+<p>While gathering requirements, you may find that some answers reveal information about other aspects of the system. Feel free to make reasonable assumptions based on these responses, just be sure to state them clearly so your interviewer can correct any misunderstandings.</p>
+<p>The goal isn't to ask every possible question. Instead, focus your questions on what's most relevant for the specific problem at hand, using your judgment to determine which details are most important to clarify.</p>
+<div class="note-block"><p><strong>📌 Remember</strong>: Your interviewer's answers to these questions will guide your technical decisions and trade-offs throughout the design process. Make sure to reference back to these requirements when explaining your choices later in the interview.</p></div>
+<h3 id="step-2-api-design">Step 2: API design</h3>
+<p>The API design step is where you establish the contract between our client apps and external dependencies. This step is crucial because it helps align your understanding with the interviewer's expectations and creates a solid foundation for the rest of your design.</p>
+<p>When designing an app that needs to communicate with a backend, start by defining the appropriate communication protocols for your specific use cases and the endpoints involved. On the other hand, if you're designing a mobile library, focus on outlining its public APIs, including how host apps will initialize, configure, and interact with your library.</p>
+<p>As you define the API, outline the data models that will power these interactions. Whether you're working with JSON payloads, Swift structs, Kotlin data classes, or even protocol buffers for efficiency, these models need to capture the data's structure and relationships clearly.</p>
+<h3 id="step-3-high-level-client-architecture">Step 3: High-level client architecture</h3>
+<p>After finishing the API design, it's time to create a high-level client architecture diagram that shows how these components work together.</p>
+<p>This high-level diagram sets the stage for the design and shows exactly which components you need to fulfill our requirements. Most importantly, it helps you validate that you have a complete end-to-end flow that meets all the functionality our system needs. As you create the diagram, you should also identify interesting points that warrant deeper discussion in the deep dive step later.</p>
+<h3 id="step-4-design-deep-dive">Step 4: Design deep dive</h3>
+<p>In this step, work with your interviewer to identify bottlenecks and explore specific components in greater detail. Generally, you should aim for two to three strong deep-dive discussions, though this isn't a strict rule and can vary depending on the situation.</p>
+<p>You should continue refining your client architecture during this step. Make sure to update your diagrams to reflect any new decisions or components you introduce.</p>
+<p>Pay attention to your interviewer's reactions and questions. If they express interest in multiple topics, manage your time carefully to give each topic the attention it deserves while staying within the interview's time constraints.</p>
+<h3 id="step-5-wrap-up-optional">Step 5: Wrap-up (optional)</h3>
+<p>If time allows, the final phase of your interview provides an opportunity to demonstrate your ability to think critically about your design and consider future improvements. Here's how to wrap up effectively:</p>
+<ul>
+<li><strong>Summarize key decisions</strong>. If your discussion involved multiple trade-offs or complex decisions, consider providing a brief recap. This helps solidify the key points of your design and ensures the interviewer understands your reasoning, particularly after a detailed technical discussion.</li>
+<li><strong>Showcase critical thinking</strong>. When asked about potential improvements to your design, resist the urge to defend it as perfect. Instead, thoughtfully discuss areas where your solution could evolve. This demonstrates self-awareness and analytical thinking, qualities that interviewers value highly.</li>
+<li><strong>Address edge cases</strong>. Take this opportunity to discuss any failure points or error cases you haven't covered earlier. This shows that you think holistically about system reliability and user experience, not just the happy path.</li>
+<li><strong>Consider future scale</strong>. Think about how your system would handle growth, whether that's supporting more users or accommodating a larger development team. This demonstrates that you design with the future in mind and understand both technical and organizational scaling challenges.</li>
+</ul>
+<h3 id="time-allocation-for-each-step">Time allocation for each step</h3>
+<p>Time management is key in MSD interviews. With only 45-60 minutes to work with and a lot of ground to cover, having a solid plan helps you stay on track. Here's how to break down a typical 45-minute interview:</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a pie chart illustrating the time allocation for different stages of a mobile system design interview.  The chart is divided into five equal segments, each representing a phase of the interview.  A central circle acts as the pivot point.  Clockwise from the top, the segments are labeled: 'API Design 5-10min' (shaded grey), 'Architecture Design 10-15min' (white), 'Deep Dive 15-20min' (shaded grey), 'Wrap-up 0-5min' (white), and 'Understand Problem 5-10min' (white).  A thick black pointer indicates the current stage of the interview, currently pointing to the 'Understand Problem' segment, suggesting the interview is in its initial phase.  Each segment clearly displays the estimated time duration allocated to that specific phase." loading="lazy" width="602" height="401" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/mobile-system-design-interview/a-framework-for-mobile-sd-interviews/image-2-1-X2ITWQUT.svg" style="color: transparent;"></div></figure>
+<ol>
+<li><strong>Understand the problem and establish design scope (5-10 minutes)</strong>: Take time to fully understand the problem and define its scope.</li>
+<li><strong>API design (5-10 minutes)</strong>: Map out how your app will communicate with backend services and define the core data models.</li>
+<li><strong>High-level client architecture (10-15 minutes)</strong>: Outline the main components of your system and how they work together.</li>
+<li><strong>Design deep dive (15-20 minutes)</strong>: Focus on the most important technical challenges and implementation details.</li>
+<li><strong>Wrap-up (0-5 minutes)</strong>: Summarize key decisions and discuss potential improvements or trade-offs.</li>
+</ol>
+<p>Remember that these are guidelines rather than strict rules. <strong>Be ready to adjust based on the specific problem and your interviewer's interests</strong>. The key is maintaining enough flexibility to explore important areas while ensuring you complete the full design within the time limit.</p>
+</article>
+</body>
+</html>

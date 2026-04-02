@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coding Interview Patterns – Merging Communities</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css">
+<style>
+/* === ByteByteGo extracted styles === */
+body { font-family: 'Be Vietnam Pro', 'Bricolage Grotesque', sans-serif; }
+.anticon { display: inline-flex; align-items: center; color: inherit; font-style: normal; line-height: 0; text-align: center; text-transform: none; vertical-align: -0.125em; text-rendering: optimizelegibility; -webkit-font-smoothing: antialiased; }
+.anticon > * { line-height: 1; }
+.anticon svg { display: inline-block; }
+.anticon::before { display: none; }
+.anticon .anticon-icon { display: block; }
+.anticon[tabindex] { cursor: pointer; }
+.anticon-spin::before, .anticon-spin { display: inline-block; animation: 1s linear 0s infinite normal none running loadingCircle; }
+a:where(.css-133v4sd) { color: rgb(22, 119, 255); text-decoration: none; background-color: transparent; outline: none; cursor: pointer; transition: color 0.3s; }
+a:where(.css-133v4sd):hover { color: rgb(105, 177, 255); }
+a:where(.css-133v4sd):active { color: rgb(9, 88, 217); }
+a:where(.css-133v4sd):active, a:where(.css-133v4sd):hover { text-decoration: none; outline: 0px; }
+a:where(.css-133v4sd):focus { text-decoration: none; outline: 0px; }
+a:where(.css-133v4sd)[disabled] { color: rgba(0, 0, 0, 0.25); cursor: not-allowed; }
+:where(.css-133v4sd).anticon { display: inline-flex; align-items: center; color: inherit; font-style: normal; line-height: 0; text-align: center; text-transform: none; vertical-align: -0.125em; text-rendering: optimizelegibility; -webkit-font-smoothing: antialiased; }
+:where(.css-133v4sd).anticon > * { line-height: 1; }
+:where(.css-133v4sd).anticon svg { display: inline-block; }
+:where(.css-133v4sd).anticon .anticon .anticon-icon { display: block; }
+:where(.css-133v4sd).ant-dropdown-trigger.ant-btn > .anticon-down, :where(.css-133v4sd).ant-dropdown-trigger.ant-btn > .ant-btn-icon > .anticon-down { font-size: 12px; }
+:where(.css-133v4sd).ant-dropdown .ant-dropdown-wrap .ant-btn > .anticon-down { font-size: 12px; }
+:where(.css-133v4sd).ant-dropdown .ant-dropdown-wrap .anticon-down::before { transition: transform 0.2s; }
+:where(.css-133v4sd).ant-dropdown .ant-dropdown-wrap-open .anticon-down::before { transform: rotate(180deg); }
+:where(.css-133v4sd).ant-menu .ant-menu-item .ant-menu-item-icon, :where(.css-133v4sd).ant-menu .ant-menu-submenu-title .ant-menu-item-icon, :where(.css-133v4sd).ant-menu .ant-menu-item .anticon, :where(.css-133v4sd).ant-menu .ant-menu-submenu-title .anticon { min-width: 14px; font-size: 14px; transition: font-size 0.2s cubic-bezier(0.215, 0.61, 0.355, 1), margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), color 0.3s; }
+:where(.css-133v4sd).ant-menu .ant-menu-item .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu .ant-menu-submenu-title .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu .ant-menu-item .anticon + span, :where(.css-133v4sd).ant-menu .ant-menu-submenu-title .anticon + span { margin-inline-start: 10px; opacity: 1; transition: opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), margin 0.3s, color 0.3s; }
+:where(.css-133v4sd).ant-menu .ant-menu-item.ant-menu-item-only-child > .anticon, :where(.css-133v4sd).ant-menu .ant-menu-submenu-title.ant-menu-item-only-child > .anticon, :where(.css-133v4sd).ant-menu .ant-menu-item.ant-menu-item-only-child > .ant-menu-item-icon, :where(.css-133v4sd).ant-menu .ant-menu-submenu-title.ant-menu-item-only-child > .ant-menu-item-icon { margin-inline-end: 0px; }
+:where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-item .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-submenu-title .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-item .anticon, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-submenu-title .anticon { min-width: 14px; font-size: 14px; transition: font-size 0.2s cubic-bezier(0.215, 0.61, 0.355, 1), margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), color 0.3s; }
+:where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-item .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-submenu-title .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-item .anticon + span, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-submenu-title .anticon + span { margin-inline-start: 10px; opacity: 1; transition: opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), margin 0.3s, color 0.3s; }
+:where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-item.ant-menu-item-only-child > .anticon, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-submenu-title.ant-menu-item-only-child > .anticon, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-item.ant-menu-item-only-child > .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-submenu-popup > .ant-menu .ant-menu-submenu-title.ant-menu-item-only-child > .ant-menu-item-icon { margin-inline-end: 0px; }
+:where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-item .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-submenu > .ant-menu-submenu-title .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item .anticon, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-item .anticon, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-submenu > .ant-menu-submenu-title .anticon, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .anticon { margin: 0px; font-size: 16px; line-height: 40px; }
+:where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-item .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-submenu > .ant-menu-submenu-title .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .ant-menu-item-icon + span, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item .anticon + span, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-item .anticon + span, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-submenu > .ant-menu-submenu-title .anticon + span, :where(.css-133v4sd).ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .anticon + span { display: inline-block; opacity: 0; }
+:where(.css-133v4sd).ant-menu-inline-collapsed .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-inline-collapsed .anticon { display: inline-block; }
+:where(.css-133v4sd).ant-menu-inline-collapsed-tooltip .ant-menu-item-icon, :where(.css-133v4sd).ant-menu-inline-collapsed-tooltip .anticon { display: none; }
+:where(.css-133v4sd).ant-btn { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; font-size: 14px; box-sizing: border-box; }
+:where(.css-133v4sd).ant-btn::before, :where(.css-133v4sd).ant-btn::after { box-sizing: border-box; }
+:where(.css-133v4sd).ant-btn [class^="ant-btn"], :where(.css-133v4sd).ant-btn [class*=" ant-btn"] { box-sizing: border-box; }
+:where(.css-133v4sd).ant-btn [class^="ant-btn"]::before, :where(.css-133v4sd).ant-btn [class*=" ant-btn"]::before, :where(.css-133v4sd).ant-btn [class^="ant-btn"]::after, :where(.css-133v4sd).ant-btn [class*=" ant-btn"]::after { box-sizing: border-box; }
+:where(.css-133v4sd).ant-btn { outline: none; position: relative; display: inline-flex; gap: 8px; align-items: center; justify-content: center; font-weight: 400; white-space: nowrap; text-align: center; background: transparent; border: 1px solid transparent; cursor: pointer; transition: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1); user-select: none; touch-action: manipulation; color: rgba(0, 0, 0, 0.88); }
+:where(.css-133v4sd).ant-btn:disabled > * { pointer-events: none; }
+:where(.css-133v4sd).ant-btn .ant-btn-icon > svg { display: inline-flex; align-items: center; color: inherit; font-style: normal; line-height: 0; text-align: center; text-transform: none; vertical-align: -0.125em; text-rendering: optimizelegibility; -webkit-font-smoothing: antialiased; }
+:where(.css-133v4sd).ant-btn .ant-btn-icon > svg > * { line-height: 1; }
+:where(.css-133v4sd).ant-btn .ant-btn-icon > svg svg { display: inline-block; }
+:where(.css-133v4sd).ant-btn > a { color: currentcolor; }
+:where(.css-133v4sd).ant-btn:not(:disabled):focus-visible { outline: rgb(74, 140, 105) solid 3px; outline-offset: 1px; transition: outline-offset, outline; }
+:where(.css-133v4sd).ant-btn.ant-btn-two-chinese-chars::first-letter { letter-spacing: 0.34em; }
+:where(.css-133v4sd).ant-btn.ant-btn-two-chinese-chars > :not(.anticon) { margin-inline-end: -0.34em; letter-spacing: 0.34em; }
+:where(.css-133v4sd).ant-btn.ant-btn-icon-only { padding-inline: 0px; }
+:where(.css-133v4sd).ant-btn.ant-btn-icon-only.ant-btn-compact-item { flex: 0 0 auto; }
+:where(.css-133v4sd).ant-btn.ant-btn-icon-only.ant-btn-round { width: auto; }
+:where(.css-133v4sd).ant-btn.ant-btn-loading { opacity: 0.65; cursor: default; }
+:where(.css-133v4sd).ant-btn .ant-btn-loading-icon { transition: width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); }
+:where(.css-133v4sd).ant-btn:not(.ant-btn-icon-end) .ant-btn-loading-icon-motion-appear-start, :where(.css-133v4sd).ant-btn:not(.ant-btn-icon-end) .ant-btn-loading-icon-motion-enter-start { margin-inline-end: -8px; }
+:where(.css-133v4sd).ant-btn:not(.ant-btn-icon-end) .ant-btn-loading-icon-motion-appear-active, :where(.css-133v4sd).ant-btn:not(.ant-btn-icon-end) .ant-btn-loading-icon-motion-enter-active { margin-inline-end: 0px; }
+:where(.css-133v4sd).ant-btn:not(.ant-btn-icon-end) .ant-btn-loading-icon-motion-leave-start { margin-inline-end: 0px; }
+:where(.css-133v4sd).ant-btn:not(.ant-btn-icon-end) .ant-btn-loading-icon-motion-leave-active { margin-inline-end: -8px; }
+:where(.css-133v4sd).ant-btn-icon-end { flex-direction: row-reverse; }
+:where(.css-133v4sd).ant-btn-icon-end .ant-btn-loading-icon-motion-appear-start, :where(.css-133v4sd).ant-btn-icon-end .ant-btn-loading-icon-motion-enter-start { margin-inline-start: -8px; }
+:where(.css-133v4sd).ant-btn-icon-end .ant-btn-loading-icon-motion-appear-active, :where(.css-133v4sd).ant-btn-icon-end .ant-btn-loading-icon-motion-enter-active { margin-inline-start: 0px; }
+:where(.css-133v4sd).ant-btn-icon-end .ant-btn-loading-icon-motion-leave-start { margin-inline-start: 0px; }
+:where(.css-133v4sd).ant-btn-icon-end .ant-btn-loading-icon-motion-leave-active { margin-inline-start: -8px; }
+:where(.css-133v4sd).ant-btn { font-size: 14px; height: 32px; padding: 0px 15px; border-radius: 6px; }
+:where(.css-133v4sd).ant-btn.ant-btn-icon-only { width: 32px; }
+:where(.css-133v4sd).ant-btn.ant-btn-icon-only .anticon { font-size: inherit; }
+:where(.css-133v4sd).ant-btn.ant-btn-circle.ant-btn { min-width: 32px; padding-inline: 0px; border-radius: 50%; }
+:where(.css-133v4sd).ant-btn.ant-btn-round.ant-btn { border-radius: 32px; padding-inline: 16px; }
+:where(.css-133v4sd).ant-btn-sm { font-size: 14px; height: 24px; padding: 0px 7px; border-radius: 4px; }
+:where(.css-133v4sd).ant-btn-sm.ant-btn-icon-only { width: 24px; }
+:where(.css-133v4sd).ant-btn-sm.ant-btn-icon-only .anticon { font-size: inherit; }
+:where(.css-133v4sd).ant-btn.ant-btn-circle.ant-btn-sm { min-width: 24px; padding-inline: 0px; border-radius: 50%; }
+:where(.css-133v4sd).ant-btn.ant-btn-round.ant-btn-sm { border-radius: 24px; padding-inline: 12px; }
+:where(.css-133v4sd).ant-btn-lg { font-size: 16px; height: 40px; padding: 0px 15px; border-radius: 8px; }
+:where(.css-133v4sd).ant-btn-lg.ant-btn-icon-only { width: 40px; }
+:where(.css-133v4sd).ant-btn-lg.ant-btn-icon-only .anticon { font-size: inherit; }
+:where(.css-133v4sd).ant-btn.ant-btn-circle.ant-btn-lg { min-width: 40px; padding-inline: 0px; border-radius: 50%; }
+:where(.css-133v4sd).ant-btn.ant-btn-round.ant-btn-lg { border-radius: 40px; padding-inline: 20px; }
+:where(.css-133v4sd).ant-btn.ant-btn-block { width: 100%; }
+:where(.css-133v4sd).ant-btn-color-default { color: rgba(0, 0, 0, 0.88); box-shadow: rgba(0, 0, 0, 0.02) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(0, 0, 0); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 255, 255); background: rgba(0, 0, 0, 0.75); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { color: rgb(255, 255, 255); background: rgba(0, 0, 0, 0.95); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-filled { box-shadow: none; background: rgba(0, 0, 0, 0.04); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgba(0, 0, 0, 0.06); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgba(0, 0, 0, 0.15); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-background-ghost { color: rgb(255, 255, 255); background: transparent; border-color: rgb(255, 255, 255); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):hover { background: transparent; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):active { background: transparent; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-background-ghost:disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); border-color: rgb(217, 217, 217); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-link { color: rgba(0, 0, 0, 0.88); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(105, 177, 255); background: transparent; }
+:where(.css-133v4sd).ant-btn-color-default.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(9, 88, 217); }
+:where(.css-133v4sd).ant-btn-color-primary { color: rgb(5, 103, 61); box-shadow: rgba(3, 43, 19, 0.42) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-dashed { border-color: rgb(5, 103, 61); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(24, 115, 72); border-color: rgb(24, 115, 72); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(0, 64, 38); border-color: rgb(0, 64, 38); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-filled { box-shadow: none; background: rgb(149, 166, 156); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(106, 153, 126); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(74, 140, 105); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-text { color: rgb(5, 103, 61); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(24, 115, 72); background: rgb(149, 166, 156); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(0, 64, 38); background: rgb(74, 140, 105); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-link { color: rgb(5, 103, 61); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(24, 115, 72); background: transparent; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(0, 64, 38); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-background-ghost { color: rgb(5, 103, 61); background: transparent; border-color: rgb(5, 103, 61); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):hover { background: transparent; color: rgb(24, 115, 72); border-color: rgb(24, 115, 72); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):active { background: transparent; color: rgb(0, 64, 38); border-color: rgb(0, 64, 38); }
+:where(.css-133v4sd).ant-btn-color-primary.ant-btn-background-ghost:disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); border-color: rgb(217, 217, 217); }
+:where(.css-133v4sd).ant-btn-color-dangerous { color: rgb(255, 77, 79); box-shadow: rgba(255, 38, 5, 0.06) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(255, 77, 79); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 120, 117); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(217, 54, 62); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-dashed { border-color: rgb(255, 77, 79); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 120, 117); border-color: rgb(255, 163, 158); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(217, 54, 62); border-color: rgb(217, 54, 62); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-filled { box-shadow: none; background: rgb(255, 242, 240); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 223, 220); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 204, 199); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-text { color: rgb(255, 77, 79); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 120, 117); background: rgb(255, 242, 240); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(255, 120, 117); background: rgb(255, 204, 199); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-link { color: rgb(255, 77, 79); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 120, 117); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(217, 54, 62); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-background-ghost { color: rgb(255, 77, 79); background: transparent; border-color: rgb(255, 77, 79); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):hover { background: transparent; color: rgb(255, 120, 117); border-color: rgb(255, 120, 117); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):active { background: transparent; color: rgb(217, 54, 62); border-color: rgb(217, 54, 62); }
+:where(.css-133v4sd).ant-btn-color-dangerous.ant-btn-background-ghost:disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); border-color: rgb(217, 217, 217); }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-variant-link { color: rgb(22, 119, 255); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-link.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(105, 177, 255); }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(9, 88, 217); }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-background-ghost { color: rgb(22, 119, 255); background: transparent; border-color: rgb(22, 119, 255); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):hover { background: transparent; color: rgb(105, 177, 255); border-color: rgb(105, 177, 255); }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-background-ghost:not(:disabled):not(.ant-btn-disabled):active { background: transparent; color: rgb(9, 88, 217); border-color: rgb(9, 88, 217); }
+:where(.css-133v4sd).ant-btn-color-link.ant-btn-background-ghost:disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); border-color: rgb(217, 217, 217); }
+:where(.css-133v4sd).ant-btn-color-blue { color: rgb(22, 119, 255); box-shadow: rgba(5, 145, 255, 0.1) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(22, 119, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(64, 150, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(9, 88, 217); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-dashed { border-color: rgb(22, 119, 255); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(64, 150, 255); border-color: rgb(64, 150, 255); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(9, 88, 217); border-color: rgb(9, 88, 217); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-filled { box-shadow: none; background: rgb(230, 244, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(186, 224, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(145, 202, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-link { color: rgb(22, 119, 255); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(64, 150, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(9, 88, 217); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-text { color: rgb(22, 119, 255); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(64, 150, 255); background: rgb(230, 244, 255); }
+:where(.css-133v4sd).ant-btn-color-blue.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(9, 88, 217); background: rgb(145, 202, 255); }
+:where(.css-133v4sd).ant-btn-color-purple { color: rgb(114, 46, 209); box-shadow: rgba(155, 5, 255, 0.06) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(114, 46, 209); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(146, 84, 222); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(83, 29, 171); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-dashed { border-color: rgb(114, 46, 209); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(146, 84, 222); border-color: rgb(146, 84, 222); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(83, 29, 171); border-color: rgb(83, 29, 171); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-filled { box-shadow: none; background: rgb(249, 240, 255); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(239, 219, 255); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(211, 173, 247); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-link { color: rgb(114, 46, 209); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(146, 84, 222); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(83, 29, 171); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-text { color: rgb(114, 46, 209); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(146, 84, 222); background: rgb(249, 240, 255); }
+:where(.css-133v4sd).ant-btn-color-purple.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(83, 29, 171); background: rgb(211, 173, 247); }
+:where(.css-133v4sd).ant-btn-color-cyan { color: rgb(19, 194, 194); box-shadow: rgba(5, 255, 215, 0.1) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(19, 194, 194); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(54, 207, 201); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(8, 151, 156); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-dashed { border-color: rgb(19, 194, 194); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(54, 207, 201); border-color: rgb(54, 207, 201); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(8, 151, 156); border-color: rgb(8, 151, 156); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-filled { box-shadow: none; background: rgb(230, 255, 251); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(181, 245, 236); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(135, 232, 222); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-link { color: rgb(19, 194, 194); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(54, 207, 201); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(8, 151, 156); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-text { color: rgb(19, 194, 194); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(54, 207, 201); background: rgb(230, 255, 251); }
+:where(.css-133v4sd).ant-btn-color-cyan.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(8, 151, 156); background: rgb(135, 232, 222); }
+:where(.css-133v4sd).ant-btn-color-green { color: rgb(82, 196, 26); box-shadow: rgba(142, 255, 30, 0.08) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(82, 196, 26); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(115, 209, 61); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(56, 158, 13); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-dashed { border-color: rgb(82, 196, 26); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(115, 209, 61); border-color: rgb(115, 209, 61); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(56, 158, 13); border-color: rgb(56, 158, 13); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-filled { box-shadow: none; background: rgb(246, 255, 237); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(217, 247, 190); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(183, 235, 143); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-link { color: rgb(82, 196, 26); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(115, 209, 61); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(56, 158, 13); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-text { color: rgb(82, 196, 26); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(115, 209, 61); background: rgb(246, 255, 237); }
+:where(.css-133v4sd).ant-btn-color-green.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(56, 158, 13); background: rgb(183, 235, 143); }
+:where(.css-133v4sd).ant-btn-color-magenta { color: rgb(235, 47, 150); box-shadow: rgba(255, 5, 105, 0.06) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(235, 47, 150); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(247, 89, 171); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(196, 29, 127); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-dashed { border-color: rgb(235, 47, 150); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(247, 89, 171); border-color: rgb(247, 89, 171); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(196, 29, 127); border-color: rgb(196, 29, 127); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-filled { box-shadow: none; background: rgb(255, 240, 246); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 214, 231); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 173, 210); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-link { color: rgb(235, 47, 150); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(247, 89, 171); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(196, 29, 127); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-text { color: rgb(235, 47, 150); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(247, 89, 171); background: rgb(255, 240, 246); }
+:where(.css-133v4sd).ant-btn-color-magenta.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(196, 29, 127); background: rgb(255, 173, 210); }
+:where(.css-133v4sd).ant-btn-color-pink { color: rgb(235, 47, 150); box-shadow: rgba(255, 5, 105, 0.06) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(235, 47, 150); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(247, 89, 171); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(196, 29, 127); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-dashed { border-color: rgb(235, 47, 150); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(247, 89, 171); border-color: rgb(247, 89, 171); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(196, 29, 127); border-color: rgb(196, 29, 127); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-filled { box-shadow: none; background: rgb(255, 240, 246); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 214, 231); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 173, 210); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-link { color: rgb(235, 47, 150); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(247, 89, 171); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(196, 29, 127); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-text { color: rgb(235, 47, 150); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(247, 89, 171); background: rgb(255, 240, 246); }
+:where(.css-133v4sd).ant-btn-color-pink.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(196, 29, 127); background: rgb(255, 173, 210); }
+:where(.css-133v4sd).ant-btn-color-red { color: rgb(245, 34, 45); box-shadow: rgba(255, 22, 5, 0.06) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(245, 34, 45); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 77, 79); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(207, 19, 34); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-dashed { border-color: rgb(245, 34, 45); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 77, 79); border-color: rgb(255, 77, 79); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(207, 19, 34); border-color: rgb(207, 19, 34); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-filled { box-shadow: none; background: rgb(255, 241, 240); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 204, 199); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 163, 158); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-link { color: rgb(245, 34, 45); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 77, 79); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(207, 19, 34); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-text { color: rgb(245, 34, 45); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 77, 79); background: rgb(255, 241, 240); }
+:where(.css-133v4sd).ant-btn-color-red.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(207, 19, 34); background: rgb(255, 163, 158); }
+:where(.css-133v4sd).ant-btn-color-orange { color: rgb(250, 140, 22); box-shadow: rgba(255, 175, 5, 0.1) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(250, 140, 22); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 169, 64); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(212, 107, 8); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-dashed { border-color: rgb(250, 140, 22); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 169, 64); border-color: rgb(255, 169, 64); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 107, 8); border-color: rgb(212, 107, 8); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-filled { box-shadow: none; background: rgb(255, 247, 230); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 231, 186); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 213, 145); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-link { color: rgb(250, 140, 22); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 169, 64); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 107, 8); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-text { color: rgb(250, 140, 22); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 169, 64); background: rgb(255, 247, 230); }
+:where(.css-133v4sd).ant-btn-color-orange.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 107, 8); background: rgb(255, 213, 145); }
+:where(.css-133v4sd).ant-btn-color-yellow { color: rgb(250, 219, 20); box-shadow: rgba(245, 255, 5, 0.1) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(250, 219, 20); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 236, 61); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(212, 177, 6); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-dashed { border-color: rgb(250, 219, 20); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 236, 61); border-color: rgb(255, 236, 61); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 177, 6); border-color: rgb(212, 177, 6); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-filled { box-shadow: none; background: rgb(254, 255, 230); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 255, 184); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 251, 143); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-link { color: rgb(250, 219, 20); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 236, 61); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 177, 6); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-text { color: rgb(250, 219, 20); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 236, 61); background: rgb(254, 255, 230); }
+:where(.css-133v4sd).ant-btn-color-yellow.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 177, 6); background: rgb(255, 251, 143); }
+:where(.css-133v4sd).ant-btn-color-volcano { color: rgb(250, 84, 28); box-shadow: rgba(255, 125, 25, 0.1) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(250, 84, 28); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 122, 69); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(212, 56, 13); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-dashed { border-color: rgb(250, 84, 28); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 122, 69); border-color: rgb(255, 122, 69); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 56, 13); border-color: rgb(212, 56, 13); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-filled { box-shadow: none; background: rgb(255, 242, 232); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 216, 191); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 187, 150); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-link { color: rgb(250, 84, 28); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 122, 69); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 56, 13); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-text { color: rgb(250, 84, 28); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 122, 69); background: rgb(255, 242, 232); }
+:where(.css-133v4sd).ant-btn-color-volcano.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 56, 13); background: rgb(255, 187, 150); }
+:where(.css-133v4sd).ant-btn-color-geekblue { color: rgb(47, 84, 235); box-shadow: rgba(5, 88, 255, 0.06) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(47, 84, 235); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(89, 126, 247); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(29, 57, 196); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-dashed { border-color: rgb(47, 84, 235); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(89, 126, 247); border-color: rgb(89, 126, 247); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(29, 57, 196); border-color: rgb(29, 57, 196); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-filled { box-shadow: none; background: rgb(240, 245, 255); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(214, 228, 255); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(173, 198, 255); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-link { color: rgb(47, 84, 235); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(89, 126, 247); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(29, 57, 196); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-text { color: rgb(47, 84, 235); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(89, 126, 247); background: rgb(240, 245, 255); }
+:where(.css-133v4sd).ant-btn-color-geekblue.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(29, 57, 196); background: rgb(173, 198, 255); }
+:where(.css-133v4sd).ant-btn-color-lime { color: rgb(160, 217, 17); box-shadow: rgba(225, 255, 5, 0.1) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(160, 217, 17); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(186, 230, 55); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(124, 179, 5); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-dashed { border-color: rgb(160, 217, 17); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(186, 230, 55); border-color: rgb(186, 230, 55); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(124, 179, 5); border-color: rgb(124, 179, 5); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-filled { box-shadow: none; background: rgb(252, 255, 230); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(244, 255, 184); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(234, 255, 143); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-link { color: rgb(160, 217, 17); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(186, 230, 55); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(124, 179, 5); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-text { color: rgb(160, 217, 17); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(186, 230, 55); background: rgb(252, 255, 230); }
+:where(.css-133v4sd).ant-btn-color-lime.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(124, 179, 5); background: rgb(234, 255, 143); }
+:where(.css-133v4sd).ant-btn-color-gold { color: rgb(250, 173, 20); box-shadow: rgba(255, 215, 5, 0.1) 0px 2px 0px; }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(250, 173, 20); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 197, 61); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(212, 136, 6); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-dashed { border-color: rgb(250, 173, 20); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 197, 61); border-color: rgb(255, 197, 61); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 136, 6); border-color: rgb(212, 136, 6); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-dashed { border-style: dashed; }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-filled { box-shadow: none; background: rgb(255, 251, 230); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-filled:disabled, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-filled.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(255, 241, 184); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-filled:not(:disabled):not(.ant-btn-disabled):active { background: rgb(255, 229, 143); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-link { color: rgb(250, 173, 20); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 197, 61); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 136, 6); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-text { color: rgb(250, 173, 20); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(255, 197, 61); background: rgb(255, 251, 230); }
+:where(.css-133v4sd).ant-btn-color-gold.ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgb(212, 136, 6); background: rgb(255, 229, 143); }
+:where(.css-133v4sd).ant-btn-variant-outlined, :where(.css-133v4sd).ant-btn-variant-dashed { border-color: rgb(217, 217, 217); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-variant-outlined:disabled, :where(.css-133v4sd).ant-btn-variant-dashed:disabled, :where(.css-133v4sd).ant-btn-variant-outlined.ant-btn-disabled, :where(.css-133v4sd).ant-btn-variant-dashed.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-133v4sd).ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(24, 115, 72); border-color: rgb(24, 115, 72); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active, :where(.css-133v4sd).ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active { color: rgb(0, 64, 38); border-color: rgb(0, 64, 38); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-variant-text { color: rgba(0, 0, 0, 0.88); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-variant-text:disabled, :where(.css-133v4sd).ant-btn-variant-text.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover { color: rgba(0, 0, 0, 0.88); background: rgba(0, 0, 0, 0.04); }
+:where(.css-133v4sd).ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):active { color: rgba(0, 0, 0, 0.88); background: rgba(0, 0, 0, 0.15); }
+:where(.css-133v4sd).ant-btn-variant-solid { color: rgb(255, 255, 255); background: rgb(5, 103, 61); }
+:where(.css-133v4sd).ant-btn-variant-solid:disabled, :where(.css-133v4sd).ant-btn-variant-solid.ant-btn-disabled { cursor: not-allowed; border-color: rgb(217, 217, 217); color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.04); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover { background: rgb(24, 115, 72); color: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active { background: rgb(0, 64, 38); color: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-btn-variant-link { color: rgb(22, 119, 255); box-shadow: none; }
+:where(.css-133v4sd).ant-btn-variant-link:disabled, :where(.css-133v4sd).ant-btn-variant-link.ant-btn-disabled { cursor: not-allowed; color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):hover { color: rgb(105, 177, 255); background: transparent; }
+:where(.css-133v4sd).ant-btn-variant-link:not(:disabled):not(.ant-btn-disabled):active { color: rgb(9, 88, 217); }
+:where(.css-133v4sd).ant-btn-group { position: relative; display: inline-flex; }
+:where(.css-133v4sd).ant-btn-group > span:not(:last-child), :where(.css-133v4sd).ant-btn-group > .ant-btn:not(:last-child), :where(.css-133v4sd).ant-btn-group > span:not(:last-child) > .ant-btn, :where(.css-133v4sd).ant-btn-group > .ant-btn:not(:last-child) > .ant-btn { border-start-end-radius: 0px; border-end-end-radius: 0px; }
+:where(.css-133v4sd).ant-btn-group > span:not(:first-child), :where(.css-133v4sd).ant-btn-group > .ant-btn:not(:first-child) { margin-inline-start: -1px; }
+:where(.css-133v4sd).ant-btn-group > span:not(:first-child), :where(.css-133v4sd).ant-btn-group > .ant-btn:not(:first-child), :where(.css-133v4sd).ant-btn-group > span:not(:first-child) > .ant-btn, :where(.css-133v4sd).ant-btn-group > .ant-btn:not(:first-child) > .ant-btn { border-start-start-radius: 0px; border-end-start-radius: 0px; }
+:where(.css-133v4sd).ant-btn-group .ant-btn { position: relative; z-index: 1; }
+:where(.css-133v4sd).ant-btn-group .ant-btn:hover, :where(.css-133v4sd).ant-btn-group .ant-btn:focus, :where(.css-133v4sd).ant-btn-group .ant-btn:active { z-index: 2; }
+:where(.css-133v4sd).ant-btn-group .ant-btn[disabled] { z-index: 0; }
+:where(.css-133v4sd).ant-btn-group .ant-btn-icon-only { font-size: 14px; }
+:where(.css-133v4sd).ant-btn-group > span:not(:last-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-primary:not(:last-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > span:not(:last-child) > .ant-btn-primary:not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-primary:not(:last-child) > .ant-btn-primary:not(:disabled) { border-inline-end-color: rgb(24, 115, 72); }
+:where(.css-133v4sd).ant-btn-group > span:not(:first-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-primary:not(:first-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > span:not(:first-child) > .ant-btn-primary:not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-primary:not(:first-child) > .ant-btn-primary:not(:disabled) { border-inline-start-color: rgb(24, 115, 72); }
+:where(.css-133v4sd).ant-btn-group > span:not(:last-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-danger:not(:last-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > span:not(:last-child) > .ant-btn-danger:not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-danger:not(:last-child) > .ant-btn-danger:not(:disabled) { border-inline-end-color: rgb(255, 120, 117); }
+:where(.css-133v4sd).ant-btn-group > span:not(:first-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-danger:not(:first-child):not(:disabled), :where(.css-133v4sd).ant-btn-group > span:not(:first-child) > .ant-btn-danger:not(:disabled), :where(.css-133v4sd).ant-btn-group > .ant-btn-danger:not(:first-child) > .ant-btn-danger:not(:disabled) { border-inline-start-color: rgb(255, 120, 117); }
+:where(.css-133v4sd).ant-tabs-small > .ant-tabs-nav .ant-tabs-tab { padding: 8px 0px; font-size: 14px; }
+:where(.css-133v4sd).ant-tabs-large > .ant-tabs-nav .ant-tabs-tab { padding: 16px 0px; font-size: 16px; line-height: 1.5; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-small > .ant-tabs-nav .ant-tabs-tab { padding: 4px 8px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-small > .ant-tabs-nav .ant-tabs-nav-add { min-width: 32px; min-height: 32px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-small.ant-tabs-bottom > .ant-tabs-nav .ant-tabs-tab { border-radius: 0px 0px 6px 6px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-small.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab { border-radius: 6px 6px 0px 0px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-small.ant-tabs-right > .ant-tabs-nav .ant-tabs-tab { border-radius: 0px 6px 6px 0px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-small.ant-tabs-left > .ant-tabs-nav .ant-tabs-tab { border-radius: 6px 0px 0px 6px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-large > .ant-tabs-nav .ant-tabs-tab { padding: 11px 16px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-large > .ant-tabs-nav .ant-tabs-nav-add { min-width: 48px; min-height: 48px; }
+:where(.css-133v4sd).ant-tabs-rtl { direction: rtl; }
+:where(.css-133v4sd).ant-tabs-rtl .ant-tabs-nav .ant-tabs-tab { margin: 0px 0px 0px 32px; }
+:where(.css-133v4sd).ant-tabs-rtl .ant-tabs-nav .ant-tabs-tab .ant-tabs-tab:last-of-type { margin-left: 0px; }
+:where(.css-133v4sd).ant-tabs-rtl .ant-tabs-nav .ant-tabs-tab .anticon { margin-right: 0px; margin-left: 12px; }
+:where(.css-133v4sd).ant-tabs-rtl .ant-tabs-nav .ant-tabs-tab .ant-tabs-tab-remove { margin-right: 8px; margin-left: -4px; }
+:where(.css-133v4sd).ant-tabs-rtl .ant-tabs-nav .ant-tabs-tab .ant-tabs-tab-remove .anticon { margin: 0px; }
+:where(.css-133v4sd).ant-tabs-rtl.ant-tabs-left > .ant-tabs-nav { order: 1; }
+:where(.css-133v4sd).ant-tabs-rtl.ant-tabs-left > .ant-tabs-content-holder { order: 0; }
+:where(.css-133v4sd).ant-tabs-rtl.ant-tabs-right > .ant-tabs-nav { order: 0; }
+:where(.css-133v4sd).ant-tabs-rtl.ant-tabs-right > .ant-tabs-content-holder { order: 1; }
+:where(.css-133v4sd).ant-tabs-rtl.ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-rtl.ant-tabs-card.ant-tabs-bottom > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-rtl.ant-tabs-card.ant-tabs-top > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-rtl.ant-tabs-card.ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab { margin-right: 2px; margin-left: 0px; }
+:where(.css-133v4sd).ant-tabs-dropdown-rtl { direction: rtl; }
+:where(.css-133v4sd).ant-tabs-menu-item .ant-tabs-dropdown-rtl { text-align: right; }
+:where(.css-133v4sd).ant-tabs-top, :where(.css-133v4sd).ant-tabs-bottom { flex-direction: column; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav { margin: 0px 0px 16px; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav::before, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav::before, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav::before, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav::before { position: absolute; right: 0px; left: 0px; border-bottom: 1px solid rgb(240, 240, 240); content: ""; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-ink-bar { height: 2px; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-ink-bar-animated, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-ink-bar-animated, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-ink-bar-animated, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-ink-bar-animated { transition: width 0.3s, left 0.3s, right 0.3s; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-nav-wrap::after { top: 0px; bottom: 0px; width: 32px; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-nav-wrap::before { left: 0px; box-shadow: rgba(0, 0, 0, 0.08) 10px 0px 8px -8px inset; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-nav-wrap::after { right: 0px; box-shadow: rgba(0, 0, 0, 0.08) -10px 0px 8px -8px inset; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-left::before, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-left::before, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-left::before, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-left::before { opacity: 1; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-right::after, :where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-right::after, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-right::after, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-right::after { opacity: 1; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav::before, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav::before { bottom: 0px; }
+:where(.css-133v4sd).ant-tabs-top > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-top > div > .ant-tabs-nav .ant-tabs-ink-bar { bottom: 0px; }
+:where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav { order: 1; margin-top: 16px; margin-bottom: 0px; }
+:where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav::before, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav::before { top: 0px; }
+:where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-ink-bar { top: 0px; }
+:where(.css-133v4sd).ant-tabs-bottom > .ant-tabs-content-holder, :where(.css-133v4sd).ant-tabs-bottom > div > .ant-tabs-content-holder { order: 0; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav { flex-direction: column; min-width: 40px; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-tab { padding: 8px 24px; text-align: center; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab { margin: 16px 0px 0px; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-wrap, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-wrap, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-wrap, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-wrap { flex-direction: column; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-wrap::after { right: 0px; left: 0px; height: 32px; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-wrap::before { top: 0px; box-shadow: rgba(0, 0, 0, 0.08) 0px 10px 8px -8px inset; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-wrap::after { bottom: 0px; box-shadow: rgba(0, 0, 0, 0.08) 0px -10px 8px -8px inset; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-top::before, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-top::before, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-top::before, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-top::before { opacity: 1; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-bottom::after, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-bottom::after, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-bottom::after, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-bottom::after { opacity: 1; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-ink-bar { width: 2px; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-ink-bar-animated, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-ink-bar-animated, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-ink-bar-animated, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-ink-bar-animated { transition: height 0.3s, top 0.3s; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-list, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-list, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-list, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-list, :where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-nav-operations, :where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-nav-operations, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-nav-operations, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-nav-operations { flex: 1 0 auto; flex-direction: column; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-nav .ant-tabs-ink-bar { right: 0px; }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-content-holder, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-content-holder { margin-left: -1px; border-left: 1px solid rgb(217, 217, 217); }
+:where(.css-133v4sd).ant-tabs-left > .ant-tabs-content-holder > .ant-tabs-content > .ant-tabs-tabpane, :where(.css-133v4sd).ant-tabs-left > div > .ant-tabs-content-holder > .ant-tabs-content > .ant-tabs-tabpane { padding-left: 24px; }
+:where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav { order: 1; }
+:where(.css-133v4sd).ant-tabs-right > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-nav .ant-tabs-ink-bar { left: 0px; }
+:where(.css-133v4sd).ant-tabs-right > .ant-tabs-content-holder, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-content-holder { order: 0; margin-right: -1px; border-right: 1px solid rgb(217, 217, 217); }
+:where(.css-133v4sd).ant-tabs-right > .ant-tabs-content-holder > .ant-tabs-content > .ant-tabs-tabpane, :where(.css-133v4sd).ant-tabs-right > div > .ant-tabs-content-holder > .ant-tabs-content > .ant-tabs-tabpane { padding-right: 24px; }
+:where(.css-133v4sd).ant-tabs-dropdown { box-sizing: border-box; margin: 0px; padding: 0px; color: rgba(0, 0, 0, 0.88); font-size: 14px; line-height: 1.57143; list-style: none; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; position: absolute; top: -9999px; left: -9999px; z-index: 1050; display: block; }
+:where(.css-133v4sd).ant-tabs-dropdown-hidden { display: none; }
+:where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu { max-height: 200px; margin: 0px; padding: 4px 0px; overflow: hidden auto; text-align: left; list-style-type: none; background-color: rgb(255, 255, 255); background-clip: padding-box; border-radius: 8px; outline: none; box-shadow: rgba(0, 0, 0, 0.08) 0px 6px 16px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px -4px, rgba(0, 0, 0, 0.05) 0px 9px 28px 8px; }
+:where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu-item { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: flex; align-items: center; min-width: 120px; margin: 0px; padding: 4px 12px; color: rgba(0, 0, 0, 0.88); font-weight: normal; font-size: 14px; line-height: 1.57143; cursor: pointer; transition: 0.3s; }
+:where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu-item > span { flex: 1 1 0%; white-space: nowrap; }
+:where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu-item-remove { flex: 0 0 auto; margin-left: 12px; color: rgba(0, 0, 0, 0.45); font-size: 12px; background: transparent; border: 0px; cursor: pointer; }
+:where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu-item-remove:hover { color: rgb(24, 115, 72); }
+:where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu-item:hover { background: rgba(0, 0, 0, 0.04); }
+:where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu-item-disabled, :where(.css-133v4sd).ant-tabs-dropdown .ant-tabs-dropdown-menu-item-disabled:hover { color: rgba(0, 0, 0, 0.25); background: transparent; cursor: not-allowed; }
+:where(.css-133v4sd).ant-tabs-card > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab { margin: 0px; padding: 8px 16px; background: rgba(0, 0, 0, 0.02); border: 1px solid rgb(240, 240, 240); transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); }
+:where(.css-133v4sd).ant-tabs-card > .ant-tabs-nav .ant-tabs-tab-active, :where(.css-133v4sd).ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab-active { color: rgb(5, 103, 61); background: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-tabs-card > .ant-tabs-nav .ant-tabs-tab-focus, :where(.css-133v4sd).ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab-focus { outline: rgb(74, 140, 105) solid 3px; outline-offset: -3px; transition: outline-offset, outline; }
+:where(.css-133v4sd).ant-tabs-card > .ant-tabs-nav .ant-tabs-ink-bar, :where(.css-133v4sd).ant-tabs-card > div > .ant-tabs-nav .ant-tabs-ink-bar { visibility: hidden; }
+:where(.css-133v4sd).ant-tabs-card > .ant-tabs-nav .ant-tabs-tab.ant-tabs-tab-focus .ant-tabs-tab-btn, :where(.css-133v4sd).ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab.ant-tabs-tab-focus .ant-tabs-tab-btn { outline: none; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-bottom > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-top > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab { margin-left: 2px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-top > div > .ant-tabs-nav .ant-tabs-tab { border-radius: 8px 8px 0px 0px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab-active, :where(.css-133v4sd).ant-tabs-card.ant-tabs-top > div > .ant-tabs-nav .ant-tabs-tab-active { border-bottom-color: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-bottom > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-tab { border-radius: 0px 0px 8px 8px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-bottom > .ant-tabs-nav .ant-tabs-tab-active, :where(.css-133v4sd).ant-tabs-card.ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-tab-active { border-top-color: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-left > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-right > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-left > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-right > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab { margin-top: 2px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-left > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-left > div > .ant-tabs-nav .ant-tabs-tab { border-radius: 8px 0px 0px 8px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-left > .ant-tabs-nav .ant-tabs-tab-active, :where(.css-133v4sd).ant-tabs-card.ant-tabs-left > div > .ant-tabs-nav .ant-tabs-tab-active { border-right-color: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-right > .ant-tabs-nav .ant-tabs-tab, :where(.css-133v4sd).ant-tabs-card.ant-tabs-right > div > .ant-tabs-nav .ant-tabs-tab { border-radius: 0px 8px 8px 0px; }
+:where(.css-133v4sd).ant-tabs-card.ant-tabs-right > .ant-tabs-nav .ant-tabs-tab-active, :where(.css-133v4sd).ant-tabs-card.ant-tabs-right > div > .ant-tabs-nav .ant-tabs-tab-active { border-left-color: rgb(255, 255, 255); }
+:where(.css-133v4sd).ant-tabs { box-sizing: border-box; margin: 0px; padding: 0px; color: rgba(0, 0, 0, 0.88); font-size: 14px; line-height: 1.57143; list-style: none; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; display: flex; }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav { position: relative; display: flex; flex: 0 0 auto; align-items: center; }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-wrap, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-wrap { position: relative; display: flex; flex: 1 1 auto; align-self: stretch; overflow: hidden; white-space: nowrap; transform: translate(0px); }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-wrap::before, :where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-wrap::after, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-wrap::after { position: absolute; z-index: 1; opacity: 0; transition: opacity 0.3s; content: ""; pointer-events: none; }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-list, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-list { position: relative; display: flex; transition: opacity 0.3s; }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-operations, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-operations { display: flex; align-self: stretch; }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-operations-hidden, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-operations-hidden { position: absolute; visibility: hidden; pointer-events: none; }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-more, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-more { position: relative; padding: 8px 16px; background: transparent; border: 0px; color: rgba(0, 0, 0, 0.88); }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-more::after, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-more::after { position: absolute; right: 0px; bottom: 0px; left: 0px; height: 5px; transform: translateY(100%); content: ""; }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-add, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-add { min-width: 40px; min-height: 40px; margin-left: 2px; background: transparent; border: 1px solid rgb(240, 240, 240); border-radius: 8px 8px 0px 0px; outline: none; cursor: pointer; color: rgba(0, 0, 0, 0.88); transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-add:hover, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-add:hover { color: rgb(24, 115, 72); }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-add:active, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-add:active, :where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-add:focus:not(:focus-visible), :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-add:focus:not(:focus-visible) { color: rgb(0, 64, 38); }
+:where(.css-133v4sd).ant-tabs > .ant-tabs-nav .ant-tabs-nav-add:focus-visible, :where(.css-133v4sd).ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-add:focus-visible { outline: rgb(74, 140, 105) solid 3px; outline-offset: -3px; transition: outline-offset, outline; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-extra-content { flex: 0 0 auto; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-ink-bar { position: absolute; background: rgb(5, 103, 61); pointer-events: none; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab { position: relative; -webkit-tap-highlight-color: transparent; display: inline-flex; align-items: center; padding: 12px 0px; font-size: 14px; background: transparent; border: 0px; outline: none; cursor: pointer; color: rgba(0, 0, 0, 0.88); }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab-btn:focus:not(:focus-visible), :where(.css-133v4sd).ant-tabs .ant-tabs-tab-remove:focus:not(:focus-visible), :where(.css-133v4sd).ant-tabs .ant-tabs-tab-btn:active, :where(.css-133v4sd).ant-tabs .ant-tabs-tab-remove:active { color: rgb(0, 64, 38); }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab-btn { outline: none; transition: 0.3s; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab-btn .ant-tabs-tab-icon:not(:last-child) { margin-inline-end: 12px; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab-remove { flex: 0 0 auto; margin-right: -4px; margin-left: 8px; color: rgba(0, 0, 0, 0.45); font-size: 12px; background: transparent; border: none; outline: none; cursor: pointer; transition: 0.3s; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab-remove:hover { color: rgba(0, 0, 0, 0.88); }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab-remove:focus-visible { outline: rgb(74, 140, 105) solid 3px; outline-offset: 1px; transition: outline-offset, outline; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab:hover { color: rgb(24, 115, 72); }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn { color: rgb(5, 103, 61); text-shadow: currentcolor 0px 0px 0.25px; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab.ant-tabs-tab-focus .ant-tabs-tab-btn { outline: rgb(74, 140, 105) solid 3px; outline-offset: 1px; transition: outline-offset, outline; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab.ant-tabs-tab-disabled { color: rgba(0, 0, 0, 0.25); cursor: not-allowed; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab.ant-tabs-tab-disabled .ant-tabs-tab-btn:focus, :where(.css-133v4sd).ant-tabs .ant-tabs-tab.ant-tabs-tab-disabled .ant-tabs-remove:focus, :where(.css-133v4sd).ant-tabs .ant-tabs-tab.ant-tabs-tab-disabled .ant-tabs-tab-btn:active, :where(.css-133v4sd).ant-tabs .ant-tabs-tab.ant-tabs-tab-disabled .ant-tabs-remove:active { color: rgba(0, 0, 0, 0.25); }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab .ant-tabs-tab-remove .anticon { margin: 0px; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab .anticon:not(:last-child) { margin-right: 12px; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tab + .ant-tabs-tab { margin: 0px 0px 0px 32px; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-content { position: relative; width: 100%; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-content-holder { flex: 1 1 auto; min-width: 0px; min-height: 0px; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tabpane:focus-visible { outline: rgb(74, 140, 105) solid 3px; outline-offset: 1px; transition: outline-offset, outline; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-tabpane-hidden { display: none; }
+:where(.css-133v4sd).ant-tabs-centered > .ant-tabs-nav .ant-tabs-nav-wrap:not([class*=".ant-tabs-nav-wrap-ping"]) > .ant-tabs-nav-list, :where(.css-133v4sd).ant-tabs-centered > div > .ant-tabs-nav .ant-tabs-nav-wrap:not([class*=".ant-tabs-nav-wrap-ping"]) > .ant-tabs-nav-list { margin: auto; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-switch-appear, :where(.css-133v4sd).ant-tabs .ant-tabs-switch-enter { transition: none; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-switch-appear-start, :where(.css-133v4sd).ant-tabs .ant-tabs-switch-enter-start { opacity: 0; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-switch-appear-active, :where(.css-133v4sd).ant-tabs .ant-tabs-switch-enter-active { opacity: 1; transition: opacity 0.3s; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-switch-leave { position: absolute; transition: none; inset: 0px; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-switch-leave-start { opacity: 1; }
+:where(.css-133v4sd).ant-tabs .ant-tabs-switch-leave-active { opacity: 0; transition: opacity 0.3s; }
+.anticon .anticon .anticon-icon { display: block; }
+.style_closeButton__4wIru .anticon svg { width: 20px; height: 20px; stroke-width: 3px; }
+.style_bannerH5__ITtfq .style_closeButton__4wIru .anticon svg { width: 16px; height: 16px; }
+.style_backButton__6OViq .anticon { font-size: 14px; }
+.style_googleButton__8b_vP .ant-btn-icon { display: inline-flex; align-items: center; line-height: 1; }
+.style_emailButton__rbW2z .anticon { font-size: 18px; color: rgb(86, 106, 99); }
+.style_errorModal__qpTAw .anticon-close { font-size: 22px; }
+.style_errorModal__qpTAw .ant-btn { width: 289px; height: 48px; background: rgb(86, 221, 166); box-shadow: rgb(141, 222, 185) 0px 4px 0px 0px inset; border-radius: 4px; border: 1px solid rgb(40, 40, 40); text-shadow: none; }
+.style_errorModal__qpTAw .ant-btn span { font-size: 20px; font-weight: 600; color: rgb(255, 255, 255); }
+@media (max-width: 839px) {
+  .style_pageContainer__8O_UM { min-height: calc(-54px + 100vh); padding: 18px 12px; }
+  .style_loginWrap__hCyly { padding: 18px 14px 20px; }
+  .style_pageCard__ZvYEw { border-radius: 12px; }
+  .style_loginWrapEmail__sn6Bm { padding-top: 18px; }
+  .style_modalWrap__Uy5jb.style_loginWrapEmail__sn6Bm .style_emailTopBar__1Lnit { top: -14px; }
+  .style_emailTopBar__1Lnit { top: 10px; left: 10px; }
+  .style_backButton__6OViq { height: 40px; padding: 0px 8px; font-size: 14px; }
+  .style_backButton__6OViq .anticon { font-size: 13px; }
+  .style_header__xWFrT { margin-bottom: 0px; }
+  .style_header__xWFrT h2 { margin-top: 16px; }
+  .style_modalWrap__Uy5jb .style_header__xWFrT h2 { margin-top: 12px; }
+  .style_newsletterOptIn__GTcyw { width: calc(100% - 20px); margin: 0px auto 14px; }
+  .style_newsletterOptIn__GTcyw .ant-checkbox-inner { width: 16px; height: 16px; }
+  .style_newsletterOptIn__GTcyw .ant-checkbox + span { padding-inline-start: 5px; }
+  .style_newsletterOptInLabel__oEPHb { font-size: 12px; line-height: 16px; }
+  .style_googleButton__8b_vP { height: 52px; gap: 8px; }
+  .style_googleButton__8b_vP span { font-size: 17px; }
+  .style_googleButtonWithNewsletter__G981A { margin-top: 4px; }
+  .style_googleSubCopy__mQGBW { margin: 8px 0px 12px; font-size: 13px; }
+  .style_divider__RYl_M { margin-bottom: 12px; gap: 8px; }
+  .style_divider__RYl_M strong { font-size: 12px; }
+  .style_emailButton__rbW2z { height: 48px; }
+  .style_emailButton__rbW2z .anticon { font-size: 17px; }
+  .style_emailButton__rbW2z span { font-size: 16px; }
+  .style_socialLogins__oMG_l { margin-top: 14px; gap: 10px; }
+  .style_iconButton__Aa1fc { width: 44px; height: 44px; }
+  .style_emailForm__Bfzgy .ant-input { height: 48px; }
+  .style_emailSubmitButton__GB8ws { height: 48px; font-size: 16px; }
+  .style_emailHintSpacer__4Wf6t { height: 20px; }
+}
+li, ol, ul { list-style: none; margin: 0px; padding: 0px; }
+.ant-btn span { text-shadow: none; }
+.ant-btn-color-primary { box-shadow: none; }
+.hljs, [class*="hljs-"], code, pre, pre code { font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace; }
+.login-modal .close-btn .anticon { font-size: 24px; color: rgb(74, 74, 74); }
+.style_problemDescription__T4cPe .language-js .hljs-title.class_ { color: rgb(204, 135, 0); }
+.style_problemDescription__T4cPe .language-js .hljs-number { color: rgb(38, 191, 64); }
+.style_problemDescription__T4cPe .language-js .hljs-comment { white-space: break-spaces; font-size: 15px; font-style: italic; color: rgb(114, 148, 92); }
+.style_problemDescription__T4cPe .hljs { border-radius: 8px; padding: 20px 24px; }
+.style_premiumTitle__UrIDj .anticon { margin-right: 8px; font-size: 20px; }
+.style_codeTabsWrap__jMkKK { margin: 20px 0px; }
+.style_codeTabsWrap__jMkKK h3 { padding: 0px; margin: 20px 0px; color: rgb(0, 0, 0); font-size: 24px; font-style: normal; font-weight: 700; line-height: normal; }
+.style_codeTabs__DEEq6 { padding: 0px; margin: 16px 0px; border-radius: 10px; border: 1px solid rgb(211, 211, 211); background: rgb(255, 255, 255); }
+.style_codeTabs__DEEq6 .ant-tabs-nav { padding: 2px 15px 0px; background: rgb(231, 255, 249); margin-bottom: 0px; border-radius: 10px 10px 0px 0px; }
+.style_codeTabs__DEEq6 .ant-tabs-nav::before { border-color: rgb(211, 211, 211); }
+.style_codeTabs__DEEq6 .ant-tabs-nav .ant-tabs-tab { height: 35px; padding: 0px 16px; border-top: 1px solid rgba(0, 0, 0, 0); border-right: 1px solid rgba(0, 0, 0, 0); border-left: 1px solid rgba(0, 0, 0, 0); border-image: initial; border-bottom: none; background-color: rgba(0, 0, 0, 0); }
+.style_codeTabs__DEEq6 .ant-tabs-nav .ant-tabs-tab-active { border-radius: 6px 6px 0px 0px; border-top: 1px solid rgb(211, 211, 211); border-right: 1px solid rgb(211, 211, 211); border-left: 1px solid rgb(211, 211, 211); border-image: initial; border-bottom: none; background: rgb(255, 255, 255); }
+.style_codeTabs__DEEq6 .ant-tabs-nav .ant-tabs-tab-active .ant-tabs-tab-btn { color: rgb(0, 97, 71); }
+.style_codeTabs__DEEq6 .ant-tabs-nav .ant-tabs-tab-btn { color: rgb(102, 102, 102); }
+.style_codeTabs__DEEq6 .ant-tabs-tabpane { position: relative; }
+.style_codeTabs__DEEq6 pre { padding: 0px !important; margin: 0px !important; border: none !important; background: rgba(0, 0, 0, 0) !important; }
+.style_codeTabs__DEEq6 pre code { padding: 16px 30px 20px; background: rgba(0, 0, 0, 0); }
+.style_codeTabs__DEEq6 .style_copyBtn__4MbAa { position: absolute; top: 22px; right: 20px; padding: 0px; height: auto; border: none; background: rgba(0, 0, 0, 0); box-shadow: none; }
+.style_codeTabs__DEEq6 .style_copyBtn__4MbAa:hover { color: rgb(5, 103, 61); background: rgba(0, 0, 0, 0) !important; }
+pre code.hljs { display: block; overflow-x: auto; padding: 1em; }
+code.hljs { padding: 3px 5px; }
+.hljs { color: rgb(36, 41, 46); background: rgb(255, 255, 255); }
+.hljs-doctag, .hljs-keyword, .hljs-meta .hljs-keyword, .hljs-template-tag, .hljs-template-variable, .hljs-type, .hljs-variable.language_ { color: rgb(215, 58, 73); }
+.hljs-title, .hljs-title.class_, .hljs-title.class_.inherited__, .hljs-title.function_ { color: rgb(111, 66, 193); }
+.hljs-attr, .hljs-attribute, .hljs-literal, .hljs-meta, .hljs-number, .hljs-operator, .hljs-selector-attr, .hljs-selector-class, .hljs-selector-id, .hljs-variable { color: rgb(0, 92, 197); }
+.hljs-meta .hljs-string, .hljs-regexp, .hljs-string { color: rgb(3, 47, 98); }
+.hljs-built_in, .hljs-symbol { color: rgb(227, 98, 9); }
+.hljs-code, .hljs-comment, .hljs-formula { color: rgb(106, 115, 125); }
+.hljs-name, .hljs-quote, .hljs-selector-pseudo, .hljs-selector-tag { color: rgb(34, 134, 58); }
+.hljs-subst { color: rgb(36, 41, 46); }
+.hljs-section { color: rgb(0, 92, 197); font-weight: 700; }
+.hljs-bullet { color: rgb(115, 92, 15); }
+.hljs-emphasis { color: rgb(36, 41, 46); font-style: italic; }
+.hljs-strong { color: rgb(36, 41, 46); font-weight: 700; }
+.hljs-addition { color: rgb(34, 134, 58); background-color: rgb(240, 255, 244); }
+.hljs-deletion { color: rgb(179, 29, 40); background-color: rgb(255, 238, 240); }
+.style_errorModal__dGAyj .ant-modal-confirm-body .anticon-exclamation-circle { color: rgb(255, 68, 27); }
+.style_errorModal__dGAyj .ant-modal-confirm-btns .ant-btn { border-radius: 5px; }
+.style_course__yn_w8 .style_learnContent__6Nc1e { margin: 0px auto; padding-bottom: 50px; overflow: auto; }
+.style_course__yn_w8 .style_learnContent__6Nc1e img { width: 100%; }
+.style_course__yn_w8 .style_learnContent__6Nc1e .table-wrap { overflow: auto; margin-bottom: 12px; }
+.style_course__yn_w8 header .anticon { margin-left: 20px; font-size: 20px; }
+.style_problemList__2UuWm .ant-progress-status-success .ant-progress-text .anticon { font-size: 15px; }
+.style_container__9mWse .style_menuToggle__MLC_p .ant-btn { width: 32px; height: 32px; border-radius: 6px; border: 1px solid rgb(174, 174, 174); background: rgb(255, 255, 255); box-shadow: none; }
+.style_articleWrap__Xn2yv { min-height: calc(-286px + 100vh); overflow: auto; background-color: rgb(255, 255, 255); }
+.style_learnContent__K5K7M { min-width: 498px; max-width: 1000px; overflow: auto; margin: 0px auto; padding: 50px 30px; background-color: rgb(255, 255, 255); }
+.style_learnContent__K5K7M .table-wrap { overflow: auto; margin-bottom: 12px; position: relative; }
+.style_learnContent__K5K7M .table-wrap table { border-collapse: collapse; min-width: var(--table-min-width,auto); }
+.style_learnContent__K5K7M .table-wrap td { line-height: 24px; }
+.style_learnContent__K5K7M .table-wrap td a { color: rgb(33, 37, 41) !important; cursor: unset !important; }
+.style_learnContent__K5K7M table.inside-out { width: 100%; min-width: unset; margin: 16px 0px; background-color: rgb(245, 245, 245); border-radius: 4px; border: none; }
+.style_learnContent__K5K7M table.inside-out td { padding: 16px 20px; border: none; }
+.style_learnContent__K5K7M table.inside-out td p { margin: 0px 0px 10px; }
+.style_learnContent__K5K7M table.inside-out td p:last-child { margin-bottom: 0px; }
+.style_learnContent__K5K7M table.inside-out tr { border: none; background-color: rgba(0, 0, 0, 0) !important; }
+.style_learnContent__K5K7M table.inside-out, .style_learnContent__K5K7M table.inside-out * { border: none !important; }
+.style_learnContent__K5K7M table.inside-out + p { text-align: left; }
+.style_learnContent__K5K7M table.split-50 { width: 100%; min-width: unset; margin: 16px 0px; }
+.style_learnContent__K5K7M table.split-50 td { width: 50%; vertical-align: top; padding: 16px 20px; }
+.style_learnContent__K5K7M table.split-50 tr { background-color: rgba(0, 0, 0, 0) !important; }
+.style_learnContent__K5K7M table.split-50, .style_learnContent__K5K7M table.split-50 * { border: none !important; }
+.style_learnContent__K5K7M table.split-50 + p { text-align: left; }
+.style_learnContent__K5K7M .code-table { width: 100%; overflow: auto; margin: 16px 0px !important; }
+.style_learnContent__K5K7M .code-table table { border-collapse: collapse; }
+.style_learnContent__K5K7M .code-table pre { margin: 0px; }
+.style_learnContent__K5K7M .code-table pre code { padding-left: 0px; padding-right: 0px; }
+.style_learnContent__K5K7M .code-table tbody td { font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace; }
+.style_learnContent__K5K7M .code-table td > p { margin: 0px; }
+.style_learnContent__K5K7M .code-table tr:nth-child(2n) { background-color: rgb(255, 255, 255) !important; }
+.style_learnContent__K5K7M mark.highlight-magenta { background-color: rgba(255, 182, 193, 0.4); padding: 2px 0px; border-radius: 2px; }
+.style_learnContent__K5K7M mark.highlight-green { background-color: rgba(152, 251, 152, 0.3); padding: 2px 0px; border-radius: 2px; }
+.style_learnContent__K5K7M > p:last-of-type { margin: 0px; font-size: 14px !important; text-align: left !important; }
+.style_learnContent__K5K7M .style_chapter__grtAe { width: 96px; height: 80px; margin-bottom: 6px; font-size: 80px; font-weight: 600; color: rgb(53, 206, 160); line-height: 80px; }
+.style_learnContent__K5K7M center { width: 100%; overflow: auto; }
+.style_learnContent__K5K7M h1 { margin-top: 0px; margin-bottom: 20px; font-size: 40px; font-weight: 600; color: rgb(40, 40, 40); line-height: 50px; text-wrap: balance; }
+.style_learnContent__K5K7M h2 { margin-top: 16px; font-size: 30px; line-height: 40px; }
+.style_learnContent__K5K7M h2, .style_learnContent__K5K7M h3 { margin-bottom: 10px; font-weight: 600; color: rgb(40, 40, 40); text-wrap: balance; }
+.style_learnContent__K5K7M h3 { font-size: 26px; line-height: 37px; }
+.style_learnContent__K5K7M h4 { margin-bottom: 10px; font-size: 20px; font-weight: 600; color: rgb(40, 40, 40); line-height: 28px; text-wrap: balance; }
+.style_learnContent__K5K7M h5 { font-size: 16px; }
+.style_learnContent__K5K7M h5, .style_learnContent__K5K7M h6 { margin-bottom: 10px; font-weight: 600; color: rgb(40, 40, 40); line-height: 20px; text-wrap: balance; }
+.style_learnContent__K5K7M h6 { font-size: 15px; }
+.style_learnContent__K5K7M hr { margin: 24px 0px; border-top: 1px solid rgb(233, 233, 233); border-bottom: none; }
+.style_learnContent__K5K7M p { margin-bottom: 10px; font-weight: 400; line-height: 26px; font-size: 15px; text-align: justify; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M ul { margin-left: 28px; margin-bottom: 16px; list-style: disc; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M li { list-style: disc; color: rgb(33, 37, 41); line-height: 26px; font-size: 15px; }
+.style_learnContent__K5K7M li p { margin-top: 0px; margin-bottom: 4px; }
+.style_learnContent__K5K7M li li { list-style: circle; }
+.style_learnContent__K5K7M ol { margin-left: 28px; margin-bottom: 16px; }
+.style_learnContent__K5K7M ol, .style_learnContent__K5K7M ol li { list-style: decimal; }
+.style_learnContent__K5K7M a { color: rgb(33, 37, 41); text-decoration: underline; }
+.style_learnContent__K5K7M a:hover, .style_learnContent__K5K7M a:hover p { color: rgb(5, 103, 61); }
+.style_learnContent__K5K7M figcaption { margin: 12px 0px; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M .tableCaption { width: 100%; margin-top: 12px; text-align: center !important; color: rgb(33, 37, 41) !important; }
+.style_learnContent__K5K7M .tableCaption p { text-align: center; }
+.style_learnContent__K5K7M .note-block { padding: 16px; margin: 20px 0px; text-align: left; color: rgb(33, 37, 41); background-color: rgb(245, 245, 245); border: 1px solid rgb(221, 221, 221); border-radius: 6px; font-size: 14px !important; }
+.style_learnContent__K5K7M .note-block p { line-height: 24px; margin: 0px 0px 8px; font-size: 14px !important; }
+.style_learnContent__K5K7M .note-block p:last-child { margin-bottom: 0px; }
+.style_learnContent__K5K7M .note-block ul { margin-top: 8px; margin-left: 18px !important; margin-bottom: 0px !important; }
+.style_learnContent__K5K7M .note-block ul li { line-height: 24px; font-size: 14px; }
+.style_learnContent__K5K7M table { margin: 0px auto; border: 1px solid rgb(233, 233, 233); border-collapse: collapse; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M table tr { border-bottom: 1px solid rgb(233, 233, 233); }
+.style_learnContent__K5K7M table tr:last-child { border-bottom: none; }
+.style_learnContent__K5K7M table tr:nth-child(2n) { background-color: rgb(245, 245, 245); }
+.style_learnContent__K5K7M table tr td { padding: 10px; border-right: 1px solid rgb(233, 233, 233); line-height: 24px; }
+.style_learnContent__K5K7M table tr td:last-child { border-right: none; }
+.style_learnContent__K5K7M thead { border-bottom: 1px solid rgb(233, 233, 233); background-color: rgb(245, 245, 245); }
+.style_learnContent__K5K7M thead th { padding: 10px; border-right: 1px solid rgb(233, 233, 233); text-align: left; }
+.style_learnContent__K5K7M thead th:last-child { border-right: none; }
+.style_learnContent__K5K7M thead th strong { font-weight: 700; }
+.style_learnContent__K5K7M figure { margin: 16px 0px; }
+.style_learnContent__K5K7M .info-box { display: flex; align-items: flex-start; gap: 8px; padding: 16px; background-color: rgb(248, 249, 250); border-left: 4px solid rgb(53, 206, 160); margin: 24px 0px; font-size: 14px; line-height: 1.6; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M .info-box img { flex-shrink: 0; margin-top: 3px; }
+.style_learnContent__K5K7M .info-box p { margin: 0px; }
+.style_learnContent__K5K7M .sample-dialogue { padding: 16px; background-color: rgb(248, 249, 250); border: 1px solid rgb(233, 233, 233); border-radius: 4px; margin: 24px 0px; font-size: 14px; line-height: 1.4; color: rgb(33, 37, 41); }
+.style_learnContent__K5K7M .sample-dialogue p { margin: 0px; }
+.style_learnContent__K5K7M .sample-dialogue br { display: none; }
+.style_learnContent__K5K7M pre { flex: 1 1 0%; margin-bottom: 4px; }
+.style_learnContent__K5K7M pre code { word-break: break-all; white-space: pre; color: rgb(22, 105, 176); }
+.style_learnContent__K5K7M u { word-break: break-all; color: rgb(66, 131, 196); }
+.style_learnContent__K5K7M table.style_quote__VVyDM { min-width: unset; width: 100%; margin: 16px 0px; background-color: rgb(245, 245, 245); border-radius: 4px; border: 1px solid rgb(233, 233, 233); }
+.style_learnContent__K5K7M table.style_quote__VVyDM td { padding: 16px 20px; border: none; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td p { margin: 0px 0px 10px; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td p:last-child { margin-bottom: 0px; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td ol, .style_learnContent__K5K7M table.style_quote__VVyDM td ul { margin: 10px 0px 10px 20px; padding: 0px; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td ol li, .style_learnContent__K5K7M table.style_quote__VVyDM td ul li { margin: 6px 0px; }
+.style_learnContent__K5K7M table.style_quote__VVyDM td em { font-style: italic; }
+.style_learnContent__K5K7M table.style_quote__VVyDM tr { border: none; background-color: rgba(0, 0, 0, 0) !important; }
+.style_learnPad__UNRJV .style_learnContent__K5K7M { padding: 20px 30px; }
+.style_learnH5__R4PJq .style_chapter__grtAe { display: block; width: 335px; height: 30px; font-size: 30px; line-height: 30px; text-align: left; font-weight: 600; color: rgb(53, 206, 160); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M { min-width: 320px; padding: 0px 20px 50px; margin: 32px auto 0px; overflow: hidden auto; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M .table-wrap { overflow: auto; margin-bottom: 12px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M .table-wrap td a { color: rgb(33, 37, 41) !important; cursor: unset !important; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h1 { margin-bottom: 0px; font-size: 20px; font-weight: 600; color: rgb(40, 40, 40); line-height: 28px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h2 { margin-top: 16px; font-size: 20px; font-weight: 600; color: rgb(40, 40, 40); line-height: 28px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h3 { font-size: 18px; font-weight: 600; color: rgb(40, 40, 40); line-height: 25px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h4 { font-size: 16px; font-weight: 600; color: rgb(40, 40, 40); line-height: 22px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M h5 { margin-bottom: 10px; font-size: 15px; font-weight: 600; color: rgb(40, 40, 40); line-height: 20px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M p { font-size: 15px; color: rgb(33, 37, 41); text-align: left; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ul { margin-left: 28px; margin-bottom: 16px; list-style: disc; color: rgb(33, 37, 41); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ul p code { word-break: break-all; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M li { list-style: disc; color: rgb(33, 37, 41); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M li p { margin: 0px 0px 4px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M li li { list-style: circle; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ol { margin-left: 28px; margin-bottom: 16px; list-style: decimal; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ol li { list-style: decimal; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M ol li a { word-break: break-all; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M figcaption { margin: 12px 0px; color: rgb(33, 37, 41); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table { margin: 0px auto; border: 1px solid rgb(233, 233, 233); color: rgb(33, 37, 41); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M thead { border-bottom: 1px solid rgb(233, 233, 233); background-color: rgb(245, 245, 245); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M thead th { padding: 10px; border-right: 1px solid rgb(233, 233, 233); text-align: left; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M thead th:last-child { border-right: none; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M thead th strong { font-weight: 700; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr { border-bottom: 1px solid rgb(233, 233, 233); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr:last-child { border-bottom: none; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr:nth-child(2n) { background-color: rgb(245, 245, 245); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr td { padding: 10px; border-right: 1px solid rgb(233, 233, 233); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M tr td:last-child { border-right: none; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M figure { margin: 16px 0px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M figure span:first-child { flex: 1 1 0%; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M figure img { max-width: 100%; height: auto; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M pre { flex: 1 1 0%; padding-bottom: 4px; margin-bottom: 4px; overflow: auto; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M pre code { word-break: break-all; color: rgb(22, 105, 176); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M u { word-break: break-all; color: rgb(66, 131, 196); }
+.style_learnH5__R4PJq .style_learnContent__K5K7M code { word-break: break-all; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M blockquote p { font-weight: 400; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 { display: block; width: 100%; min-width: unset; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 tbody { display: block; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 tr { display: flex; flex-direction: column-reverse; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 td { display: block; padding: 10px 0px; width: 100% !important; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 td:first-child { padding-top: 20px; }
+.style_learnH5__R4PJq .style_learnContent__K5K7M table.split-50 td:last-child { padding-bottom: 0px; }
+.style_markCompleteWrap__YEi4w { display: flex; justify-content: flex-end; margin-top: 32px; }
+.style_markComplete__jnD2I { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-width: 220px; height: 48px; padding: 0px 22px; border-radius: 6px; border: 1px solid rgb(53, 206, 160); background: rgb(255, 255, 255); color: rgb(20, 159, 118); font-size: 15px; font-weight: 600; cursor: pointer; transition: border-color 0.2s, color 0.2s, background-color 0.2s; }
+.style_markComplete__jnD2I:disabled { opacity: 0.6; cursor: not-allowed; }
+.style_emptySquare__K6JN0 { display: inline-block; width: 18px; height: 18px; border: 2px solid; border-radius: 2px; flex-shrink: 0; }
+.style_markCompleted__Bcull { background: rgb(255, 255, 255); border-color: rgb(53, 206, 160); color: rgb(20, 159, 118); }
+@media (hover: hover) {
+  .style_markCompleted__Bcull:not(:disabled):hover { border-color: rgb(255, 77, 79); color: rgb(255, 77, 79); }
+  .style_markCompleted__Bcull:not(:disabled):hover .style_completedText__zQmXX { display: none; }
+  .style_markCompleted__Bcull:not(:disabled):hover .style_markIncompleteText__ujVfp { display: inline; }
+}
+.style_markCompleteLoading__YL9X9 { background: rgb(255, 255, 255); border-color: rgb(53, 206, 160); color: rgb(153, 153, 153); cursor: default; }
+</style>
+</head>
+<body>
+<article class="style_learnContent__K5K7M">
+<header><h1>Merging Communities</h1></header><div class="style_problemDescription__T4cPe"><p>There are <code>n</code> people numbered from <code>0</code> to <code>n - 1</code> , with each person initially belonging to a separate community. When two people from different communities connect, their communities merge into a single community.</p><p>Your goal is to write two functions:</p><ul>
+<li><code>connect(x: int, y: int) -&gt; None</code>: Connects person <code>x</code> with person <code>y</code> and merges their communities.</li>
+<li><code>get_community_size(x: int) -&gt; int</code>: Returns the size of the community which person <code>x</code> belongs to.</li>
+</ul><h4 id="example">Example:</h4><figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a visualization of a graph's evolution and community size calculations.  The image is divided into five sections. The first two sections show the `connect(x, y)` function calls, visually represented by numbered nodes (0-4) within circles.  Lines connecting the nodes indicate the creation of edges between them.  `connect(0, 1)` shows a line connecting node 0 and node 1. `connect(1, 2)` adds a line connecting node 1 and node 2. The third section displays the result of `get_community_size(3)`, which returns 1, indicating node 3 is in a community of size one. The fourth section shows the result of `get_community_size(0)`, returning 3, indicating node 0 belongs to a community of size three (nodes 0, 1, and 2). The fifth section shows `connect(3, 4)`, adding a connection between node 3 and node 4. Finally, `get_community_size(4)` returns 2, showing that nodes 3 and 4 now form a community of size two.  The arrangement demonstrates how adding connections (`connect`) affects the community sizes (`get_community_size`), illustrating a fundamental concept in graph theory and network analysis." width="490" height="235" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/graphs/merging-communities/merging-communities-4AA4FKUZ.svg" style="color: transparent;"></div></figure><pre><code class="hljs language-python">Input: n = <span class="hljs-number">5</span>,
+       [
+         connect(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>),
+         connect(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>),
+         get_community_size(<span class="hljs-number">3</span>),
+         get_community_size(<span class="hljs-number">0</span>),
+         connect(<span class="hljs-number">3</span>, <span class="hljs-number">4</span>),
+         get_community_size(<span class="hljs-number">4</span>),
+       ]
+Output: [<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>]
+</code></pre></div>
+<h2 id="intuition">Intuition</h2>
+<p>In this problem, we start with <code>n</code> individuals, each in their own separate community. As we connect pairs of individuals, their respective communities merge. The challenge is to efficiently manage these connections and quickly determine the size of the community for any given individual.</p>
+<p>This is where the <strong>Union-Find</strong> data structure, also known as the Disjoint Set Union (DSU) data structure, comes in. Union-Find consists of two operations:</p>
+<ul>
+<li><strong>Union</strong>: takes two elements from different sets and makes them part of the same set.</li>
+<li><strong>Find</strong>: determines what set an element belongs to.</li>
+</ul>
+<p>In the context of this problem, the <code>union</code> operation can be used to merge the communities of two people, while the <code>find</code> operation can be used to determine which community a person belongs to. To make this work, we need a way to represent each community. For example, let’s say there are 5 people, with persons 0 and 1 in one community, and persons 2, 3, and 4 in another:</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents two distinct graphs.  The left graph is a linear graph, depicted with a light blue background, containing two nodes labeled '0' and '1'.  Node '0' is positioned above node '1', and an implied connection exists between them, suggesting a sequential or directional relationship. The right graph is a triangular graph, filled with a light purple background, consisting of three nodes at the vertices of the triangle labeled '2', '3', and '4'. Node '4' is positioned at the base of the triangle, while nodes '2' and '3' are at the top corners.  Implied connections exist between all three nodes, indicating a mutual or interconnected relationship. The two graphs are presented side-by-side for comparison, highlighting the difference in their structure and the potential implications for data flow or processing within a coding context." loading="lazy" width="223" height="94" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/graphs/merging-communities/image-13-07-1-DSZKDVYN.svg" style="color: transparent;"></div></figure>
+<p>One way to distinguish between them is to designate a representative for each community. Let's assign person 0 as the representative of the left community, and person 2 as the representative of the right community. We can represent these communities as a graph, where each community is a connected component, and each person in a community points to their representative:</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents two distinct directed acyclic graphs (DAGs).  The left DAG, highlighted in light blue, is a simple linear graph with two nodes labeled '0' and '1'.  Node '1' has a directed edge pointing towards node '0', indicating a dependency where '0' depends on '1'.  Each node is encircled and numbered with a small circle containing the same number as the node itself. The right DAG, highlighted in light purple, is a triangular graph with three nodes labeled '2', '3', and '4'. Node '2' receives directed edges from both nodes '3' and '4', signifying that '2' depends on both '3' and '4'.  Node '3' has a directed edge pointing to node '2', and node '4' also has a directed edge pointing to node '2'.  Similar to the left DAG, each node is encircled and numbered.  The two DAGs are presented side-by-side for comparison, illustrating different dependency structures within a system." loading="lazy" width="233" height="107" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/graphs/merging-communities/image-13-07-2-6OTED2OP.svg" style="color: transparent;"></div></figure>
+<p>This can be reflected using a parent array, where <code>parent[i]</code> stores the parent of person <code>i</code>. This parent array is discussed later.</p>
+<p>Now that we have a way to represent communities, let’s discuss how the <code>union</code> and <code>find</code> functions would work in more detail.</p>
+<p><strong>Union</strong><br>
+Consider the previous example of 5 people. Let’s say we want to connect persons 1 and 4 (i.e., <code>union(1, 4)</code>):</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a directed graph illustrating a union operation within a data structure, likely a disjoint-set data structure or similar.  The graph contains five nodes, each represented by a circle containing a numerical label (0, 1, 2, 3, and 4).  Arrows indicate the direction of connections between nodes. Node 3 points to node 2, and node 1 points to node 0.  Node 4 points to node 2.  Nodes 1 and 4 are enclosed within a dashed orange oval, labeled with the text 'union(1, 4):' in orange, indicating that a union operation is being performed on these two nodes. This operation likely merges the sets containing nodes 1 and 4, resulting in a change to the overall structure of the data structure, potentially affecting the parent-child relationships between nodes.  The resulting structure after the union operation is not explicitly shown, but it would involve a change in the connections between nodes 1, 2, and 4." loading="lazy" width="213" height="100" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/graphs/merging-communities/image-13-07-3-XYZK55GO.svg" style="color: transparent;"></div></figure>
+<p>We first need to identify their representatives so we know which communities these two people belong to. We can use the <code>find</code> function for this, which will be discussed later:</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a diagram illustrating a find operation within a data structure, likely a disjoint-set data structure or similar.  The diagram shows two separate components. The left component features a node labeled '1' connected by an upward-pointing arrow to a node labeled '0' which is highlighted in orange.  Next to this connection, the text 'rep_x = find(1) = 0' indicates that a find operation on element '1' returns the representative element '0'. The right component shows a node labeled '4' connected by an upward-pointing arrow to a node labeled '2', also highlighted in orange.  A rightward arrow connects node '2' to node '3'.  The text 'rep_y = find(4) = 2' indicates that a find operation on element '4' returns the representative element '2'.  The arrows represent the path taken during the find operation, ultimately leading to the representative element for each set.  The orange highlighting suggests that nodes '0' and '2' are the root or representative elements of their respective sets." loading="lazy" width="276" height="155" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/graphs/merging-communities/image-13-07-4-U3YJIFER.svg" style="color: transparent;"></div></figure>
+<p>Before merging these communities, we need to pick one of the two current representatives as the representative of the merged community. For now, let’s just pick person 0.</p>
+<p>From here, one strategy is to connect everyone in the second community directly to person 0:</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a directed acyclic graph (DAG) illustrating a data flow or dependency structure.  The graph features a central node labeled 'θ' (theta), depicted as a larger circle with an orange border and a light beige fill, representing a final result or aggregated output. Four smaller, circular nodes labeled '1', '2', '3', and '4' are connected to the central node 'θ' via directed edges (arrows).  These arrows point towards 'θ', indicating that the data or results from nodes '1', '2', '3', and '4' are inputs or contributing factors to the computation or aggregation performed at node 'θ'.  The arrangement suggests that 'θ' depends on the completion or output of '1', '2', '3', and '4', implying a parallel or concurrent processing model where 'θ' is calculated only after all its dependencies are satisfied." loading="lazy" width="246" height="115" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/graphs/merging-communities/image-13-07-5-MCIEEMA5.svg" style="color: transparent;"></div></figure>
+<p>This would require individually setting the parent of all these people to person 0, which can be quite expensive if the community has many people. A more efficient strategy is to just connect the representative of this community, person 2, to person 0.</p>
+<p>In code, this is done by setting the parent of <code>rep_y</code> to be <code>rep_x</code> (<code>parent[rep_y] = rep_x</code>):</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a directed acyclic graph (DAG) illustrating a data flow or dependency structure, possibly within a coding pattern context.  The graph consists of five nodes, numbered 0 through 4, represented as circles. Node 0, highlighted with an orange outline and labeled '0', is designated with the text 'rep_x' above it, suggesting it represents a repeated x-value or a replicated data source.  Node 1 points to node 0 via a directed edge (arrow), indicating a data dependency. Node 2 receives data from node 3 via a directed edge and, in turn, sends data to node 0.  Node 4 points to node 2, showing a data dependency. Node 3 has no outgoing edges, suggesting it's a source or terminal node. The overall structure suggests a pipeline or branching process where data flows from nodes 1, 3, and 4, converging at node 2 before potentially being replicated or used in node 0, labeled 'rep_x' to indicate replication or repetition of the x-component.  The label 'rep_y' above node 2 suggests a possible connection to a y-component or a second replication process." loading="lazy" width="209" height="122" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/graphs/merging-communities/image-13-07-6-BQLPJMHJ.svg" style="color: transparent;"></div></figure>
+<p>This way, everyone originally in the second community is indirectly connected to person 0, making person 0 the representative of all nodes.</p>
+<p>Note that if rep_x and rep_y are the same person, then they belong to the same community, in which case we don’t need to merge anything.</p>
+<p><strong>Find</strong><br>
+The <code>find</code> function should return the representative of the community a person is in:</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents two disjoint sets of nodes, each representing a disjoint-set data structure, visually illustrating the `find` operation.  The left set, depicted in cyan, shows node 0 pointing to itself (indicated by a self-looping cyan dashed arrow), and node 1 pointing to node 0 (a solid black arrow).  The text `find(0) = 0` and `find(1) = 0` indicates that finding the root of 0 returns 0, and finding the root of 1 returns 0 (because 1 points to 0). The right set, depicted in orange, shows node 2 pointing to itself (self-looping orange dashed arrow), node 4 pointing to node 2 (solid black arrow), and node 3 pointing to node 2 (solid black arrow). The text `find(2) = 2`, `find(3) = 2`, and `find(4) = 2` indicates that the root of 2, 3, and 4 is 2.  The dashed arrows represent the path followed during the find operation, showing how each node eventually leads to its respective root node.  The solid arrows represent the parent-child relationships within each set." loading="lazy" width="373" height="168" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/graphs/merging-communities/image-13-07-7-ZCC3ROGM.svg" style="color: transparent;"></div></figure>
+<p>At this point, it's important to note the difference between a parent and a representative:</p>
+<ul>
+<li>
+<p>A representative is the person who represents the community. This is effectively the “root” node of the community.</p>
+</li>
+<li>
+<p>A parent of a person is the node that person is pointing to.</p>
+</li>
+</ul>
+<p>For example, in the community below, we see that person 0's parent is person 1, whereas person 0’s representative is person 2:</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a directed graph illustrating a chain of relationships.  Three nodes, numbered 0, 1, and 2, are depicted as circles. Node 0 is connected to node 1 by a solid arrow, indicating a unidirectional relationship.  Above this connection, the text 'parent of person θ' is written in gray, suggesting node 0 is the parent of the person represented by node 1. Node 1 is further connected to node 2 by another solid arrow.  Node 2 is colored orange and labeled 'representative' in orange text, indicating its role.  Dashed arrows form a loop connecting node 0 back to itself and node 1 to node 2, suggesting a cyclical or feedback relationship, though the nature of this feedback is not explicitly defined.  The overall structure shows a linear progression from parent (0) to person (1) to representative (2), with an implied cyclical feedback mechanism." loading="lazy" width="320" height="82" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/graphs/merging-communities/image-13-07-8-DLAA6QUB.svg" style="color: transparent;"></div></figure>
+<p>We can implement the <code>find(x)</code> function by traversing <code>x</code>’s parent chain until we reach the representative. <strong>The representative is the person whose parent is themselves</strong>, so we can identify them by checking if the current person is their own parent. The code snippet for this is provided below.</p>
+<div class="style_codeTabsWrap__jMkKK"><div class="ant-tabs ant-tabs-top ant-tabs-card style_codeTabs__DEEq6 css-133v4sd"><div role="tablist" aria-orientation="horizontal" class="ant-tabs-nav"><div class="ant-tabs-nav-wrap"><div class="ant-tabs-nav-list" style="transform: translate(0px, 0px);"><div data-node-key="0" class="ant-tabs-tab ant-tabs-tab-active"><div role="tab" aria-selected="true" class="ant-tabs-tab-btn" tabindex="0" id="rc-tabs-0-tab-0" aria-controls="rc-tabs-0-panel-0">Python</div></div><div data-node-key="1" class="ant-tabs-tab"><div role="tab" aria-selected="false" class="ant-tabs-tab-btn" tabindex="-1" id="rc-tabs-0-tab-1" aria-controls="rc-tabs-0-panel-1">JavaScript</div></div><div data-node-key="2" class="ant-tabs-tab"><div role="tab" aria-selected="false" class="ant-tabs-tab-btn" tabindex="-1" id="rc-tabs-0-tab-2" aria-controls="rc-tabs-0-panel-2">Java</div></div><div class="ant-tabs-ink-bar ant-tabs-ink-bar-animated" style="width: 79.6328px; left: 39.8164px; transform: translateX(-50%);"></div></div></div><div class="ant-tabs-nav-operations ant-tabs-nav-operations-hidden"><button type="button" class="ant-tabs-nav-more" aria-haspopup="listbox" aria-controls="rc-tabs-0-more-popup" id="rc-tabs-0-more" aria-expanded="false" style="visibility: hidden; order: 1;"><span role="img" aria-label="ellipsis" class="anticon anticon-ellipsis"><svg viewBox="64 64 896 896" focusable="false" data-icon="ellipsis" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M176 511a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0z"></path></svg></span></button></div></div><div class="ant-tabs-content-holder"><div class="ant-tabs-content ant-tabs-content-top"><div role="tabpanel" tabindex="0" aria-hidden="false" class="ant-tabs-tabpane ant-tabs-tabpane-active" id="rc-tabs-0-panel-0" aria-labelledby="rc-tabs-0-tab-0"><pre><code class="hljs language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">find</span>(<span class="hljs-params">x: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">int</span>:
+    <span class="hljs-comment"># If x is equal to its parent, we found the representative.</span>
+    <span class="hljs-keyword">if</span> x == parent[x]:
+        <span class="hljs-keyword">return</span> x
+    <span class="hljs-comment"># Otherwise, continue traversing through x's parent chain.</span>
+    <span class="hljs-keyword">return</span> find(parent[x])
+</code></pre><button type="button" class="ant-btn css-133v4sd ant-btn-default ant-btn-color-default ant-btn-variant-outlined style_copyBtn__4MbAa"><img alt="" loading="lazy" width="16" height="16" decoding="async" data-nimg="1" src="https://bytebytego.com/_next/static/media/copy.3248da0c.svg" style="color: transparent;"></button></div></div></div></div></div>
+<p>Now we’ve discussed both the <code>union</code> and the <code>find</code> function, let’s discuss what optimizations can be made to them.</p>
+<p><strong>Union by size</strong><br>
+Recall that before merging two communities, we need to pick someone to represent the merged community. Our choice is between <code>rep_x</code> and <code>rep_y</code>. Is one a better choice than the other? Consider the following two communities:</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents two distinct directed acyclic graphs.  The left graph, labeled 'rep_x', depicts a tree structure where a central node labeled '0' receives input from five nodes numbered '1' through '5'.  Arrows indicate the direction of information flow, showing that nodes 1 through 5 send data to node 0.  The right graph, labeled 'rep_y', is simpler, showing a single upward arrow from node '7' to node '6', indicating that node 7 sends data to node 6.  Both graphs illustrate data flow, possibly representing different representations (x and y) of a similar underlying structure or process, with the numbered nodes potentially representing individual data points or features, and the nodes labeled '0' and '6' representing aggregated or processed results." loading="lazy" width="380" height="131" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/graphs/merging-communities/image-13-07-9-SST4WO65.svg" style="color: transparent;"></div></figure>
+<p>Let's see what the difference is when we pick <code>rep_x</code> to be the representative versus picking <code>rep_y</code>:</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents two directed acyclic graphs illustrating a concept likely related to choosing a representative node.  The left graph, labeled 'choose rep_x:', shows nodes numbered 1 through 7, with arrows pointing upwards towards a central node labeled '0' (highlighted in orange), indicating that node 0 is chosen as the representative ('rep_x') for nodes 1-7. Node 6 has an additional incoming arrow from node 7. The right graph, labeled 'choose rep_y:', similarly shows nodes 1 through 7, with arrows pointing upwards towards a central node labeled '0', which in turn points upwards to node 6 (highlighted in orange), indicating that node 6 is chosen as the representative ('rep_y') for nodes 0, 1, 2, 3, 4, 5, and 7.  The arrangement visually demonstrates two different representative selection processes, possibly highlighting different algorithms or strategies for choosing a representative node within a dataset or graph structure." loading="lazy" width="624" height="204" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/graphs/merging-communities/image-13-07-10-2FZAWREQ.svg" style="color: transparent;"></div></figure>
+<p>As we can see, when we choose a representative from one of two communities, the people in the other community have a longer distance to their new representative, with the distance increased by 1. Therefore, it’s better to <strong>pick the representative from the larger community,</strong> so that only the people from the smaller community are impacted by this adjusted distance.</p>
+<p>This optimization requires a way to determine the size of a community. We can do this using a size array, where <code>size[i]</code> is the size of the community represented by person <code>i</code>. The code for this can be seen below:</p>
+<div class="style_codeTabsWrap__jMkKK"><div class="ant-tabs ant-tabs-top ant-tabs-card style_codeTabs__DEEq6 css-133v4sd"><div role="tablist" aria-orientation="horizontal" class="ant-tabs-nav"><div class="ant-tabs-nav-wrap"><div class="ant-tabs-nav-list" style="transform: translate(0px, 0px);"><div data-node-key="0" class="ant-tabs-tab ant-tabs-tab-active"><div role="tab" aria-selected="true" class="ant-tabs-tab-btn" tabindex="0" id="rc-tabs-1-tab-0" aria-controls="rc-tabs-1-panel-0">Python</div></div><div data-node-key="1" class="ant-tabs-tab"><div role="tab" aria-selected="false" class="ant-tabs-tab-btn" tabindex="-1" id="rc-tabs-1-tab-1" aria-controls="rc-tabs-1-panel-1">JavaScript</div></div><div data-node-key="2" class="ant-tabs-tab"><div role="tab" aria-selected="false" class="ant-tabs-tab-btn" tabindex="-1" id="rc-tabs-1-tab-2" aria-controls="rc-tabs-1-panel-2">Java</div></div><div class="ant-tabs-ink-bar ant-tabs-ink-bar-animated" style="width: 79.6328px; left: 39.8164px; transform: translateX(-50%);"></div></div></div><div class="ant-tabs-nav-operations ant-tabs-nav-operations-hidden"><button type="button" class="ant-tabs-nav-more" aria-haspopup="listbox" aria-controls="rc-tabs-1-more-popup" id="rc-tabs-1-more" aria-expanded="false" style="visibility: hidden; order: 1;"><span role="img" aria-label="ellipsis" class="anticon anticon-ellipsis"><svg viewBox="64 64 896 896" focusable="false" data-icon="ellipsis" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M176 511a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0z"></path></svg></span></button></div></div><div class="ant-tabs-content-holder"><div class="ant-tabs-content ant-tabs-content-top"><div role="tabpanel" tabindex="0" aria-hidden="false" class="ant-tabs-tabpane ant-tabs-tabpane-active" id="rc-tabs-1-panel-0" aria-labelledby="rc-tabs-1-tab-0"><pre><code class="hljs language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">union</span>(<span class="hljs-params">x: <span class="hljs-built_in">int</span>, y: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-literal">None</span>:
+   rep_x, rep_y = find(x), find(y)
+   <span class="hljs-keyword">if</span> rep_x != rep_y:
+       <span class="hljs-comment"># If 'rep_x' represents a larger community, connect 'rep_y's community to it.</span>
+       <span class="hljs-keyword">if</span> size[rep_x] &gt; size[rep_y]:
+           parent[rep_y] = rep_x
+           size[rep_x] += size[rep_y]
+       <span class="hljs-comment"># If 'rep_y' represents a larger community, or both communities are of the same</span>
+       <span class="hljs-comment"># size, connect 'rep_x's community to it.</span>
+       <span class="hljs-keyword">else</span>:
+           parent[rep_x] = rep_y
+           size[rep_y] += size[rep_x]
+</code></pre><button type="button" class="ant-btn css-133v4sd ant-btn-default ant-btn-color-default ant-btn-variant-outlined style_copyBtn__4MbAa"><img alt="" loading="lazy" width="16" height="16" decoding="async" data-nimg="1" src="https://bytebytego.com/_next/static/media/copy.3248da0c.svg" style="color: transparent;"></button></div></div></div></div></div>
+<p>A similar optimization to union by size is union by rank, which optimizes the <code>union</code> function in a very similar way <a href="https://en.wikipedia.org/wiki/Disjoint-set_data_structure#Union_by_rank" target="_blank" rel="noopener noreferrer">[1]</a>.</p>
+<p>Note that the <code>size</code> array makes the implementation of <strong><code>get_community_size</code></strong><code>(x)</code> quite straightforward: we just return the size of x’s representative (i.e., return <code>size[find(x)]</code>).</p>
+<p><strong>Path compression</strong><br>
+There’s another major optimization that can be made. Consider the following community, with person 0 as the representative. The further down we go in this diagram, the further away the people are from the representative. We can see this for persons 3 and 6, for example:</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a tree-like data structure illustrating a 'find' operation within a disjoint-set data structure, likely used for representing sets and their relationships.  The central node, labeled '0' and highlighted in orange, is the representative element ('rep') of the entire set.  Nodes 1 through 6 represent other elements within the set. Solid black arrows indicate the parent-child relationships within the structure; for example, node 2 is a child of node 1, and node 1 is a child of node 0. Dashed gray arrows represent the path a 'find(parent[i])' operation would take to locate the representative element for a given node 'i'.  For instance, `find(parent[3])` would traverse from node 3 to node 2, then to node 1, and finally to node 0 (the representative).  Each leaf node (3 and 6) has a label indicating a `find(i)` operation, suggesting a direct path to find the element itself.  The overall structure shows how the `find` operation navigates the tree to identify the representative element of a given node's set." loading="lazy" width="624" height="219" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/graphs/merging-communities/image-13-07-11-4W4TDMMR.svg" style="color: transparent;"></div></figure>
+<p>What’s important to realize is that performing <code>find(3)</code> and <code>find(6)</code> will not only return the representative to persons 3 and 6, but it will also cause it to be returned by all the other nodes in their parent chains because this is a recursive function:</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a directed graph illustrating a coding pattern, possibly related to recursion or a state machine.  The graph features seven nodes (circles) numbered 0 through 6. Node 0, colored orange and labeled 'rep,' sits at the top and represents a potentially recursive function's main call or a central state.  Nodes 1, 2, 4, 5, and 6 are connected to each other and to node 0 with solid black arrows indicating the primary flow of execution or state transitions.  Node 0 has solid black arrows pointing to nodes 1 and 4, representing function calls or state changes. Nodes 1 and 4 are connected to nodes 2 and 5 respectively, with similar solid black arrows. Nodes 2 and 5 are connected to nodes 3 and 6 respectively, again with solid black arrows.  Dashed orange arrows connect nodes 1 and 4 back to node 0, and nodes 2 and 5 back to nodes 1 and 4 respectively, and nodes 3 and 6 back to nodes 2 and 5 respectively, labeled 'return 0,' suggesting return values or state transitions back to previous states.  Dashed gray arrows form loops around nodes 1, 2, 4, 5, and 6, possibly indicating alternative paths or error handling. The overall structure suggests a hierarchical or tree-like pattern with a central node (0) and branching sub-processes or states." loading="lazy" width="430" height="220" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/graphs/merging-communities/image-13-07-12-6LF5BU4G.svg" style="color: transparent;"></div></figure>
+<p>This means every person in their parent chains also knows their representative is person 0. So, if we update the parent of each of these people to person 0 in the <code>find</code> function, all the nodes in this chain will connect to the representative. This technique is known as path compression, and it allows us to flatten the graph:</p>
+<figure class="py-1"><div style="display: flex; justify-content: center;"><img alt="Image represents a directed graph illustrating a 'rep' pattern, likely within a coding context.  The graph features a central node labeled '0' and colored orange, representing a central repository or aggregation point.  Six other nodes, numbered 1 through 6, are connected to the central node with unidirectional arrows pointing towards node '0'. This indicates that data or information flows from nodes 1 through 6 into the central node '0'.  The arrangement suggests a pattern where multiple sources (1-6) contribute to or update a single representative element (0), possibly representing data aggregation, merging, or a similar process in a software system. The label 'rep' above node 0 reinforces this interpretation, signifying a representative or aggregated data structure." loading="lazy" width="298" height="135" decoding="async" data-nimg="1" src="https://bytebytego.com/images/courses/coding-patterns/graphs/merging-communities/image-13-07-13-2JXJTNID.svg" style="color: transparent;"></div></figure>
+<p>The code for this optimization is provided below:</p>
+<div class="style_codeTabsWrap__jMkKK"><div class="ant-tabs ant-tabs-top ant-tabs-card style_codeTabs__DEEq6 css-133v4sd"><div role="tablist" aria-orientation="horizontal" class="ant-tabs-nav"><div class="ant-tabs-nav-wrap"><div class="ant-tabs-nav-list" style="transform: translate(0px, 0px);"><div data-node-key="0" class="ant-tabs-tab ant-tabs-tab-active"><div role="tab" aria-selected="true" class="ant-tabs-tab-btn" tabindex="0" id="rc-tabs-2-tab-0" aria-controls="rc-tabs-2-panel-0">Python</div></div><div data-node-key="1" class="ant-tabs-tab"><div role="tab" aria-selected="false" class="ant-tabs-tab-btn" tabindex="-1" id="rc-tabs-2-tab-1" aria-controls="rc-tabs-2-panel-1">JavaScript</div></div><div data-node-key="2" class="ant-tabs-tab"><div role="tab" aria-selected="false" class="ant-tabs-tab-btn" tabindex="-1" id="rc-tabs-2-tab-2" aria-controls="rc-tabs-2-panel-2">Java</div></div><div class="ant-tabs-ink-bar ant-tabs-ink-bar-animated" style="width: 79.6328px; left: 39.8164px; transform: translateX(-50%);"></div></div></div><div class="ant-tabs-nav-operations ant-tabs-nav-operations-hidden"><button type="button" class="ant-tabs-nav-more" aria-haspopup="listbox" aria-controls="rc-tabs-2-more-popup" id="rc-tabs-2-more" aria-expanded="false" style="visibility: hidden; order: 1;"><span role="img" aria-label="ellipsis" class="anticon anticon-ellipsis"><svg viewBox="64 64 896 896" focusable="false" data-icon="ellipsis" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M176 511a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0z"></path></svg></span></button></div></div><div class="ant-tabs-content-holder"><div class="ant-tabs-content ant-tabs-content-top"><div role="tabpanel" tabindex="0" aria-hidden="false" class="ant-tabs-tabpane ant-tabs-tabpane-active" id="rc-tabs-2-panel-0" aria-labelledby="rc-tabs-2-tab-0"><pre><code class="hljs language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">find</span>(<span class="hljs-params">x: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">int</span>:
+    <span class="hljs-keyword">if</span> x == parent[x]:
+        <span class="hljs-keyword">return</span> x
+    <span class="hljs-comment"># Path compression: updates the representative of x, flattening the structure of</span>
+    <span class="hljs-comment"># the community as we go.</span>
+    parent[x] = find(parent[x])
+    <span class="hljs-keyword">return</span> parent[x]
+</code></pre><button type="button" class="ant-btn css-133v4sd ant-btn-default ant-btn-color-default ant-btn-variant-outlined style_copyBtn__4MbAa"><img alt="" loading="lazy" width="16" height="16" decoding="async" data-nimg="1" src="https://bytebytego.com/_next/static/media/copy.3248da0c.svg" style="color: transparent;"></button></div></div></div></div></div>
+<p>This path compression optimization allows us to restructure the graph at every <code>find</code> call, effectively reducing the distance between people and their representative, and making future <code>find</code> calls more efficient.</p>
+<div class="style_tryBanner__WFMKc"><div><div class="style_tryTitle__dVqce">Try it yourself</div><div class="style_tryDesc___lKzS">Write your solution to the problem before checking the reference implementation.</div></div><a target="_blank" href="https://bytebytego.com/exercises/coding-patterns/graphs/merging-communities"><button type="button" class="ant-btn css-133v4sd ant-btn-default ant-btn-color-default ant-btn-variant-outlined style_openBtn__F_m3N"><span>Open Code Editor</span></button></a></div>
+<h2 id="implementation">Implementation</h2>
+<p>Below is the implementation of the Union-Find data structure.</p>
+<div class="style_codeTabsWrap__jMkKK"><div class="ant-tabs ant-tabs-top ant-tabs-card style_codeTabs__DEEq6 css-133v4sd"><div role="tablist" aria-orientation="horizontal" class="ant-tabs-nav"><div class="ant-tabs-nav-wrap"><div class="ant-tabs-nav-list" style="transform: translate(0px, 0px);"><div data-node-key="0" class="ant-tabs-tab ant-tabs-tab-active"><div role="tab" aria-selected="true" class="ant-tabs-tab-btn" tabindex="0" id="rc-tabs-3-tab-0" aria-controls="rc-tabs-3-panel-0">Python</div></div><div data-node-key="1" class="ant-tabs-tab"><div role="tab" aria-selected="false" class="ant-tabs-tab-btn" tabindex="-1" id="rc-tabs-3-tab-1" aria-controls="rc-tabs-3-panel-1">JavaScript</div></div><div data-node-key="2" class="ant-tabs-tab"><div role="tab" aria-selected="false" class="ant-tabs-tab-btn" tabindex="-1" id="rc-tabs-3-tab-2" aria-controls="rc-tabs-3-panel-2">Java</div></div><div class="ant-tabs-ink-bar ant-tabs-ink-bar-animated" style="width: 79.6328px; left: 39.8164px; transform: translateX(-50%);"></div></div></div><div class="ant-tabs-nav-operations ant-tabs-nav-operations-hidden"><button type="button" class="ant-tabs-nav-more" aria-haspopup="listbox" aria-controls="rc-tabs-3-more-popup" id="rc-tabs-3-more" aria-expanded="false" style="visibility: hidden; order: 1;"><span role="img" aria-label="ellipsis" class="anticon anticon-ellipsis"><svg viewBox="64 64 896 896" focusable="false" data-icon="ellipsis" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M176 511a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0z"></path></svg></span></button></div></div><div class="ant-tabs-content-holder"><div class="ant-tabs-content ant-tabs-content-top"><div role="tabpanel" tabindex="0" aria-hidden="false" class="ant-tabs-tabpane ant-tabs-tabpane-active" id="rc-tabs-3-panel-0" aria-labelledby="rc-tabs-3-tab-0"><pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">UnionFind</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, size: <span class="hljs-built_in">int</span></span>):
+        <span class="hljs-variable language_">self</span>.parent = [i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(size)]
+        <span class="hljs-variable language_">self</span>.size = [<span class="hljs-number">1</span>] * size
+   
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">union</span>(<span class="hljs-params">self, x: <span class="hljs-built_in">int</span>, y: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-literal">None</span>:
+        rep_x, rep_y = <span class="hljs-variable language_">self</span>.find(x), <span class="hljs-variable language_">self</span>.find(y)
+        <span class="hljs-keyword">if</span> rep_x != rep_y:
+            <span class="hljs-comment"># If 'rep_x' represents a larger community, connect 'rep_y's community to</span>
+            <span class="hljs-comment"># it.</span>
+            <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.size[rep_x] &gt; <span class="hljs-variable language_">self</span>.size[rep_y]:
+                <span class="hljs-variable language_">self</span>.parent[rep_y] = rep_x
+                <span class="hljs-variable language_">self</span>.size[rep_x] += <span class="hljs-variable language_">self</span>.size[rep_y]
+            <span class="hljs-comment"># Otherwise, connect 'rep_x's community to 'rep_y'.</span>
+            <span class="hljs-keyword">else</span>:
+                <span class="hljs-variable language_">self</span>.parent[rep_x] = rep_y
+                <span class="hljs-variable language_">self</span>.size[rep_y] += <span class="hljs-variable language_">self</span>.size[rep_x]
+   
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">find</span>(<span class="hljs-params">self, x: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">int</span>:
+        <span class="hljs-keyword">if</span> x == <span class="hljs-variable language_">self</span>.parent[x]:
+            <span class="hljs-keyword">return</span> x
+        <span class="hljs-variable language_">self</span>.parent[x] = <span class="hljs-variable language_">self</span>.find(<span class="hljs-variable language_">self</span>.parent[x]) <span class="hljs-comment"># Path compression.</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.parent[x]
+   
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">get_size</span>(<span class="hljs-params">self, x: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">int</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.size[<span class="hljs-variable language_">self</span>.find(x)]
+</code></pre><button type="button" class="ant-btn css-133v4sd ant-btn-default ant-btn-color-default ant-btn-variant-outlined style_copyBtn__4MbAa"><img alt="" loading="lazy" width="16" height="16" decoding="async" data-nimg="1" src="https://bytebytego.com/_next/static/media/copy.3248da0c.svg" style="color: transparent;"></button></div></div></div></div></div>
+<p>Below is the implementation of the main problem using the above Union-Find data structure:</p>
+<div class="style_codeTabsWrap__jMkKK"><div class="ant-tabs ant-tabs-top ant-tabs-card style_codeTabs__DEEq6 css-133v4sd"><div role="tablist" aria-orientation="horizontal" class="ant-tabs-nav"><div class="ant-tabs-nav-wrap"><div class="ant-tabs-nav-list" style="transform: translate(0px, 0px);"><div data-node-key="0" class="ant-tabs-tab ant-tabs-tab-active"><div role="tab" aria-selected="true" class="ant-tabs-tab-btn" tabindex="0" id="rc-tabs-4-tab-0" aria-controls="rc-tabs-4-panel-0">Python</div></div><div data-node-key="1" class="ant-tabs-tab"><div role="tab" aria-selected="false" class="ant-tabs-tab-btn" tabindex="-1" id="rc-tabs-4-tab-1" aria-controls="rc-tabs-4-panel-1">JavaScript</div></div><div data-node-key="2" class="ant-tabs-tab"><div role="tab" aria-selected="false" class="ant-tabs-tab-btn" tabindex="-1" id="rc-tabs-4-tab-2" aria-controls="rc-tabs-4-panel-2">Java</div></div><div class="ant-tabs-ink-bar ant-tabs-ink-bar-animated" style="width: 79.6328px; left: 39.8164px; transform: translateX(-50%);"></div></div></div><div class="ant-tabs-nav-operations ant-tabs-nav-operations-hidden"><button type="button" class="ant-tabs-nav-more" aria-haspopup="listbox" aria-controls="rc-tabs-4-more-popup" id="rc-tabs-4-more" aria-expanded="false" style="visibility: hidden; order: 1;"><span role="img" aria-label="ellipsis" class="anticon anticon-ellipsis"><svg viewBox="64 64 896 896" focusable="false" data-icon="ellipsis" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M176 511a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0z"></path></svg></span></button></div></div><div class="ant-tabs-content-holder"><div class="ant-tabs-content ant-tabs-content-top"><div role="tabpanel" tabindex="0" aria-hidden="false" class="ant-tabs-tabpane ant-tabs-tabpane-active" id="rc-tabs-4-panel-0" aria-labelledby="rc-tabs-4-tab-0"><pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MergingCommunities</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, n: <span class="hljs-built_in">int</span></span>):
+        <span class="hljs-variable language_">self</span>.uf = UnionFind(n)
+   
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">connect</span>(<span class="hljs-params">self, x: <span class="hljs-built_in">int</span>, y: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-literal">None</span>:
+        <span class="hljs-variable language_">self</span>.uf.union(x, y)
+   
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">get_community_size</span>(<span class="hljs-params">self, x: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">int</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.uf.get_size(x)
+</code></pre><button type="button" class="ant-btn css-133v4sd ant-btn-default ant-btn-color-default ant-btn-variant-outlined style_copyBtn__4MbAa"><img alt="" loading="lazy" width="16" height="16" decoding="async" data-nimg="1" src="https://bytebytego.com/_next/static/media/copy.3248da0c.svg" style="color: transparent;"></button></div></div></div></div></div>
+<h3 id="complexity-analysis">Complexity Analysis</h3>
+<p><strong>Time complexity:</strong> Let’s break down the time complexity of the Union-Find functions:</p>
+<ul>
+<li>
+<p>With the path compression and union by size optimizations, <code>find</code> has a time complexity of amortized <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span><sup><a id="user-content-fnref-1" data-footnote-ref="true" aria-describedby="footnote-label" href="https://bytebytego.com/courses/coding-patterns/graphs/merging-communities#user-content-fn-1">1</a></sup> because the branches of the graph become very short over time, making the function effectively constant-time in most cases.</p>
+</li>
+<li>
+<p>Since <code>union</code> just uses the <code>find</code> function twice, it also has a time complexity of amortized <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span>.</p>
+</li>
+<li>
+<p>Since <code>get_size</code> just uses the <code>find</code> function once, it also has a time complexity of amortized <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span>.</p>
+</li>
+</ul>
+<p>Therefore, the time complexities of connect and <code>get_community_size</code> are both amortized <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span>. The time complexity of the constructor is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span> because we initialize two arrays of size <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> when creating the <code>UnionFind</code> object.</p>
+<p><strong>Space complexity:</strong> The space complexity is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span> because the Union-Find data structure has two arrays of size <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span>: <code>parent</code> and <code>size</code>. The space taken up by the recursive call stack is amortized <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span> since the branches of the graph become very short over time, resulting in fewer recursive calls made to the <code>find</code> function.</p>
+<section data-footnotes="true" class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
+<ol>
+<li id="user-content-fn-1">
+<p>We can also write the time complexity here as <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>α</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(α(n))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right: 0.0037em;">α</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">))</span></span></span></span>, where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">α(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.0037em;">α</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span> is the inverse Ackermann function, which grows extremely slowly but is not constant. <a data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref" href="https://bytebytego.com/courses/coding-patterns/graphs/merging-communities#user-content-fnref-1">↩</a></p>
+</li>
+</ol>
+</section>
+</article>
+</body>
+</html>
